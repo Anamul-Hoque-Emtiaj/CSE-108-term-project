@@ -6,28 +6,79 @@ import java.util.List;
 
 public class Club {
     private String name;
+    private String password;
+    private double balance;
     private List<Player> playerList;
     private List<String> countryList;
+    private HashMap<Player,Double> sellPendingPlayers;
 
-    public Club(String name, List<Player> playerList) {
+    public Club(String name, Player player) {
         this.name = name;
-        this.playerList = playerList;
-        for(Player player: playerList){
-            if(!countryList.contains(player.getCountry())){
-                countryList.add(player.getCountry());
-            }
-        }
+        playerList = new ArrayList();
+        countryList = new ArrayList();
+        sellPendingPlayers = new HashMap<>();
+        playerList.add(player);
+        countryList.add(player.getCountry());
     }
 
-    public Club(String name) {
+    public Club(String name, String password, double balance) {
         this.name = name;
+        this.password = password;
+        this.balance = balance;
+        playerList = new ArrayList();
+        countryList = new ArrayList();
+        sellPendingPlayers = new HashMap<>();
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public int pendingCount(){
+        return sellPendingPlayers.size();
+    }
+
+    public HashMap<Player, Double> getSellPendingPlayers() {
+        return sellPendingPlayers;
+    }
+
+    public double getPlayerSellAmount(Player player){
+        return sellPendingPlayers.get(player);
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
     public void addPlayer(Player player){
         playerList.add(player);
         if(!countryList.contains(player.getCountry())){
             countryList.add(player.getCountry());
         }
     }
+
+    public void changePassword(String password){
+        this.password = password;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public void playerSellRequest(Player player, double amount){
+        sellPendingPlayers.put(player,amount);
+    }
+    public void playerSold(Player player){
+        double amount = sellPendingPlayers.remove(player);
+        balance+=amount;
+        boolean isRemove = playerList.remove(player);
+    }
+    public void buyPlayer(Player player, double amount){
+        balance -=amount;
+        player.setClub(name);
+        playerList.add(player);
+    }
+
     public double totalYearlySalary(){
         double salary=0;
         for(Player player: playerList){
