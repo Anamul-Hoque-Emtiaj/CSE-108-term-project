@@ -15,7 +15,6 @@ import java.util.List;
 public class Server {
 
     private ServerSocket serverSocket;
-    private HashMap<String, NetworkUtil> clientMap;
 
     public static final String PLAYER_FILE_NAME = "players.txt";
     public static final String CLUB_FILE_NAME = "clubs.txt";
@@ -25,23 +24,16 @@ public class Server {
     private static HashMap<Player,Double> sellPendingPlayers;
 
     Server() {
-        clientMap = new HashMap<>();
         try {
             serverSocket = new ServerSocket(33333);
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                serve(clientSocket);
+                NetworkUtil networkUtil = new NetworkUtil(clientSocket);
+                new ServerThread(networkUtil);
             }
         } catch (Exception e) {
             System.out.println("Server starts:" + e);
         }
-    }
-
-    public void serve(Socket clientSocket) throws IOException, ClassNotFoundException {
-        NetworkUtil networkUtil = new NetworkUtil(clientSocket);
-        String clientName = (String) networkUtil.read();
-        clientMap.put(clientName, networkUtil);
-        new ServerReadThread(clientMap, networkUtil);
     }
 
     public static void readFromFile() throws Exception {
@@ -144,6 +136,11 @@ public class Server {
     public static void main(String args[]) {
         try {
             readFromFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            writeToFile();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -7,6 +7,7 @@ import java.io.IOException;
 public class ClientReadThread implements Runnable{
     private Thread thr;
     private NetworkUtil networkUtil;
+    private Object receivedFile;
 
     public ClientReadThread(NetworkUtil networkUtil) {
         this.networkUtil = networkUtil;
@@ -14,10 +15,18 @@ public class ClientReadThread implements Runnable{
         thr.start();
     }
 
+    public Thread getThr() {
+        return thr;
+    }
+
+    public Object getReceivedFile() {
+        return receivedFile;
+    }
+
     public void run() {
         try {
             while (true) {
-                Object o = networkUtil.read();
+                receivedFile = networkUtil.read();
             }
         } catch (Exception e) {
             System.out.println(e);
