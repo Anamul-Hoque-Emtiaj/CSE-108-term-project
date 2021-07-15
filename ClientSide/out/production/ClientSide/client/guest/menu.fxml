@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guest.MenuController">
+   <children>
+      <Button layoutX="97.0" layoutY="68.0" mnemonicParsing="false" onAction="#searchPlayers" prefHeight="43.0" prefWidth="162.0" text="Search Players">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="97.0" layoutY="146.0" mnemonicParsing="false" onAction="#searchClub" prefHeight="43.0" prefWidth="162.0" text="Search Club">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="98.0" layoutY="219.0" mnemonicParsing="false" onAction="#searchCountry" text="Search Country">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="97.0" layoutY="298.0" mnemonicParsing="false" onAction="#exit" prefHeight="43.0" prefWidth="162.0" text="Exit">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -3,4 +3,5 @@ module myjfx {
     requires javafx.controls;
     requires javafx.graphics;
     opens client to javafx.graphics, javafx.fxml, javafx.base;
+    opens client.others to javafx.base, javafx.fxml, javafx.graphics;
 }
