@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guest.SearchPlayerController">
+   <top>
+      <AnchorPane prefHeight="59.0" prefWidth="596.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="300.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Searched Player">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <Button layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="31.0" prefWidth="64.0" text="Back">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
+   </top>
+   <left>
+      <ListView prefHeight="341.0" prefWidth="182.0" BorderPane.alignment="CENTER" />
+   </left>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fx:id="imageView" fitHeight="140.0" fitWidth="160.0" layoutX="118.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+                <Label layoutX="20.0" layoutY="185.0" text="Country:">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+                <Text fx:id="country" layoutX="82.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+                <Label layoutX="20.0" layoutY="215.0" text="Club:">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+                <Label layoutX="20.0" layoutY="245.0" text="Position:">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+                <Label layoutX="215.0" layoutY="245.0" text="Weekly Salary:">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+                <Label layoutX="260.0" layoutY="185.0" text="Age:">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+                <Label layoutX="260.0" layoutY="215.0" text="Height:">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+                <Label layoutX="260.0" layoutY="155.0" text="JerseyNo:">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+                <Label layoutX="20.0" layoutY="155.0" text="Name:">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+                <Text fx:id="name" layoutX="70.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+                <Text fx:id="number" layoutX="327.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+                <Text fx:id="position" layoutX="82.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Position">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+                <Text fx:id="club" layoutX="58.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+                <Text fx:id="salary" layoutX="312.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Salary">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+                <Text fx:id="age" layoutX="295.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+                <Text fx:id="height" layoutX="313.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+            <Button layoutX="198.0" layoutY="290.0" mnemonicParsing="false" onAction="#edit" prefHeight="30.0" prefWidth="70.0" text="Edit">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button layoutX="316.0" layoutY="290.0" mnemonicParsing="false" onAction="#delete" prefHeight="30.0" prefWidth="69.0" text="Delete">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

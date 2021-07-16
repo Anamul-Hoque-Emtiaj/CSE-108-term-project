@@ -1,4 +1,4 @@
-package client.others;
+package client.starting;
 
 import javafx.event.ActionEvent;
 
