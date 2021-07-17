@@ -27,7 +27,6 @@ public class ClientReadThread implements Runnable{
         try {
             while (true) {
                 receivedFile = networkUtil.read();
-                System.out.println("Client read: "+ (String) receivedFile);
             }
         } catch (Exception e) {
             System.out.println(e);

@@ -26,7 +26,7 @@
          </children></AnchorPane>
    </top>
    <left>
-      <ListView prefHeight="341.0" prefWidth="182.0" BorderPane.alignment="CENTER" />
+      <ListView fx:id="listView" prefHeight="341.0" prefWidth="182.0" BorderPane.alignment="CENTER" />
    </left>
     <center>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">

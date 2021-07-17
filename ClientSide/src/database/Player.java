@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Player implements Serializable {
     private String Name;
     private String Country;
-    private Integer Age;
+    private Double Age;
     private Double Height;
     private String Club;
     private String Position;
@@ -21,7 +21,7 @@ public class Player implements Serializable {
         Country = country;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(Double age) {
         Age = age;
     }
 
@@ -61,7 +61,7 @@ public class Player implements Serializable {
         return Country;
     }
 
-    public Integer getAge() {
+    public Double getAge() {
         return Age;
     }
 
@@ -88,7 +88,7 @@ public class Player implements Serializable {
     public Player() {
     }
 
-    public Player(String name, String country, Integer age, Double height, String club, String position, Integer number, Double weeklySalary) {
+    public Player(String name, String country, Double age, Double height, String club, String position, Integer number, Double weeklySalary) {
         Name = name;
         Country = country;
         Age = age;

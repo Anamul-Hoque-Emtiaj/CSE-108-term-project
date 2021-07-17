@@ -57,6 +57,35 @@ public class ServerThread implements Runnable{
                             break;
                         }
                     }
+                }else if(str.equals("clubOwner,editPlayer")){
+                    networkUtil.write("Provide Updated Player");
+                    Player p = (Player) networkUtil.read();
+                    String clubName = null;
+                    for(Player player: playerList){
+                        if(p.getName().equals(player.getName())){
+                            clubName = p.getClub();
+                            player.setImageName(p.getImageName());
+                            player.setAge(p.getAge());
+                            player.setHeight(p.getHeight());
+                            player.setWeeklySalary(p.getWeeklySalary());
+                            player.setNumber(p.getNumber());
+                        }
+                    }
+                    for(Club club: clubList){
+                        if(club.getName().equals(clubName)){
+                            for(Player player: club.getPlayerList()){
+                                if(p.getName().equals(player.getName())){
+                                    clubName = p.getClub();
+                                    player.setImageName(p.getImageName());
+                                    player.setAge(p.getAge());
+                                    player.setHeight(p.getHeight());
+                                    player.setWeeklySalary(p.getWeeklySalary());
+                                    player.setNumber(p.getNumber());
+                                }
+                            }
+                        }
+                    }
+                    networkUtil.write("Player Edited Successfully");
                 }
             }
         } catch (Exception e) {

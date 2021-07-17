@@ -104,8 +104,8 @@
       <TextField fx:id="salaryTo" layoutX="415.0" layoutY="227.0" prefHeight="26.0" prefWidth="188.0" promptText="Upper Bound(Default-maximum)" />
       <TextField fx:id="ageTo" layoutX="415.0" layoutY="300.0" prefHeight="26.0" prefWidth="188.0" promptText="Upper Bound(Default-maximum)" />
       <TextField fx:id="heightTo" layoutX="415.0" layoutY="385.0" prefHeight="26.0" prefWidth="188.0" promptText="Upper Bound(Default-maximum)" />
-      <ComboBox fx:id="position" editable="true" layoutX="415.0" layoutY="155.0" prefHeight="26.0" prefWidth="182.0" />
-      <ComboBox fx:id="country" editable="true" layoutX="115.0" layoutY="155.0" prefHeight="26.0" prefWidth="182.0" visibleRowCount="15" />
+      <ChoiceBox fx:id="position"  layoutX="415.0" layoutY="155.0" prefHeight="26.0" prefWidth="182.0" />
+      <ChoiceBox fx:id="country" layoutX="115.0" layoutY="155.0" prefHeight="26.0" prefWidth="182.0"  />
       <Label layoutX="50.0" layoutY="430.0" text="Minimum:">
          <font>
             <Font size="16.0" />

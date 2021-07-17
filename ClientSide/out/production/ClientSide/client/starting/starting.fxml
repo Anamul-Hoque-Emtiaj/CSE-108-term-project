@@ -4,14 +4,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.starting.StartingController">
    <children>
-      <Button layoutX="381.0" layoutY="39.0" mnemonicParsing="false" onAction="#guestMenu" prefHeight="43.0" prefWidth="132.0" text="Guest">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
       <Button layoutX="381.0" layoutY="113.0" mnemonicParsing="false" onAction="#clubOwnerLogin" text="Club Owner">
          <font>
             <Font size="20.0" />
@@ -22,12 +16,7 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="381.0" layoutY="259.0" mnemonicParsing="false" onAction="#credit" prefHeight="43.0" prefWidth="132.0" text="Credit">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
-      <Button layoutX="381.0" layoutY="330.0" mnemonicParsing="false" onAction="#exit" prefHeight="43.0" prefWidth="132.0" text="Exit">
+      <Button layoutX="381.0" layoutY="263.0" mnemonicParsing="false" onAction="#exit" prefHeight="43.0" prefWidth="132.0" text="Exit">
          <font>
             <Font size="20.0" />
          </font>

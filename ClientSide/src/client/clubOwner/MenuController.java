@@ -34,7 +34,7 @@ public class MenuController {
             Parent root = loader.load();
             PlayerSearchingController controller = (PlayerSearchingController) loader.getController();
             controller.init(networkUtil,clientReader,myClub);
-            Scene scene = new Scene(root, 600, 400);
+            Scene scene = new Scene(root, 650, 550);
             thisStage.setTitle("Search");
             thisStage.setScene(scene);
         } catch (IOException e) {

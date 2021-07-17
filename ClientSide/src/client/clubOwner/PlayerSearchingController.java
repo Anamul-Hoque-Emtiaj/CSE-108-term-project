@@ -2,12 +2,14 @@ package client.clubOwner;
 
 import client.Main;
 import database.Club;
+import database.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -17,11 +19,15 @@ import server.ClientWriteThread;
 import util.NetworkUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerSearchingController {
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
     private Club myClub;
+    private String myClubName;
+    private List<Player> playerList;
 
     @FXML
     private TextField name;
@@ -40,38 +46,238 @@ public class PlayerSearchingController {
     @FXML
     private TextField heightTo;
     @FXML
-    private ComboBox position;
+    private ChoiceBox position;
     @FXML
-    private ComboBox country;
+    private ChoiceBox country;
     @FXML
     private ChoiceBox minimum;
     @FXML
     private ChoiceBox maximum;
 
+    public void load() {
+
+        try {
+            networkUtil.write("clubOwner,sendMyClub");
+            Thread.sleep(50);
+            String s = (String) clientReader.getReceivedFile();
+            networkUtil.write(myClubName);
+            Thread.sleep(50);
+            this.myClub = (Club) clientReader.getReceivedFile();
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void init (NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub) {
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
-        String clubName = myClub.getName();
-        try {
-            writeToServer("clubOwner,sendMyClub");
-            Thread.sleep(50);
-            String s = (String) clientReader.getReceivedFile();
-            writeToServer(clubName);
-            Thread.sleep(50);
-            this.myClub = (Club) clientReader.getReceivedFile();
-            System.out.println(this.myClub.getName());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        myClubName = myClub.getName();
+        load();
+        position.getItems().add("Any");
+        position.getItems().add("Goalkeeper");
+        position.getItems().add("Defender");
+        position.getItems().add("Midfielder");
+        position.getItems().add("Forward");
+        position.setValue("Any");
+
+        country.getItems().add("Any");
+        for (String c: myClub.getCountryList()){
+            country.getItems().add(c);
         }
+        country.setValue("Any");
+
+        minimum.getItems().add("None");
+        minimum.getItems().add("WeeklySalary");
+        minimum.getItems().add("Age");
+        minimum.getItems().add("Height");
+        minimum.setValue("None");
+
+        maximum.getItems().add("None");
+        maximum.getItems().add("WeeklySalary");
+        maximum.getItems().add("Age");
+        maximum.getItems().add("Height");
+        maximum.setValue("None");
     }
 
     public void writeToServer(String message){
         new ClientWriteThread(networkUtil,message);
     }
 
-
     public void submit(ActionEvent event) {
+        load();
+        String pName = "Any";
+        String countryName = (String) country.getValue();
+        String positionName = (String) position.getValue();
+        String maxElement = (String) maximum.getValue();
+        String minElement = (String) minimum.getValue();
+        double min = -1000.000;
+        double max = 100000000.00;
+        double minSalary = min;
+        double maxSalary = max;
+        double minAge = min;
+        double maxAge = max;
+        double minHeight = min;
+        double maxHeight = max;
+        int pNumber = -1;
+        try {
+            if(!name.getText().equals("")){
+                pName = name.getText().trim();
+            }
+            if(!number.getText().equals("")){
+                pNumber = Integer.parseInt(number.getText().trim());
+            }
+            if(!salaryFrom.getText().equals("")){
+                minSalary = Double.parseDouble(salaryFrom.getText().trim());
+            }
+            if(!salaryTo.getText().equals("")){
+                maxSalary = Double.parseDouble(salaryTo.getText().trim());
+            }
+            if(!ageFrom.getText().equals("")){
+                minAge = Double.parseDouble(ageFrom.getText().trim());
+            }
+            if(!ageTo.getText().equals("")){
+                maxAge = Double.parseDouble(ageTo.getText().trim());
+            }
+            if(!heightFrom.getText().equals("")){
+                minHeight = Double.parseDouble(heightFrom.getText().trim());
+            }
+            if(!heightTo.getText().equals("")){
+                maxHeight = Double.parseDouble(heightTo.getText().trim());
+            }
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Search Failed");
+            alert.setContentText("Invalid Input Given");
+            alert.showAndWait();
+            Node node = (Node) event.getSource();
+            Stage thisStage = (Stage) node.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("clubOwner/menu.fxml"));
+            try {
+                Parent root = loader.load();
+                MenuController controller = (MenuController) loader.getController();
+                controller.init(networkUtil,clientReader,myClub);
+                Scene scene = new Scene(root, 600, 400);
+                thisStage.setTitle("Club Menu");
+                thisStage.setScene(scene);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+        List<Player> temp1,temp2,temp3,temp4,temp5,temp6,temp7;
+        if(minElement.equals("WeeklySalary")){
+            temp1 = myClub.playersWithMinimumWeeklySalary();
+        }else if(minElement.equals("Age")){
+            temp1 = myClub.playersWithMinimumAge();
+        }else if(minElement.equals("Height")){
+            temp1 = myClub.playersWithMinimumHeight();
+        }else{
+            temp1 = new ArrayList<>();
+        }
+        if(maxElement.equals("WeeklySalary")){
+            temp2 = myClub.playersWithMaximumWeeklySalary();
+        }else if(maxElement.equals("Age")){
+            temp2 = myClub.playersWithMaximumAge();
+        }else if(maxElement.equals("Height")){
+            temp2 = myClub.playersWithMaximumHeight();
+        }else{
+            temp2 = new ArrayList<>();
+        }
+        temp3 = new ArrayList<>();
+        for(Player player: myClub.getPlayerList()) {
+            if (player.getAge() >= minAge && player.getAge() <= maxAge && player.getHeight() >= minHeight && player.getHeight() <= maxHeight
+                    && player.getWeeklySalary() >= minSalary && player.getWeeklySalary() <= maxSalary) {
+                temp3.add(player);
+            }
+        }
+        temp4 = new ArrayList<>();
+        for(Player player: myClub.getPlayerList()){
+            if(pName.equals(player.getName())){
+                temp4.add(player);
+            }
+        }
+        temp5 = new ArrayList<>();
+        for(Player player: myClub.getPlayerList()){
+            if(pNumber!=-1){
+                temp5.add(player);
+            }
+        }
+        temp6 = new ArrayList<>();
+        for(Player player: myClub.getPlayerList()){
+            if(countryName.equals(player.getCountry())){
+                temp6.add(player);
+            }
+        }
+        temp7 = new ArrayList<>();
+        for(Player player: myClub.getPlayerList()){
+            if(positionName.equals(player.getPosition())){
+                temp7.add(player);
+            }
+        }
+
+        List<Player> finalResult = new ArrayList<>();
+        for(Player player: myClub.getPlayerList()){
+            boolean t1=true,t2=true,t3,t4=true,t5=true,t6=true,t7=true;
+            t3 = temp3.contains(player);
+            if(!minElement.equals("None")){
+                t1 = temp1.contains(player);
+            }
+            if(!maxElement.equals("None")){
+                t2 = temp2.contains(player);
+            }
+            if(!pName.equals("Any")){
+                t4 = temp4.contains(player);
+            }
+            if(pNumber!=-1){
+                t5 = temp5.contains(player);
+            }
+            if(!countryName.equals("Any")){
+                t6 = temp6.contains(player);
+            }
+            if(!positionName.equals("Any")){
+                t7 = temp7.contains(player);
+            }
+            if(t1 && t2 && t3 && t4 && t5 && t6 && t7){
+                finalResult.add(player);
+            }
+        }
+        if(finalResult.size()==0){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Not found");
+            alert.setHeaderText("Warning");
+            alert.setContentText("No Player Found");
+            alert.showAndWait();
+            Node node = (Node) event.getSource();
+            Stage thisStage = (Stage) node.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("clubOwner/menu.fxml"));
+            try {
+                Parent root = loader.load();
+                MenuController controller = (MenuController) loader.getController();
+                controller.init(networkUtil,clientReader,myClub);
+                Scene scene = new Scene(root, 600, 400);
+                thisStage.setTitle("Club Menu");
+                thisStage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Node node = (Node) event.getSource();
+            Stage thisStage = (Stage) node.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("clubOwner/searchPlayer.fxml"));
+            try {
+                Parent root = loader.load();
+                SearchPlayerController controller = (SearchPlayerController) loader.getController();
+                controller.init(networkUtil,clientReader,myClub,finalResult);
+                Scene scene = new Scene(root, 600, 400);
+                thisStage.setTitle("Player's Details");
+                thisStage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void cancel(ActionEvent event) {

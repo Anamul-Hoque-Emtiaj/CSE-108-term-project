@@ -51,7 +51,7 @@ public class Server {
             Player player = new Player();
             player.setName(tokens[0]);
             player.setCountry(tokens[1]);
-            player.setAge(Integer.parseInt(tokens[2]));
+            player.setAge(Double.parseDouble(tokens[2]));
             player.setHeight(Double.parseDouble(tokens[3]));
             player.setClub(tokens[4]);
             player.setPosition(tokens[5]);

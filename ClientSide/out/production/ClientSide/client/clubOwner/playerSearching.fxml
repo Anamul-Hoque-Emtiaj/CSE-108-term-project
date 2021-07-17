@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -8,102 +9,114 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.clubOwner.PlayerSearchingController">
+<AnchorPane prefHeight="550.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.clubOwner.PlayerSearchingController">
    <children>
-      <Text layoutX="176.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searching Category" textAlignment="CENTER">
+      <Text layoutX="210.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Searching Category" textAlignment="CENTER">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
-      <Text layoutX="82.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All the input fields have default value. You can ignore any of them.">
+      <Text layoutX="105.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All the input fields have default value. You can ignore any of them.">
          <font>
             <Font size="15.0" />
          </font>
       </Text>
-      <Label layoutX="40.0" layoutY="90.0" text="Name:">
+      <Label layoutX="50.0" layoutY="107.0" text="Name:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="315.0" layoutY="90.0" text="Jersey No:">
+      <Label layoutX="330.0" layoutY="107.0" text="Jersey No:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="130.0" text="Country:">
+      <Label layoutX="50.0" layoutY="155.0" text="Country:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="315.0" layoutY="130.0" text="Position:">
+      <Label layoutX="340.0" layoutY="155.0" text="Position:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="170.0" text="Salary Range:">
+      <Label layoutX="50.0" layoutY="190.0" text="Salary Range:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="225.0" text="Age Range:">
+      <Label layoutX="50.0" layoutY="260.0" text="Age Range:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="40.0" layoutY="280.0" text="Height Range:">
+      <Label layoutX="50.0" layoutY="340.0" text="Height Range:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="70.0" layoutY="200.0" text="From:">
+      <Label layoutX="75.0" layoutY="230.0" text="From:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="340.0" layoutY="200.0" text="To:">
+      <Label layoutX="387.0" layoutY="230.0" text="To:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="70.0" layoutY="255.0" text="From:">
+      <Label layoutX="75.0" layoutY="305.0" text="From:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="340.0" layoutY="255.0" text="To:">
+      <Label layoutX="387.0" layoutY="305.0" prefHeight="20.0" prefWidth="19.0" text="To:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="70.0" layoutY="310.0" text="From:">
+      <Label layoutX="75.0" layoutY="388.0" text="From:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="340.0" layoutY="310.0" text="To:">
+      <Label layoutX="387.0" layoutY="390.0" text="To:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="320.0" layoutY="350.0" mnemonicParsing="false" onAction="#submit" prefHeight="37.0" prefWidth="94.0" text="Submit">
+      <Button layoutX="380.0" layoutY="480.0" mnemonicParsing="false" onAction="#submit" prefHeight="37.0" prefWidth="94.0" text="Submit">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="470.0" layoutY="350.0" mnemonicParsing="false" onAction="#cancel" prefHeight="37.0" prefWidth="87.0" text="Cancel">
+      <Button layoutX="517.0" layoutY="480.0" mnemonicParsing="false" onAction="#cancel" prefHeight="37.0" prefWidth="87.0" text="Cancel">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <TextField fx:id="name" layoutX="90.0" layoutY="90.0" prefHeight="26.0" prefWidth="199.0" promptText="Player's Name(Default-Any)" />
-      <TextField fx:id="number" layoutX="390.0" layoutY="90.0" prefHeight="26.0" prefWidth="170.0" promptText="Player's Number(Default-Any)" />
-      <TextField fx:id="salaryFrom" layoutX="115.0" layoutY="200.0" prefHeight="26.0" prefWidth="188.0" promptText="Lower Bound(Default-Minimum)" />
-      <TextField fx:id="ageFrom" layoutX="115.0" layoutY="255.0" prefHeight="26.0" prefWidth="188.0" promptText="Lower Bound(Default-Minimum)" />
-      <TextField fx:id="heightFrom" layoutX="115.0" layoutY="310.0" prefHeight="26.0" prefWidth="188.0" promptText="Lower Bound(Default-Minimum)" />
-      <TextField fx:id="salaryTo" layoutX="370.0" layoutY="200.0" prefHeight="26.0" prefWidth="188.0" promptText="Upper Bound(Default-maximum)" />
-      <TextField fx:id="ageTo" layoutX="372.0" layoutY="252.0" prefHeight="26.0" prefWidth="188.0" promptText="Upper Bound(Default-maximum)" />
-      <TextField fx:id="heightTo" layoutX="370.0" layoutY="307.0" prefHeight="26.0" prefWidth="188.0" promptText="Upper Bound(Default-maximum)" />
-      <ComboBox fx:id="position" editable="true" layoutX="380.0" layoutY="130.0" prefHeight="26.0" prefWidth="182.0" />
-      <ComboBox fx:id="country" editable="true" layoutX="105.0" layoutY="130.0" prefHeight="26.0" prefWidth="182.0" visibleRowCount="15" />
+      <TextField fx:id="name" layoutX="115.0" layoutY="107.0" prefHeight="26.0" prefWidth="182.0" promptText="Player's Name(Default-Any)" />
+      <TextField fx:id="number" layoutX="415.0" layoutY="107.0" prefHeight="26.0" prefWidth="182.0" promptText="Player's Number(Default-Any)" />
+      <TextField fx:id="salaryFrom" layoutX="115.0" layoutY="225.0" prefHeight="26.0" prefWidth="188.0" promptText="Lower Bound(Default-Minimum)" />
+      <TextField fx:id="ageFrom" layoutX="115.0" layoutY="300.0" prefHeight="26.0" prefWidth="188.0" promptText="Lower Bound(Default-Minimum)" />
+      <TextField fx:id="heightFrom" layoutX="115.0" layoutY="385.0" prefHeight="26.0" prefWidth="188.0" promptText="Lower Bound(Default-Minimum)" />
+      <TextField fx:id="salaryTo" layoutX="415.0" layoutY="227.0" prefHeight="26.0" prefWidth="188.0" promptText="Upper Bound(Default-maximum)" />
+      <TextField fx:id="ageTo" layoutX="415.0" layoutY="300.0" prefHeight="26.0" prefWidth="188.0" promptText="Upper Bound(Default-maximum)" />
+      <TextField fx:id="heightTo" layoutX="415.0" layoutY="385.0" prefHeight="26.0" prefWidth="188.0" promptText="Upper Bound(Default-maximum)" />
+      <ChoiceBox fx:id="position"  layoutX="415.0" layoutY="155.0" prefHeight="26.0" prefWidth="182.0" />
+      <ChoiceBox fx:id="country" layoutX="115.0" layoutY="155.0" prefHeight="26.0" prefWidth="182.0"  />
+      <Label layoutX="50.0" layoutY="430.0" text="Minimum:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="340.0" layoutY="430.0" text="Maximum:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="minimum" layoutX="130.0" layoutY="430.0" prefHeight="26.0" prefWidth="182.0" />
+      <ChoiceBox fx:id="maximum" layoutX="420.0" layoutY="430.0" prefHeight="26.0" prefWidth="182.0" />
    </children>
 </AnchorPane>

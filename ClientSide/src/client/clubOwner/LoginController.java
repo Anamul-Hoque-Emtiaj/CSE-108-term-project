@@ -52,18 +52,20 @@ public class LoginController {
         alert.showAndWait();
     }
 
-    public void login(ActionEvent event) throws InterruptedException {
+    public void login(ActionEvent event) throws Exception {
         connect();
         String uName = name.getText();
         uName.trim();
         String uPassword = password.getText();
         uPassword.trim();
         if(!uName.equals("")&& !uPassword.equals("")){
-            writeToServer("clubOwner,login");
+            //writeToServer("clubOwner,login");
+            networkUtil.write("clubOwner,login");
             Thread.sleep(100);
             String r = (String) clientReader.getReceivedFile();
             if(r.equals("provide your name and password")){
-                writeToServer(uName+","+uPassword);
+                networkUtil.write(uName+","+uPassword);
+                //writeToServer(uName+","+uPassword);
                 Thread.sleep(100);
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -77,7 +79,8 @@ public class LoginController {
             }
             r = (String) clientReader.getReceivedFile();
             if(r.equals("login successful")){
-                writeToServer("send my club");
+                //writeToServer("send my club");
+                networkUtil.write("send my club");
                 Thread.sleep(100);
                 myClub = (Club) clientReader.getReceivedFile();
                 System.out.println(myClub.getName());

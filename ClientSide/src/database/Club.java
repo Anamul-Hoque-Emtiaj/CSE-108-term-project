@@ -105,7 +105,7 @@ public class Club implements Serializable {
     }
 
     public List<Player> playersWithMaximumAge(){
-        int max=-1,temp;
+        double max=-1,temp;
         for(Player player: playerList){
             temp = player.getAge();
             if(temp>max)
@@ -135,6 +135,55 @@ public class Club implements Serializable {
         }
         return searchPlayers;
     }
+
+    public List<Player> playersWithMinimumHeight(){
+        double min=100000000,temp;
+        for(Player player: playerList){
+            temp = player.getHeight();
+            if(temp<min)
+                min=temp;
+        }
+        List<Player> searchPlayers = new ArrayList<>();
+        for(Player player: playerList){
+            if(player.getHeight()==min){
+                searchPlayers.add(player);
+            }
+        }
+        return searchPlayers;
+    }
+
+    public List<Player> playersWithMinimumAge(){
+        double min=100000000,temp;
+        for(Player player: playerList){
+            temp = player.getAge();
+            if(temp<min)
+                min=temp;
+        }
+        List<Player> searchPlayers = new ArrayList<>();
+        for(Player player: playerList){
+            if(player.getAge()==min){
+                searchPlayers.add(player);
+            }
+        }
+        return searchPlayers;
+    }
+
+    public List<Player> playersWithMinimumWeeklySalary(){
+        double min=1000000000,temp;
+        for(Player player: playerList){
+            temp = player.getWeeklySalary();
+            if(temp<min)
+                min=temp;
+        }
+        List<Player> searchPlayers = new ArrayList<>();
+        for(Player player: playerList){
+            if(player.getWeeklySalary()==min){
+                searchPlayers.add(player);
+            }
+        }
+        return searchPlayers;
+    }
+
     public int playerCount(){
         return playerList.size();
     }
