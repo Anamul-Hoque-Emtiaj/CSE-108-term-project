@@ -12,9 +12,7 @@ import java.io.IOException;
 public class StartingController {
 
     public void exit(ActionEvent event) {
-    }
 
-    public void credit(ActionEvent event) {
     }
 
     public void adminLogin(ActionEvent event) {
@@ -33,8 +31,5 @@ public class StartingController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void guestMenu(ActionEvent event) {
     }
 }

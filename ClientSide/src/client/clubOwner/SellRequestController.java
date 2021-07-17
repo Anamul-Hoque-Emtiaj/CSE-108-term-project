@@ -8,7 +8,4 @@ public class SellRequestController {
 
     public void cancel(ActionEvent event) {
     }
-
-    public void back(ActionEvent event) {
-    }
 }

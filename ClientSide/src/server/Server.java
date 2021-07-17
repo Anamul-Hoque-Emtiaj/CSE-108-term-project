@@ -57,6 +57,7 @@ public class Server {
             player.setPosition(tokens[5]);
             player.setNumber(Integer.parseInt(tokens[6]));
             player.setWeeklySalary(Double.parseDouble(tokens[7]));
+            player.setImageName(tokens[8]);
             playerList.add(player);
 
             boolean clubAlreadyExist = false;
@@ -121,7 +122,7 @@ public class Server {
         for (Player player : playerList) {
             bw.write(player.getName() + "," + player.getCountry() + "," + player.getAge() + "," + player.getHeight()
                     + "," + player.getClub()+ "," + player.getPosition()+ "," + player.getNumber()+ "," + player.getWeeklySalary());
-            bw.write("\n");
+            bw.write(","+player.getImageName()+"\n");
         }
         bw.close();
         bw = new BufferedWriter(new FileWriter(CLUB_FILE_NAME));

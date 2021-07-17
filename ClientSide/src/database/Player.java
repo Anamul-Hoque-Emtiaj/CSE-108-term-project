@@ -11,6 +11,7 @@ public class Player implements Serializable {
     private String Position;
     private Integer Number;
     private Double WeeklySalary;
+    private String imageName;
 
     public void setName(String name) {
         Name = name;
@@ -42,6 +43,14 @@ public class Player implements Serializable {
 
     public void setWeeklySalary(Double weeklySalary) {
         WeeklySalary = weeklySalary;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageName() {
+        return imageName;
     }
 
     public String getName() {

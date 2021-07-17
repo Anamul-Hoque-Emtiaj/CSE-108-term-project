@@ -9,11 +9,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guest.SearchPlayerController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.clubOwner.SearchPlayerController">
    <top>
       <AnchorPane prefHeight="59.0" prefWidth="596.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="300.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Searched Player">
+            <Text layoutX="300.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Searched Player">
                <font>
                   <Font size="22.0" />
                </font>
@@ -96,12 +96,17 @@
                <font>
                   <Font size="15.0" />
                </font></Text>
-            <Button layoutX="198.0" layoutY="290.0" mnemonicParsing="false" onAction="#edit" prefHeight="30.0" prefWidth="70.0" text="Edit">
+            <Button layoutX="200.0" layoutY="290.0" mnemonicParsing="false" onAction="#edit" prefHeight="30.0" prefWidth="70.0" text="Edit">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button layoutX="316.0" layoutY="290.0" mnemonicParsing="false" onAction="#delete" prefHeight="30.0" prefWidth="69.0" text="Delete">
+            <Button layoutX="315.0" layoutY="290.0" mnemonicParsing="false" onAction="#delete" prefHeight="30.0" prefWidth="69.0" text="Delete">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button layoutX="90.0" layoutY="290.0" mnemonicParsing="false" onAction="#sell" prefHeight="30.0" prefWidth="70.0" text="Sell">
                <font>
                   <Font size="14.0" />
                </font>

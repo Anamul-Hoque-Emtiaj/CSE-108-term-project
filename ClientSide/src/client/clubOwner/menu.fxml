@@ -7,50 +7,45 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.clubOwner.MenuController">
    <children>
-      <Button layoutX="40.0" layoutY="120.0" mnemonicParsing="false" onAction="#clubDetails" prefHeight="31.0" prefWidth="138.0" text="Club Details">
+      <Button layoutX="40.0" layoutY="70.0" mnemonicParsing="false" onAction="#searchPlayer" prefHeight="31.0" prefWidth="138.0" text="Search Players">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="230.0" layoutY="120.0" mnemonicParsing="false" onAction="#searchPlayer" prefHeight="31.0" prefWidth="138.0" text="Search Players">
+      <Button layoutX="40.0" layoutY="125.0" mnemonicParsing="false" onAction="#addPlayer" prefHeight="31.0" prefWidth="138.0" text="Add Player">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="40.0" layoutY="190.0" mnemonicParsing="false" onAction="#addPlayer" prefHeight="31.0" prefWidth="138.0" text="Add Player">
+      <Button layoutX="40.0" layoutY="180.0" mnemonicParsing="false" onAction="#buyPlayer" prefHeight="31.0" prefWidth="138.0" text="Buy Player">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="230.0" layoutY="190.0" mnemonicParsing="false" onAction="#buyPlayer" prefHeight="31.0" prefWidth="138.0" text="Buy Player">
+      <Button layoutX="40.0" layoutY="340.0" mnemonicParsing="false" onAction="#changePassword" text="Change Password">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="40.0" layoutY="330.0" mnemonicParsing="false" onAction="#changePassword" text="Change Password">
+      <Button layoutX="40.0" layoutY="285.0" mnemonicParsing="false" onAction="#pendingRequest" prefHeight="31.0" prefWidth="138.0" text="Pending Request">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="230.0" layoutY="330.0" mnemonicParsing="false" onAction="#exit" prefHeight="31.0" prefWidth="138.0" text="log out">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Button>
-      <Button layoutX="40.0" layoutY="260.0" mnemonicParsing="false" onAction="#sellRequest" prefHeight="31.0" prefWidth="138.0" text="Sell Request">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Button>
-      <Button layoutX="230.0" layoutY="260.0" mnemonicParsing="false" onAction="#pendingRequest" prefHeight="31.0" prefWidth="138.0" text="Pending Request">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Button>
-      <Text layoutX="256.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome ">
+      <Text fx:id="welcome" layoutX="255.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome ">
          <font>
             <Font size="25.0" />
          </font>
       </Text>
+      <Button layoutX="490.0" layoutY="30.0" mnemonicParsing="false" onAction="#logout" text="Log out">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Button layoutX="40.0" layoutY="235.0" mnemonicParsing="false" onAction="#playerCount" prefHeight="31.0" prefWidth="138.0" text="Player Count">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -32,7 +32,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="230.0" layoutY="330.0" mnemonicParsing="false" onAction="#exit" prefHeight="31.0" prefWidth="138.0" text="log out">
+      <Button layoutX="230.0" layoutY="330.0" mnemonicParsing="false" onAction="#logout" prefHeight="31.0" prefWidth="138.0" text="Log out">
          <font>
             <Font size="15.0" />
          </font>

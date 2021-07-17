@@ -48,6 +48,15 @@ public class ServerThread implements Runnable{
                     if(!isValidClub){
                         networkUtil.write("login failed");
                     }
+                }else if(str.equals("clubOwner,sendMyClub")){
+                    networkUtil.write("Provide your Club's Name");
+                    String name = (String) networkUtil.read();
+                    for(Club club:clubList){
+                        if(club.getName().equals(name)){
+                            networkUtil.write(club);
+                            break;
+                        }
+                    }
                 }
             }
         } catch (Exception e) {
