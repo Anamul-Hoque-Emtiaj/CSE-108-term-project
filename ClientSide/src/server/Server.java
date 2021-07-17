@@ -28,8 +28,9 @@ public class Server {
             serverSocket = new ServerSocket(33333);
             while (true) {
                 Socket clientSocket = serverSocket.accept();
+                System.out.println("Client Accepted");
                 NetworkUtil networkUtil = new NetworkUtil(clientSocket);
-                new ServerThread(networkUtil);
+                new ServerThread(networkUtil,playerList,clubList);
             }
         } catch (Exception e) {
             System.out.println("Server starts:" + e);
@@ -136,11 +137,6 @@ public class Server {
     public static void main(String args[]) {
         try {
             readFromFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            writeToFile();
         } catch (Exception e) {
             e.printStackTrace();
         }

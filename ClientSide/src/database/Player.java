@@ -1,6 +1,8 @@
 package database;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private String Name;
     private String Country;
     private Integer Age;

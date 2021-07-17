@@ -21,12 +21,6 @@ public class ClientWriteThread implements Runnable{
             networkUtil.write(message);
         } catch (Exception e) {
             System.out.println(e);
-        } finally {
-            try {
-                networkUtil.closeConnection();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

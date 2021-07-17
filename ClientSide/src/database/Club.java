@@ -1,10 +1,11 @@
 package database;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Club {
+public class Club implements Serializable {
     private String name;
     private String password;
     private double balance;
@@ -21,10 +22,10 @@ public class Club {
         countryList.add(player.getCountry());
     }
 
-    public Club(String name, String password, double balance) {
+    public Club(String name) {
         this.name = name;
-        this.password = password;
-        this.balance = balance;
+        password = name;
+        this.balance = 1000000;
         playerList = new ArrayList();
         countryList = new ArrayList();
         sellPendingPlayers = new HashMap<>();
