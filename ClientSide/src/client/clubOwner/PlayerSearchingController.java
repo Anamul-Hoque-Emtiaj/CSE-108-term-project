@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import server.ClientReadThread;
@@ -26,7 +25,6 @@ public class PlayerSearchingController {
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
     private Club myClub;
-    private String myClubName;
     private List<Player> playerList;
 
     @FXML
@@ -59,10 +57,10 @@ public class PlayerSearchingController {
         try {
             networkUtil.write("clubOwner,sendMyClub");
             Thread.sleep(50);
-            String s = (String) clientReader.getReceivedFile();
-            networkUtil.write(myClubName);
+            String s = clientReader.getMessage();
+            networkUtil.write(myClub.getName());
             Thread.sleep(50);
-            this.myClub = (Club) clientReader.getReceivedFile();
+            this.myClub = clientReader.getMyClub();
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
@@ -71,8 +69,8 @@ public class PlayerSearchingController {
     public void init (NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub) {
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
-        myClubName = myClub.getName();
-        load();
+        this.myClub = myClub;
+
         position.getItems().add("Any");
         position.getItems().add("Goalkeeper");
         position.getItems().add("Defender");
@@ -97,10 +95,6 @@ public class PlayerSearchingController {
         maximum.getItems().add("Age");
         maximum.getItems().add("Height");
         maximum.setValue("None");
-    }
-
-    public void writeToServer(String message){
-        new ClientWriteThread(networkUtil,message);
     }
 
     public void submit(ActionEvent event) {
@@ -216,7 +210,7 @@ public class PlayerSearchingController {
             }
         }
 
-        List<Player> finalResult = new ArrayList<>();
+        playerList = new ArrayList<>();
         for(Player player: myClub.getPlayerList()){
             boolean t1=true,t2=true,t3,t4=true,t5=true,t6=true,t7=true;
             t3 = temp3.contains(player);
@@ -239,10 +233,10 @@ public class PlayerSearchingController {
                 t7 = temp7.contains(player);
             }
             if(t1 && t2 && t3 && t4 && t5 && t6 && t7){
-                finalResult.add(player);
+                playerList.add(player);
             }
         }
-        if(finalResult.size()==0){
+        if(playerList.size()==0){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Not found");
             alert.setHeaderText("Warning");
@@ -270,7 +264,7 @@ public class PlayerSearchingController {
             try {
                 Parent root = loader.load();
                 SearchPlayerController controller = (SearchPlayerController) loader.getController();
-                controller.init(networkUtil,clientReader,myClub,finalResult);
+                controller.init(networkUtil,clientReader,myClub,playerList);
                 Scene scene = new Scene(root, 600, 400);
                 thisStage.setTitle("Player's Details");
                 thisStage.setScene(scene);

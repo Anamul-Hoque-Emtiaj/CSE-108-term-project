@@ -9,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import server.ClientReadThread;
-import server.ClientWriteThread;
 import util.NetworkUtil;
 
 import java.io.IOException;

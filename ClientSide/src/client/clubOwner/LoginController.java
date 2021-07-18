@@ -40,10 +40,6 @@ public class LoginController {
 
     }
 
-    public void writeToServer(String message){
-        new ClientWriteThread(networkUtil,message);
-    }
-
     public void showAlert(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Login Failed");
@@ -59,13 +55,11 @@ public class LoginController {
         String uPassword = password.getText();
         uPassword.trim();
         if(!uName.equals("")&& !uPassword.equals("")){
-            //writeToServer("clubOwner,login");
             networkUtil.write("clubOwner,login");
             Thread.sleep(100);
-            String r = (String) clientReader.getReceivedFile();
+            String r = clientReader.getMessage();
             if(r.equals("provide your name and password")){
                 networkUtil.write(uName+","+uPassword);
-                //writeToServer(uName+","+uPassword);
                 Thread.sleep(100);
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -77,13 +71,11 @@ public class LoginController {
                 Stage thisStage = (Stage) node.getScene().getWindow();
                 thisStage.close();
             }
-            r = (String) clientReader.getReceivedFile();
+            r = clientReader.getMessage();
             if(r.equals("login successful")){
-                //writeToServer("send my club");
                 networkUtil.write("send my club");
                 Thread.sleep(100);
-                myClub = (Club) clientReader.getReceivedFile();
-                System.out.println(myClub.getName());
+                myClub = clientReader.getMyClub();
                 Node node = (Node) event.getSource();
                 Stage thisStage = (Stage) node.getScene().getWindow();
                 FXMLLoader loader = new FXMLLoader();

@@ -20,8 +20,8 @@ public class Server {
     public static final String CLUB_FILE_NAME = "clubs.txt";
     private static List<Player> playerList;
     private static List<Club> clubList;
-    private static List<Country> countryList;
-    private static HashMap<Player,Double> sellPendingPlayers;
+    private static List<String> countryList;
+    private static List<Player> pendingPlayerList;
 
     Server() {
         try {
@@ -30,7 +30,7 @@ public class Server {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client Accepted");
                 NetworkUtil networkUtil = new NetworkUtil(clientSocket);
-                new ServerThread(networkUtil,playerList,clubList);
+                new ServerThread(networkUtil);
             }
         } catch (Exception e) {
             System.out.println("Server starts:" + e);
@@ -41,7 +41,7 @@ public class Server {
         playerList = new ArrayList();
         countryList = new ArrayList();
         clubList = new ArrayList();
-        sellPendingPlayers = new HashMap<>();
+        pendingPlayerList = new ArrayList<>();
 
         BufferedReader br = new BufferedReader(new FileReader(PLAYER_FILE_NAME));
         while (true) {
@@ -59,31 +59,8 @@ public class Server {
             player.setWeeklySalary(Double.parseDouble(tokens[7]));
             player.setImageName(tokens[8]);
             playerList.add(player);
-
-            boolean clubAlreadyExist = false;
-            for(Club club: clubList){
-                if(club.getName().equalsIgnoreCase(tokens[4])) {
-                    clubAlreadyExist = true;
-                    club.addPlayer(player);
-                    break;
-                }
-            }
-            if(!clubAlreadyExist){
-                Club club = new Club(tokens[4],player);
-                clubList.add(club);
-            }
-
-            boolean countryAlreadyExist = false;
-            for(Country country: countryList){
-                if(country.getName().equalsIgnoreCase(tokens[1])) {
-                    countryAlreadyExist = true;
-                    country.addPlayer(player);
-                    break;
-                }
-            }
-            if(!countryAlreadyExist){
-                Country country = new Country(tokens[1],player);
-                countryList.add(country);
+            if(!countryList.contains(player.getCountry())){
+                countryList.add(player.getCountry());
             }
         }
         br.close();
@@ -93,26 +70,31 @@ public class Server {
             String line = br.readLine();
             if (line == null) break;
             String[] tokens = line.split(",");
-            for(Club club: clubList){
-                if(club.getName().equalsIgnoreCase(tokens[0])){
-                    club.changePassword(tokens[1]);
-                    club.setBalance(Double.parseDouble(tokens[2]));
-                    int count = Integer.parseInt(tokens[3]);
-                    for(int i=1;i<=count;i++){
-                        line = br.readLine();
-                        if (line == null) break;
-                        tokens = line.split(",");
-                        for (Player player: playerList){
-                            if(player.getName().equalsIgnoreCase(tokens[0])){
-                                sellPendingPlayers.put(player,Double.parseDouble(tokens[1]));
-                                club.playerSellRequest(player,Double.parseDouble(tokens[1]));
-                                break;
-                            }
-                        }
+            String clubName = tokens[0];
+            String clubPassword = tokens[1];
+            double clubAmount = Double.parseDouble(tokens[2]);
+            int count = Integer.parseInt(tokens[3]);
+            List<String> pName = new ArrayList<>();
+            for(int i=1; i<=count;i++){
+                line = br.readLine();
+                String[] str = line.split(",");
+                pName.add(str[0]);
+                for (Player player: playerList){
+                    if(player.getName().equals(str[0])){
+                        player.setAmount(Double.parseDouble(str[1]));
+                        player.setInPending(true);
+                        pendingPlayerList.add(player);
                     }
-                    break;
                 }
             }
+            List<Player> clubPlayer = new ArrayList<>();
+            for (Player player: playerList){
+                if(player.getClub().equals(clubName)){
+                    clubPlayer.add(player);
+                }
+            }
+            Club club = new Club(clubName,clubPassword,clubAmount,clubPlayer,pName);
+            clubList.add(club);
         }
         br.close();
     }
@@ -127,12 +109,22 @@ public class Server {
         bw.close();
         bw = new BufferedWriter(new FileWriter(CLUB_FILE_NAME));
         for(Club club: clubList){
-            bw.write(club.getName()+","+club.getPassword()+","+club.getBalance()+","+club.pendingCount()+"\n");
-            for(Player player: club.getSellPendingPlayers().keySet()){
-                bw.write(player.getName()+","+club.getPlayerSellAmount(player)+"\n");
+            bw.write(club.getName()+","+club.getPassword()+","+club.getBalance()+","+club.pendingPlayerCount()+"\n");
+            for(Player player: club.getPendingList()){
+                bw.write(player.getName()+","+player.getAmount()+"\n");
             }
         }
         bw.close();
+    }
+
+    public static void exit(List<Player> playerList,List<Club> clubList){
+        Server.playerList = playerList;
+        Server.clubList = clubList;
+        try {
+            writeToFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String args[]) {
@@ -141,6 +133,7 @@ public class Server {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        ServerThread.load(playerList,clubList,countryList,pendingPlayerList);
         Server server = new Server();
     }
 }

@@ -11,16 +11,23 @@ import java.util.List;
 public class ServerThread implements Runnable{
     private Thread thr;
     private NetworkUtil networkUtil;
-    private List<Player> playerList;
-    private List<Club> clubList;
+    private static List<Player> playerList;
+    private static List<Club> clubList;
+    private static List<String> countryList;
+    private static List<Player> pendingPlayerList;
 
 
-    public ServerThread(NetworkUtil networkUtil, List<Player>playerList, List<Club>clubList) {
+    public ServerThread(NetworkUtil networkUtil) {
         this.networkUtil = networkUtil;
         this.thr = new Thread(this);
-        this.playerList = playerList;
-        this.clubList = clubList;
         thr.start();
+    }
+
+    public static void load(List<Player> playerLists, List<Club> clubLists, List<String> countryLists, List<Player> pendingPlayerLists){
+        playerList = playerLists;
+        clubList = clubLists;
+        countryList = countryLists;
+        pendingPlayerList = pendingPlayerLists;
     }
 
     public void run() {
@@ -69,6 +76,7 @@ public class ServerThread implements Runnable{
                             player.setHeight(p.getHeight());
                             player.setWeeklySalary(p.getWeeklySalary());
                             player.setNumber(p.getNumber());
+                            System.out.println("Server MainList: "+ player.getImageName());
                         }
                     }
                     for(Club club: clubList){
@@ -81,6 +89,7 @@ public class ServerThread implements Runnable{
                                     player.setHeight(p.getHeight());
                                     player.setWeeklySalary(p.getWeeklySalary());
                                     player.setNumber(p.getNumber());
+                                    System.out.println("Server Clublist: "+ player.getImageName());
                                 }
                             }
                         }

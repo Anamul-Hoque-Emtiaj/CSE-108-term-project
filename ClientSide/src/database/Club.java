@@ -11,51 +11,41 @@ public class Club implements Serializable {
     private double balance;
     private List<Player> playerList;
     private List<String> countryList;
-    private HashMap<Player,Double> sellPendingPlayers;
+    private List<Player> pendingList;
 
-    public Club(String name, Player player) {
+
+    public Club(String name, String password, double balance, List<Player > playerList, List<String> pName) {
         this.name = name;
-        playerList = new ArrayList();
+        this.password = password;
+        this.balance = balance;
+        this.playerList = playerList;
+        pendingList = new ArrayList<>();
         countryList = new ArrayList();
-        sellPendingPlayers = new HashMap<>();
-        playerList.add(player);
-        countryList.add(player.getCountry());
+        for (Player player: playerList){
+            if(!countryList.contains(player.getCountry())){
+                countryList.add(player.getCountry());
+            }
+            if(pName.contains(player.getName())){
+                pendingList.add(player);
+            }
+        }
     }
 
     public Club(String name) {
         this.name = name;
         password = name;
-        this.balance = 1000000;
+        this.balance = 50000000;
         playerList = new ArrayList();
         countryList = new ArrayList();
-        sellPendingPlayers = new HashMap<>();
+        pendingList = new ArrayList<>();
     }
 
     public String getPassword() {
         return password;
     }
 
-    public int pendingCount(){
-        return sellPendingPlayers.size();
-    }
-
-    public HashMap<Player, Double> getSellPendingPlayers() {
-        return sellPendingPlayers;
-    }
-
-    public double getPlayerSellAmount(Player player){
-        return sellPendingPlayers.get(player);
-    }
-
     public double getBalance() {
         return balance;
-    }
-
-    public void addPlayer(Player player){
-        playerList.add(player);
-        if(!countryList.contains(player.getCountry())){
-            countryList.add(player.getCountry());
-        }
     }
 
     public void changePassword(String password){
@@ -66,18 +56,54 @@ public class Club implements Serializable {
         this.balance = balance;
     }
 
-    public void playerSellRequest(Player player, double amount){
-        sellPendingPlayers.put(player,amount);
+    public int pendingPlayerCount(){
+        return pendingList.size();
     }
-    public void playerSold(Player player){
-        double amount = sellPendingPlayers.remove(player);
-        balance+=amount;
-        boolean isRemove = playerList.remove(player);
+
+    public List<Player> getPendingList(){
+       return pendingList;
     }
-    public void buyPlayer(Player player, double amount){
-        balance -=amount;
-        player.setClub(name);
+
+    public void addPlayer(Player player){
         playerList.add(player);
+        if(!countryList.contains(player.getCountry())){
+            countryList.add(player.getCountry());
+        }
+    }
+
+    public void deletePlayer(Player player){
+        playerList.remove(player);
+        if(pendingList.contains(player)){
+            pendingList.remove(player);
+        }
+        boolean found = false;
+        for (Player p: playerList){
+            if(p.getCountry().equals(player.getCountry())){
+                found = true;
+                break;
+            }
+        }
+        if(!found){
+            countryList.remove(player.getCountry());
+        }
+    }
+
+    public void sellRequest(Player player){
+        pendingList.add(player);
+    }
+
+    public void soldPlayer(Player player, double amount){
+        deletePlayer(player);
+        balance+=amount;
+    }
+
+    public void buyPlayer(Player player, double amount){
+        addPlayer(player);
+        balance-=amount;
+    }
+
+    public void deleteSellRequest(Player player){
+        pendingList.remove(player);
     }
 
     public double totalYearlySalary(){

@@ -72,14 +72,20 @@ public class PlayerEditController {
     }
     public void chooseFile(ActionEvent event) {
         FileChooser fc = new FileChooser();
-        fc.setTitle("Attach a file");
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif","*.jfif")
+        );
+        fc.setTitle("Attach an image");
         File selectedFile = fc.showOpenDialog(null);
+        System.out.println(System.getProperty("user.dir"));
+
 
         if (selectedFile != null) {
             try {
+                String imgDir = "\\src\\client\\img\\";
                 Path from = Paths.get(selectedFile.toURI());
-                Path to = Paths.get(Main.class.getResource(selectedFile.getName()).toURI());
-                System.out.println(Main.class.getResource(selectedFile.getName()));
+                Path to = Paths.get(System.getProperty("user.dir")+imgDir+selectedFile.getName());
+                System.out.println(System.getProperty("user.dir")+imgDir+selectedFile.getName());
                 Path copied = Files.copy(from, to);;
                 if(copied!=null){
                     fileName.setText(String.valueOf(copied.getFileName()));
@@ -102,9 +108,14 @@ public class PlayerEditController {
            player.setHeight(pHeight);
            player.setWeeklySalary(pSalary);
            player.setNumber(pNumber);
+           for(Player p: playerList){
+               if(p.getName().equals(player.getName())){
+                   p.setImageName(player.getImageName());
+               }
+           }
            networkUtil.write("clubOwner,editPlayer");
            Thread.sleep(50);
-           String str = (String) clientReader.getReceivedFile();
+           String str = clientReader.getMessage();
            networkUtil.write(player);
            Thread.sleep(50);
            Node node = (Node) event.getSource();
