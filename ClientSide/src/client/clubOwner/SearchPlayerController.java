@@ -73,6 +73,19 @@ public class SearchPlayerController {
     }
 
     public void load(){
+        age.setText(null);
+        position.setText(null);
+        height.setText(null);
+        number.setText(null);
+        salary.setText(null);
+        club.setText(null);
+        country.setText(null);
+        name.setText(null);
+        sell.setText(null);
+        edit.setText(null);
+        delete.setText(null);
+        imageView.setImage(null);
+        currentPlayer = null;
 
         ObservableList names = FXCollections.observableArrayList();
         for (Player player: playerList){
@@ -89,25 +102,27 @@ public class SearchPlayerController {
                             break;
                         }
                     }
-                    age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
-                    position.setText("Position: "+currentPlayer.getPosition());
-                    height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
-                    number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
-                    salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
-                    club.setText("Club: "+currentPlayer.getClub());
-                    country.setText("Country: "+currentPlayer.getCountry());
-                    name.setText("Name: "+currentPlayer.getName());
-                    sell.setText("Sell");
-                    edit.setText("Edit");
-                    delete.setText("Delete");
+                    if(currentPlayer!=null){
+                        age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
+                        position.setText("Position: "+currentPlayer.getPosition());
+                        height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
+                        number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
+                        salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
+                        club.setText("Club: "+currentPlayer.getClub());
+                        country.setText("Country: "+currentPlayer.getCountry());
+                        name.setText("Name: "+currentPlayer.getName());
+                        sell.setText("Sell");
+                        edit.setText("Edit");
+                        delete.setText("Delete");
 
-                    try {
-                        System.out.println(currentPlayer.getImageName());
-                        File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
-                        Image image = new Image(new FileInputStream(img));
-                        imageView.setImage(image);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        try {
+                            System.out.println(currentPlayer.getImageName());
+                            File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
+                            Image image = new Image(new FileInputStream(img));
+                            imageView.setImage(image);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
         );

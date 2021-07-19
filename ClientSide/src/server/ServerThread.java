@@ -53,7 +53,6 @@ public class ServerThread implements Runnable{
                 if(str.equals("clubOwner,login")){
                     String read = (String) networkUtil.read();
                     read.trim();
-                    System.out.println(read);
                     String[] auth = read.split(",");
                     boolean isValidClub = false;
                     for(Club club: clubList){
@@ -81,23 +80,23 @@ public class ServerThread implements Runnable{
                             player.setHeight(p.getHeight());
                             player.setWeeklySalary(p.getWeeklySalary());
                             player.setNumber(p.getNumber());
-                            System.out.println("Server MainList: "+ player.getImageName());
                             break;
                         }
                     }
+                    for(Player player: pendingPlayerList){
+                        if(p.getName().equals(player.getName())){
+                            player.setImageName(p.getImageName());
+                            player.setAge(p.getAge());
+                            player.setHeight(p.getHeight());
+                            player.setWeeklySalary(p.getWeeklySalary());
+                            player.setNumber(p.getNumber());
+                            break;
+                        }
+
+                    }
                     for(Club club: clubList){
                         if(club.getName().equals(p.getClub())){
-                            for(Player player: club.getPlayerList()){
-                                if(p.getName().equals(player.getName())){
-                                    player.setImageName(p.getImageName());
-                                    player.setAge(p.getAge());
-                                    player.setHeight(p.getHeight());
-                                    player.setWeeklySalary(p.getWeeklySalary());
-                                    player.setNumber(p.getNumber());
-                                    System.out.println("Server Clublist: "+ player.getImageName());
-                                    break;
-                                }
-                            }
+                            club.editPlayer(p);
                             break;
                         }
                     }
@@ -108,38 +107,32 @@ public class ServerThread implements Runnable{
                     String playerName = info[1];
                     double amount = Double.parseDouble(info[2]);
                     boolean alreadyExit = false;
-                    for (Player player: playerList){
+                    for (Player player: pendingPlayerList){
                         if(player.getName().equals(playerName)){
-                            alreadyExit = pendingPlayerList.contains(player);
-                            if(!alreadyExit){
-                                player.sellRequest(amount);
-                                pendingPlayerList.add(player);
-                            }
-                            break;
-                        }
-                    }
-                    if(!alreadyExit){
-                        for (Club club: clubList){
-                            if(club.getName().equals(clubName)){
-                                for (Player player: club.getPlayerList()){
-                                    if(player.getName().equals(playerName)){
-                                        player.sellRequest(amount);
-                                        club.sellRequest(player);
-                                        break;
-                                    }
-                                }
-                                break;
-                            }
+                            alreadyExit = true;
                         }
                     }
                     if(alreadyExit){
                         networkUtil.write("already requested");
-                    }else{
+                    }else {
+                        for (Club club: clubList){
+                            if(club.getName().equals(clubName)){
+                                club.sellRequest(playerName,amount);
+                                break;
+                            }
+                        }
+                        for (Player player: playerList){
+                            if(player.getName().equals(playerName)){
+                                player.setAmount(amount);
+                                player.setInPending(true);
+                                pendingPlayerList.add(player);
+                                break;
+                            }
+                        }
                         networkUtil.write("request accepted");
                         sendUpdatedPlayerList();
                     }
                 }else if(str.equals("clubOwner,deletePlayer")){
-                    printPlayerList();
                     Player player = (Player) networkUtil.read();
                     System.out.println(playerList.contains(player));
                     for (Club club: clubList){
@@ -156,15 +149,12 @@ public class ServerThread implements Runnable{
                             break;
                         }
                     }
-                    boolean found = false;
                     for (Player p: playerList){
                         if(p.getCountry().equals(player.getCountry())){
-                            found = true;
+                            int in = countryList.indexOf(p.getCountry());
+                            countryList.remove(in);
                             break;
                         }
-                    }
-                    if(!found){
-                        countryList.remove(player.getCountry());
                     }
                     for (Player p: pendingPlayerList){
                         if(player.getName().equals(p.getName())){
@@ -174,7 +164,6 @@ public class ServerThread implements Runnable{
                         }
                     }
                     sendUpdatedPlayerList();
-                    printPlayerList();
                 }else if(str.equals("Add player")){
                     Player player = (Player) networkUtil.read();
                     boolean canAdded = true;
@@ -185,6 +174,9 @@ public class ServerThread implements Runnable{
                     }
                     if(canAdded){
                         playerList.add(player);
+                        if(!countryList.contains(player.getCountry())){
+                            countryList.add(player.getCountry());
+                        }
                         for (Club club: clubList){
                             if(club.getName().equals(player.getClub())){
                                 club.addPlayer(player);
@@ -211,9 +203,17 @@ public class ServerThread implements Runnable{
                     Player player = (Player) networkUtil.read();
                     for (Player p: pendingPlayerList){
                         if(p.getName().equals(player.getName())){
-                            p.deleteRequest();
+                            p.setInPending(false);
+                            p.setAmount(0);
                             int in = pendingPlayerList.indexOf(p);
                             pendingPlayerList.remove(in);
+                            break;
+                        }
+                    }
+                    for (Player p: playerList){
+                        if(p.getName().equals(player.getName())){
+                            p.setInPending(false);
+                            p.setAmount(0);
                             break;
                         }
                     }
@@ -223,8 +223,50 @@ public class ServerThread implements Runnable{
                         }
                     }
                     sendUpdatedPlayerList();
+                }else if(str.equals("buy Player")){
+                    String newClubName = (String) networkUtil.read();
+                    Player player = (Player) networkUtil.read();
+                    String oldClubName = player.getClub();
+                    boolean canBuy = false;
+                    for (Player p: pendingPlayerList){
+                        if(p.getName().equals(player.getName())){
+                            canBuy = true;
+                            break;
+                        }
+                    }
+                    if(canBuy){
+                        for (Club club: clubList){
+                            if(club.getName().equals(newClubName)){
+                                club.buyPlayer(player);
+                            }
+                            if(club.getName().equals(oldClubName)){
+                                club.soldPlayer(player.getName());
+                            }
+                        }
+                        for (Player p: playerList){
+                            if(p.getName().equals(player.getName())){
+                                p.setClub(newClubName);
+                                p.setAmount(0);
+                                p.setInPending(false);
+                            }
+                        }
+                        for (Player p: pendingPlayerList){
+                            if(p.getName().equals(player.getName())){
+                                int in = pendingPlayerList.indexOf(p);
+                                pendingPlayerList.remove(in);
+                                break;
+                            }
+                        }
+                        networkUtil.write("Successful");
+                        sendUpdatedPlayerList();
+                    }else {
+                        networkUtil.write("failed");
+                    }
                 }
                 else if(str.equals("exit")){
+                    for (NetworkUtil util: Server.getNetworkUtilList() ){
+                        util.closeConnection();
+                    }
                     Server.exit(playerList,clubList);
                 }
             }

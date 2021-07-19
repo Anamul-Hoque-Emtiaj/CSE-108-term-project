@@ -11,7 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PendingRequestController implements Runnable{
     private NetworkUtil networkUtil;
@@ -32,6 +35,7 @@ public class PendingRequestController implements Runnable{
     private Club myClub;
     private List<Player> playerList;
     private Player currentPlayer;
+    private boolean endThread;
 
     @FXML
     private Text height;
@@ -63,6 +67,7 @@ public class PendingRequestController implements Runnable{
         this.clientReader = clientReader;
         this.myClub = myClub;
         playerList = new ArrayList<>();
+        endThread = false;
         try {
             networkUtil.write("send updated buy list");
             Thread.sleep(100);
@@ -73,18 +78,27 @@ public class PendingRequestController implements Runnable{
     }
 
     public void load(){
-        List<Player> list = clientReader.getUpdatedBuyList();
-        List<Player> temp = new ArrayList<>();
-        for (Player player: list){
-            if(myClub.getName().equals(player.getClub())){
-                temp.add(player);
-            }
-        }
-        playerList = temp;
+        System.out.println("loaded");
+        age.setText(null);
+        position.setText(null);
+        height.setText(null);
+        number.setText(null);
+        salary.setText(null);
+        club.setText(null);
+        country.setText(null);
+        name.setText(null);
+        delete.setText(null);
+        amount.setText(null);
+        imageView.setImage(null);
+        currentPlayer = null;
+
+        playerList = clientReader.getUpdatedBuyList();
 
         ObservableList names = FXCollections.observableArrayList();
         for (Player player: playerList){
-            names.add(player.getName());
+            if(player.getClub().equals(myClub.getName())){
+                names.add(player.getName());
+            }
         }
 
         listView.setItems(names);
@@ -97,24 +111,26 @@ public class PendingRequestController implements Runnable{
                             break;
                         }
                     }
-                    age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
-                    position.setText("Position: "+currentPlayer.getPosition());
-                    height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
-                    number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
-                    salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
-                    club.setText("Club: "+currentPlayer.getClub());
-                    country.setText("Country: "+currentPlayer.getCountry());
-                    name.setText("Name: "+currentPlayer.getName());
-                    delete.setText("Delete Request");
-                    amount.setText(String.valueOf(currentPlayer.getAmount()));
+                    if(currentPlayer!=null){
+                        age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
+                        position.setText("Position: "+currentPlayer.getPosition());
+                        height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
+                        number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
+                        salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
+                        club.setText("Club: "+currentPlayer.getClub());
+                        country.setText("Country: "+currentPlayer.getCountry());
+                        name.setText("Name: "+currentPlayer.getName());
+                        delete.setText("Delete Request");
+                        amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
 
-                    try {
-                        System.out.println(currentPlayer.getImageName());
-                        File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
-                        Image image = new Image(new FileInputStream(img));
-                        imageView.setImage(image);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        try {
+                            System.out.println(currentPlayer.getImageName());
+                            File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
+                            Image image = new Image(new FileInputStream(img));
+                            imageView.setImage(image);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
         );
@@ -123,13 +139,23 @@ public class PendingRequestController implements Runnable{
 
     @Override
     public void run() {
-        while (true){
-            if (clientReader.isUpdateNeeded()){
-                load();
+        try {
+            while (true){
+                boolean needUpdate = clientReader.isUpdateNeeded();
+                if(needUpdate){
+                    System.out.println("need update");
+                    load();
+                }
+                if(endThread){
+                    break;
+                }
             }
+        }catch (Exception e){
+            System.out.println(e);
         }
     }
     public void back(ActionEvent event) {
+        endThread = true;
         Node node = (Node) event.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
@@ -147,9 +173,18 @@ public class PendingRequestController implements Runnable{
     }
 
     public void deleteRequest(ActionEvent event) throws IOException, InterruptedException {
-        networkUtil.write("delete request");
-        networkUtil.write(currentPlayer);
-        Thread.sleep(100);
-        load();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete");
+        alert.setHeaderText("Warning!!");
+        alert.setContentText("Deleting this player's sell request");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get()==ButtonType.OK){
+
+            networkUtil.write("delete request");
+            networkUtil.write(currentPlayer);
+            Thread.sleep(100);
+            load();
+        }
+
     }
 }

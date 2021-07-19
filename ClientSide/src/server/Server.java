@@ -23,11 +23,15 @@ public class Server {
     private static List<Club> clubList;
     private static List<String> countryList;
     private static List<Player> pendingPlayerList;
+    private static boolean endServer =false;
 
     Server() {
         try {
             serverSocket = new ServerSocket(44444);
             while (true) {
+                if(endServer){
+                    break;
+                }
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client Accepted");
                 NetworkUtil networkUtil = new NetworkUtil(clientSocket);
@@ -132,6 +136,7 @@ public class Server {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        endServer = true;
     }
 
     public static void main(String args[]) {

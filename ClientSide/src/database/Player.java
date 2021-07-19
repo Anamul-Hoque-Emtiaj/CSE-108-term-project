@@ -16,13 +16,8 @@ public class Player implements Serializable {
     private String imageName;
     private double Amount;
     private boolean inPending;
-    private Button buyButton;
-    private Button deleteButton;
-
 
     public Player() {
-        Amount = 0;
-        inPending = false;
     }
 
     public Player(String name, String country, Double age, Double height, String club, String position, Integer number, Double weeklySalary, String imageName) {
@@ -34,9 +29,7 @@ public class Player implements Serializable {
         Position = position;
         Number = number;
         WeeklySalary = weeklySalary;
-        Amount = 0;
         this.imageName = imageName;
-        inPending = false;
     }
     synchronized public void setName(String name) {
         Name = name;
@@ -125,17 +118,4 @@ public class Player implements Serializable {
         return WeeklySalary;
     }
 
-    synchronized public void buy(String newClubName){
-        this.Club = newClubName;
-        this.inPending = false;
-        this.Amount = 0;
-    }
-    synchronized public void deleteRequest(){
-        this.inPending = false;
-        this.Amount = 0;
-    }
-    synchronized public void sellRequest(double amount){
-        this.Amount = amount;
-        this.inPending = true;
-    }
 }

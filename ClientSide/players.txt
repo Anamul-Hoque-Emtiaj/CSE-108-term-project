@@ -17,9 +17,9 @@ Alisson,Brazil,28.0,1.91,Liverpool,Goalkeeper,1,150000.0,Alisson.jpg
 Virgil van Dijk,Netherlands,29.0,1.93,Liverpool,Defender,4,180000.0,VirgilVanDijk.jpg
 Jordan Henderson,England,30.0,1.82,Liverpool,Midfielder,14,140000.0,JordanHenderson.jpg
 Thiago Alcantaram,Brazil,30.0,1.74,Liverpool,Midfielder,6,200000.0,ThiagoAlcantaram.jpg
-Mohamed Salah,Egypt,28.0,1.75,Liverpool,Forward,11,200000.0,MohammedSalah.jpg
+Mohamed Salah,Egypt,28.0,1.75,Arsenal,Forward,11,200000.0,MohammedSalah.jpg
 Bernd Leno,Germany,29.0,1.9,Arsenal,Goalkeeper,1,100000.0,BerndLeno.jfif
 Hector Bellerin,Spain,26.0,1.78,Arsenal,Defender,2,110000.0,HectorBellerin.jpg
 Granit Xhaka,Switzerland,28.0,1.85,Arsenal,Midfielder,34,100000.0,GranitXhaka.jpg
 Thomas Partey,Ghana,27.0,1.85,Arsenal,Midfielder,18,250000.0,ThomasPartey.jpg
-Pierre-Emerick Aubameyang,Gabon,31.0,1.87,Arsenal,Forward,14,250000.0,PierreEmerickAubameyang.jpg
+Pierre-Emerick Aubameyang,Gabon,31.0,1.87,Chelsea,Forward,14,250000.0,PierreEmerickAubameyang.jpg

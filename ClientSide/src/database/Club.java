@@ -87,15 +87,12 @@ public class Club implements Serializable {
                 break;
             }
         }
-        boolean found = false;
         for (Player p: playerList){
             if(p.getCountry().equals(player.getCountry())){
-                found = true;
+                int in = countryList.indexOf(p.getCountry());
+                countryList.remove(in);
                 break;
             }
-        }
-        if(!found){
-            countryList.remove(player.getCountry());
         }
         for (Player p: pendingList){
             if(player.getName().equals(p.getName())){
@@ -106,26 +103,72 @@ public class Club implements Serializable {
         }
     }
 
-    synchronized public void sellRequest(Player player){
-        pendingList.add(player);
+    synchronized public void sellRequest(String playerName, double amount){
+        for (Player p: playerList){
+            if(p.getName().equals(playerName)){
+                p.setAmount(amount);
+                p.setInPending(true);
+                pendingList.add(p);
+            }
+        }
+
     }
 
-    synchronized public void soldPlayer(Player player, double amount){
-        deletePlayer(player);
-        balance+=amount;
+    synchronized public void editPlayer(Player p){
+        for(Player player: playerList){
+            if(p.getName().equals(player.getName())){
+                player.setImageName(p.getImageName());
+                player.setAge(p.getAge());
+                player.setHeight(p.getHeight());
+                player.setWeeklySalary(p.getWeeklySalary());
+                player.setNumber(p.getNumber());
+                break;
+            }
+        }
+        for(Player player: pendingList){
+            if(p.getName().equals(player.getName())){
+                player.setImageName(p.getImageName());
+                player.setAge(p.getAge());
+                player.setHeight(p.getHeight());
+                player.setWeeklySalary(p.getWeeklySalary());
+                player.setNumber(p.getNumber());
+                break;
+            }
+        }
     }
 
-    synchronized public void buyPlayer(Player player, double amount){
+    synchronized public void soldPlayer(String playerName){
+        for (Player player: playerList){
+            if(player.getName().equals(playerName)){
+                balance+=player.getAmount();
+                deletePlayer(player);
+                break;
+            }
+        }
+    }
+
+    synchronized public void buyPlayer(Player player){
+        balance-=player.getAmount();
+        player.setClub(name);
+        player.setAmount(0);
+        player.setInPending(false);
         addPlayer(player);
-        balance-=amount;
     }
 
     synchronized public void deleteSellRequest(Player player){
         for (Player p: pendingList){
             if(p.getName().equals(player.getName())){
-                p.deleteRequest();
+                p.setInPending(false);
+                p.setAmount(0);
                 int in = pendingList.indexOf(p);
                 pendingList.remove(in);
+                break;
+            }
+        }
+        for (Player p: playerList){
+            if(p.getName().equals(player.getName())){
+                p.setInPending(false);
+                p.setAmount(0);
                 break;
             }
         }

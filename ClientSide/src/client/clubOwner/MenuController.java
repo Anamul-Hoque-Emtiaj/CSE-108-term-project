@@ -7,11 +7,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import server.ClientReadThread;
 import util.NetworkUtil;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class MenuController {
     private NetworkUtil networkUtil;
@@ -50,7 +53,7 @@ public class MenuController {
             Parent root = loader.load();
             AddPlayerController controller = (AddPlayerController) loader.getController();
             controller.init(networkUtil,clientReader,myClub);
-            Scene scene = new Scene(root, 650, 550);
+            Scene scene = new Scene(root, 600, 400);
             thisStage.setTitle("Add Player");
             thisStage.setScene(scene);
         } catch (IOException e) {
@@ -59,6 +62,23 @@ public class MenuController {
     }
 
     public void buyPlayer(ActionEvent event) {
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("clubOwner/buyPlayer.fxml"));
+        try {
+            Parent root = loader.load();
+            BuyPlayerController controller = (BuyPlayerController) loader.getController();
+            controller.init(networkUtil,clientReader,myClub);
+            Thread thr = new Thread(controller);
+            thr.start();
+
+            Scene scene = new Scene(root, 600, 400);
+            thisStage.setTitle("Add Player");
+            thisStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void changePassword(ActionEvent event) {
@@ -100,9 +120,17 @@ public class MenuController {
     }
 
     public void logout(ActionEvent event) throws IOException {
-        Node node = (Node) event.getSource();
-        Stage thisStage = (Stage) node.getScene().getWindow();
-        thisStage.close();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Log out");
+        alert.setHeaderText("Warning!!");
+        alert.setContentText("You have wanted to log out");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get()==ButtonType.OK){
+            Node node = (Node) event.getSource();
+            Stage thisStage = (Stage) node.getScene().getWindow();
+            thisStage.close();
+        }
+
     }
 
     public void playerCount(ActionEvent event) {
@@ -114,7 +142,7 @@ public class MenuController {
             Parent root = loader.load();
             PlayerCountController controller = (PlayerCountController) loader.getController();
             controller.init(networkUtil,clientReader,myClub);
-            Scene scene = new Scene(root, 650, 550);
+            Scene scene = new Scene(root, 600, 400);
             thisStage.setTitle("Add Player");
             thisStage.setScene(scene);
         } catch (IOException e) {

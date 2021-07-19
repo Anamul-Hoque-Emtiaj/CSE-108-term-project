@@ -54,8 +54,9 @@ public class ClientReadThread implements Runnable{
                     myClub = (Club) receivedFile;
                     System.out.println("Client receive club: "+myClub.getName());
                 }else {
-                    updateNeeded = true;
                     updatedBuyList = (List<Player>) receivedFile;
+                    updateNeeded = true;
+                    System.out.println(isUpdateNeeded());
                     System.out.println("Client receive updatedPlayerList: "+updatedBuyList.size());
                 }
             }
