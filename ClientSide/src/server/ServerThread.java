@@ -144,7 +144,6 @@ public class ServerThread implements Runnable{
                     System.out.println(playerList.contains(player));
                     for (Club club: clubList){
                         if (club.getName().equals(player.getClub())){
-                            System.out.println("found1");
                             club.deletePlayer(player);
                             break;
                         }
@@ -197,7 +196,35 @@ public class ServerThread implements Runnable{
                         networkUtil.write("Adding failed");
                     }
 
-                }else if(str.equals("exit")){
+                }else if(str.equals("change password")){
+                    String s = (String) networkUtil.read();
+                    String[] auth = s.split(",");
+                    for (Club club: clubList){
+                        if(club.getName().equals(auth[0])){
+                            club.changePassword(auth[1]);
+                            break;
+                        }
+                    }
+                }else if(str.equals("send updated buy list")){
+                    sendUpdatedPlayerList();
+                }else if(str.equals("delete request")){
+                    Player player = (Player) networkUtil.read();
+                    for (Player p: pendingPlayerList){
+                        if(p.getName().equals(player.getName())){
+                            p.deleteRequest();
+                            int in = pendingPlayerList.indexOf(p);
+                            pendingPlayerList.remove(in);
+                            break;
+                        }
+                    }
+                    for (Club club: clubList){
+                        if(club.getName().equals(player.getClub())){
+                            club.deleteSellRequest(player);
+                        }
+                    }
+                    sendUpdatedPlayerList();
+                }
+                else if(str.equals("exit")){
                     Server.exit(playerList,clubList);
                 }
             }

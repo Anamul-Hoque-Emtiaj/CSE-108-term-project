@@ -62,10 +62,41 @@ public class MenuController {
     }
 
     public void changePassword(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("clubOwner/changePassword.fxml"));
+        try {
+            Parent root = loader.load();
+            ChangePasswordController controller = (ChangePasswordController) loader.getController();
+            controller.init(networkUtil,clientReader,myClub);
+            Scene scene = new Scene(root, 400, 300);
+            Stage stage = new Stage();
+            stage.setTitle("Change Password");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     public void pendingRequest(ActionEvent event) {
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("clubOwner/pendingRequest.fxml"));
+        try {
+            Parent root = loader.load();
+            PendingRequestController controller = (PendingRequestController) loader.getController();
+            controller.init(networkUtil,clientReader,myClub);
+            Thread thr = new Thread(controller);
+            thr.start();
+
+            Scene scene = new Scene(root, 600, 400);
+            thisStage.setTitle("Add Player");
+            thisStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void logout(ActionEvent event) throws IOException {
@@ -75,5 +106,19 @@ public class MenuController {
     }
 
     public void playerCount(ActionEvent event) {
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("clubOwner/playerCount.fxml"));
+        try {
+            Parent root = loader.load();
+            PlayerCountController controller = (PlayerCountController) loader.getController();
+            controller.init(networkUtil,clientReader,myClub);
+            Scene scene = new Scene(root, 650, 550);
+            thisStage.setTitle("Add Player");
+            thisStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

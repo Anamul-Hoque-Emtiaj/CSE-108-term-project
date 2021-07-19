@@ -121,7 +121,14 @@ public class Club implements Serializable {
     }
 
     synchronized public void deleteSellRequest(Player player){
-        pendingList.remove(player);
+        for (Player p: pendingList){
+            if(p.getName().equals(player.getName())){
+                p.deleteRequest();
+                int in = pendingList.indexOf(p);
+                pendingList.remove(in);
+                break;
+            }
+        }
     }
 
     synchronized public double totalYearlySalary(){
