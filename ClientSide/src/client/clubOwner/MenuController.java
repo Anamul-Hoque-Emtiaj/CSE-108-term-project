@@ -42,6 +42,20 @@ public class MenuController {
     }
 
     public void addPlayer(ActionEvent event) {
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("clubOwner/addPlayer.fxml"));
+        try {
+            Parent root = loader.load();
+            AddPlayerController controller = (AddPlayerController) loader.getController();
+            controller.init(networkUtil,clientReader,myClub);
+            Scene scene = new Scene(root, 650, 550);
+            thisStage.setTitle("Add Player");
+            thisStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void buyPlayer(ActionEvent event) {

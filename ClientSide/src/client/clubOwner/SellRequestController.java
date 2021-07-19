@@ -41,14 +41,7 @@ public class SellRequestController {
 
     public void submit(ActionEvent event) throws InterruptedException, IOException {
         String pAmount = amount.getText().trim();
-        if(pAmount.equals("") | Double.parseDouble(pAmount)<0){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Request Denied!!");
-            alert.setHeaderText("Warning");
-            alert.setContentText("Invalid Amount given");
-            alert.showAndWait();
-
-        }else {
+        if(Double.parseDouble(pAmount)>=0){
             networkUtil.write("clubOwner,sellRequest");
             networkUtil.write(myClub.getName()+","+player.getName()+","+pAmount);
             Thread.sleep(100);
@@ -65,6 +58,13 @@ public class SellRequestController {
                 alert.setContentText("Player requested for sell");
                 alert.showAndWait();
             }
+
+        }else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Request Denied!!");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Invalid Amount given");
+            alert.showAndWait();
         }
         Node node = (Node) event.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();

@@ -23,11 +23,9 @@ public class Player implements Serializable {
     public Player() {
         Amount = 0;
         inPending = false;
-       /* buyButton = new Button("Buy");
-        deleteButton = new Button("Delete");*/
     }
 
-    public Player(String name, String country, Double age, Double height, String club, String position, Integer number, Double weeklySalary) {
+    public Player(String name, String country, Double age, Double height, String club, String position, Integer number, Double weeklySalary, String imageName) {
         Name = name;
         Country = country;
         Age = age;
@@ -37,9 +35,8 @@ public class Player implements Serializable {
         Number = number;
         WeeklySalary = weeklySalary;
         Amount = 0;
+        this.imageName = imageName;
         inPending = false;
-        buyButton = new Button("Buy");
-        deleteButton = new Button("Delete");
     }
     synchronized public void setName(String name) {
         Name = name;

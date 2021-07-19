@@ -73,6 +73,23 @@ public class PlayerEditController {
         fileName.setText(player.getImageName());
     }
 
+    public void goToPreviousScene(ActionEvent event){
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("clubOwner/searchPlayer.fxml"));
+        try {
+            Parent root = loader.load();
+            SearchPlayerController controller = (SearchPlayerController) loader.getController();
+            controller.init(networkUtil,clientReader,myClub,playerList);
+            Scene scene = new Scene(root, 600, 400);
+            thisStage.setTitle("Player's Details");
+            thisStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void chooseFile(ActionEvent event) {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().addAll(
@@ -125,57 +142,19 @@ public class PlayerEditController {
                    }
                }
            }
-           Node node = (Node) event.getSource();
-           Stage thisStage = (Stage) node.getScene().getWindow();
-           FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(Main.class.getResource("clubOwner/searchPlayer.fxml"));
-           try {
-               Parent root = loader.load();
-               SearchPlayerController controller = (SearchPlayerController) loader.getController();
-               controller.init(networkUtil,clientReader,myClub,newList);
-               Scene scene = new Scene(root, 600, 400);
-               thisStage.setTitle("Player's Details");
-               thisStage.setScene(scene);
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
+           this.playerList = newList;
        }catch (Exception e){
            Alert alert = new Alert(Alert.AlertType.ERROR);
            alert.setTitle("Error");
            alert.setHeaderText("Search Failed");
            alert.setContentText("Invalid Input Given");
            alert.showAndWait();
-           Node node = (Node) event.getSource();
-           Stage thisStage = (Stage) node.getScene().getWindow();
-           FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(Main.class.getResource("clubOwner/searchPlayer.fxml"));
-           try {
-               Parent root = loader.load();
-               SearchPlayerController controller = (SearchPlayerController) loader.getController();
-               controller.init(networkUtil,clientReader,myClub,playerList);
-               Scene scene = new Scene(root, 600, 400);
-               thisStage.setTitle("Player's Details");
-               thisStage.setScene(scene);
-           } catch (IOException e1) {
-               e1.printStackTrace();
-           }
+       }finally {
+           goToPreviousScene(event);
        }
     }
 
     public void cancel(ActionEvent event) {
-        Node node = (Node) event.getSource();
-        Stage thisStage = (Stage) node.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("clubOwner/searchPlayer.fxml"));
-        try {
-            Parent root = loader.load();
-            SearchPlayerController controller = (SearchPlayerController) loader.getController();
-            controller.init(networkUtil,clientReader,myClub,playerList);
-            Scene scene = new Scene(root, 600, 400);
-            thisStage.setTitle("Player's Details");
-            thisStage.setScene(scene);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+        goToPreviousScene(event);
     }
 }

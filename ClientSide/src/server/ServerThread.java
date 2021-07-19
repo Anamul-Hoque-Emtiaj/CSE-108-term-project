@@ -176,8 +176,28 @@ public class ServerThread implements Runnable{
                     }
                     sendUpdatedPlayerList();
                     printPlayerList();
-                }
-                else if(str.equals("exit")){
+                }else if(str.equals("Add player")){
+                    Player player = (Player) networkUtil.read();
+                    boolean canAdded = true;
+                    for (Player player1: playerList){
+                        if(player1.getName().equals(player.getName())){
+                            canAdded = false;
+                        }
+                    }
+                    if(canAdded){
+                        playerList.add(player);
+                        for (Club club: clubList){
+                            if(club.getName().equals(player.getClub())){
+                                club.addPlayer(player);
+                                break;
+                            }
+                        }
+                        networkUtil.write("Player Added successfully");
+                    }else {
+                        networkUtil.write("Adding failed");
+                    }
+
+                }else if(str.equals("exit")){
                     Server.exit(playerList,clubList);
                 }
             }

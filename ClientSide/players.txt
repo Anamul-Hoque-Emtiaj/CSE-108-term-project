@@ -1,25 +1,25 @@
-David de Gea,Spain,30.0,1.92,Manchester United,Goalkeeper,1,375000.0,DavidDeGea.jfif
-Harry Maguire,England,28.0,1.94,Manchester United,Defender,5,189904.0,HarryMaguire.jfif
-Paul Pogba,France,28.0,1.91,Manchester United,Midfielder,6,290000.0,PaulPogba.jfif
-Bruno Fernandes,Portugal,26.0,1.79,Manchester United,Midfielder,18,180000.0,BrunoFernandes.jfif
-Edinson Cavani,Uruguay,34.0,1.84,Manchester United,Forward,7,210000.0,EdinsonCavani.jfif
-Ederson,Brazil,27.0,1.88,Manchester City,Goalkeeper,31,65000.0,Ederson.jfif
-Ruben Dias,Portugal,24.0,1.86,Manchester City,Defender,3,115385.0,RubenDias.jfif
-Kevin De Bruyne,Belgium,29.0,1.81,Manchester City,Midfielder,17,385000.0,KevinDeBruyne.jfif
-Ilkay Gundogan,Germany,30.0,1.8,Manchester City,Midfielder,8,140000.0,IikayGundogan.jfif
-Raheem Sterling,England,26.0,1.7,Manchester City,Forward,7,300000.0,RaheemSterling.jfif
-Edouard Mendy,Senegal,40.0,2.0,Chelsea,Goalkeeper,16,75000.0,EdouardMendy.jfif
-Cesar Azpilicueta,Spain,31.0,1.78,Chelsea,Defender,28,145000.0,CeasarAzpilicueta.jfif
-N'Golo Kante,France,30.0,1.68,Chelsea,Midfielder,7,144231.0,NGoloKante.jfif
-Jorginho,Italy,29.0,1.8,Chelsea,Midfielder,5,110000.0,Jorginho.jfif
-Timo Werner,Germany,25.0,1.8,Chelsea,Forward,11,170000.0,TimoWerner.jfif
-Alisson,Brazil,28.0,1.91,Liverpool,Goalkeeper,1,150000.0,Alisson.jfif
-Virgil van Dijk,Netherlands,29.0,1.93,Liverpool,Defender,4,180000.0,VirgilVanDijk.jfif
-Jordan Henderson,England,30.0,1.82,Liverpool,Midfielder,14,140000.0,JordanHenderson.jfif
-Thiago Alcantaram,Brazil,30.0,1.74,Liverpool,Midfielder,6,200000.0,ThiagoAlcantaram.jfif
-Mohamed Salah,Egypt,28.0,1.75,Liverpool,Forward,11,200000.0,MohammedSalah.jfif
+David de Gea,Spain,30.0,1.92,Manchester United,Goalkeeper,1,375000.0,DavidDeGea.jpg
+Harry Maguire,England,28.0,1.94,Manchester United,Defender,5,189904.0,HarryMaguire.jpg
+Paul Pogba,France,28.0,1.91,Manchester United,Midfielder,6,290000.0,PaulPogba.jpg
+Bruno Fernandes,Portugal,26.0,1.79,Manchester United,Midfielder,18,180000.0,BrunoFernandes.jpg
+Edinson Cavani,Uruguay,34.0,1.84,Manchester United,Forward,7,210000.0,EdinsonCavani.jpg
+Ederson,Brazil,27.0,1.88,Manchester City,Goalkeeper,31,65000.0,Ederson.jpg
+Ruben Dias,Portugal,24.0,1.86,Manchester City,Defender,3,115385.0,RubenDias.jpg
+Kevin De Bruyne,Belgium,29.0,1.81,Manchester City,Midfielder,17,385000.0,KevinDeBruyne.jpg
+Ilkay Gundogan,Germany,30.0,1.8,Manchester City,Midfielder,8,140000.0,IikayGundogan.jpg
+Raheem Sterling,England,26.0,1.7,Manchester City,Forward,7,300000.0,RaheemSterling.jpg
+Edouard Mendy,Senegal,40.0,2.0,Chelsea,Goalkeeper,16,75000.0,EdouardMendy.jpg
+Cesar Azpilicueta,Spain,31.0,1.78,Chelsea,Defender,28,145000.0,CeasarAzpilicueta.jpg
+N'Golo Kante,France,30.0,1.68,Chelsea,Midfielder,7,144231.0,NGoloKante.jpg
+Jorginho,Italy,29.0,1.8,Chelsea,Midfielder,5,110000.0,Jorginho.jpg
+Timo Werner,Germany,25.0,1.8,Chelsea,Forward,11,170000.0,TimoWerner.jpg
+Alisson,Brazil,28.0,1.91,Liverpool,Goalkeeper,1,150000.0,Alisson.jpg
+Virgil van Dijk,Netherlands,29.0,1.93,Liverpool,Defender,4,180000.0,VirgilVanDijk.jpg
+Jordan Henderson,England,30.0,1.82,Liverpool,Midfielder,14,140000.0,JordanHenderson.jpg
+Thiago Alcantaram,Brazil,30.0,1.74,Liverpool,Midfielder,6,200000.0,ThiagoAlcantaram.jpg
+Mohamed Salah,Egypt,28.0,1.75,Liverpool,Forward,11,200000.0,MohammedSalah.jpg
 Bernd Leno,Germany,29.0,1.9,Arsenal,Goalkeeper,1,100000.0,BerndLeno.jfif
-Hector Bellerin,Spain,26.0,1.78,Arsenal,Defender,2,110000.0,HectorBellerin.jfif
-Granit Xhaka,Switzerland,28.0,1.85,Arsenal,Midfielder,34,100000.0,GranitXhaka.jfif
-Thomas Partey,Ghana,27.0,1.85,Arsenal,Midfielder,18,250000.0,ThomasPartey.jfif
-Pierre-Emerick Aubameyang,Gabon,31.0,1.87,Arsenal,Forward,14,250000.0,PierreEmerickAubameyang.jfif
+Hector Bellerin,Spain,26.0,1.78,Arsenal,Defender,2,110000.0,HectorBellerin.jpg
+Granit Xhaka,Switzerland,28.0,1.85,Arsenal,Midfielder,34,100000.0,GranitXhaka.jpg
+Thomas Partey,Ghana,27.0,1.85,Arsenal,Midfielder,18,250000.0,ThomasPartey.jpg
+Pierre-Emerick Aubameyang,Gabon,31.0,1.87,Arsenal,Forward,14,250000.0,PierreEmerickAubameyang.jpg

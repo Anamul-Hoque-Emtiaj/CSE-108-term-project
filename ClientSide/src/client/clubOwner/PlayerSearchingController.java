@@ -90,6 +90,23 @@ public class PlayerSearchingController {
         maximum.setValue("None");
     }
 
+    public void goToPreviousScene(ActionEvent event){
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("clubOwner/menu.fxml"));
+        try {
+            Parent root = loader.load();
+            MenuController controller = (MenuController) loader.getController();
+            controller.init(networkUtil,clientReader,myClub);
+            Scene scene = new Scene(root, 600, 400);
+            thisStage.setTitle("Club Menu");
+            thisStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void submit(ActionEvent event) throws IOException, InterruptedException {
         load();
         String pName = "Any";
@@ -137,20 +154,7 @@ public class PlayerSearchingController {
             alert.setHeaderText("Search Failed");
             alert.setContentText("Invalid Input Given");
             alert.showAndWait();
-            Node node = (Node) event.getSource();
-            Stage thisStage = (Stage) node.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("clubOwner/menu.fxml"));
-            try {
-                Parent root = loader.load();
-                MenuController controller = (MenuController) loader.getController();
-                controller.init(networkUtil,clientReader,myClub);
-                Scene scene = new Scene(root, 600, 400);
-                thisStage.setTitle("Club Menu");
-                thisStage.setScene(scene);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            goToPreviousScene(event);
         }
         List<Player> temp1,temp2,temp3,temp4,temp5,temp6,temp7;
         if(minElement.equals("WeeklySalary")){
@@ -235,20 +239,7 @@ public class PlayerSearchingController {
             alert.setHeaderText("Warning");
             alert.setContentText("No Player Found");
             alert.showAndWait();
-            Node node = (Node) event.getSource();
-            Stage thisStage = (Stage) node.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("clubOwner/menu.fxml"));
-            try {
-                Parent root = loader.load();
-                MenuController controller = (MenuController) loader.getController();
-                controller.init(networkUtil,clientReader,myClub);
-                Scene scene = new Scene(root, 600, 400);
-                thisStage.setTitle("Club Menu");
-                thisStage.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            goToPreviousScene(event);
         }else{
             Node node = (Node) event.getSource();
             Stage thisStage = (Stage) node.getScene().getWindow();
@@ -268,19 +259,6 @@ public class PlayerSearchingController {
     }
 
     public void cancel(ActionEvent event) {
-        Node node = (Node) event.getSource();
-        Stage thisStage = (Stage) node.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("clubOwner/menu.fxml"));
-        try {
-            Parent root = loader.load();
-            MenuController controller = (MenuController) loader.getController();
-            controller.init(networkUtil,clientReader,myClub);
-            Scene scene = new Scene(root, 600, 400);
-            thisStage.setTitle("Club Menu");
-            thisStage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        goToPreviousScene(event);
     }
 }

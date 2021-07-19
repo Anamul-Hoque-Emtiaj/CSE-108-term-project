@@ -22,6 +22,8 @@ import server.ClientReadThread;
 import server.ClientWriteThread;
 import util.NetworkUtil;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +66,11 @@ public class SearchPlayerController {
     }
 
     public void load(){
+
+        for (Player player: playerList){
+            System.out.println(player.getImageName());
+            System.out.println(System.getProperty("user.dir")+"\\src\\client\\img\\"+player.getName());
+        }
         currentPlayer = playerList.get(0);
         age.setText(String.valueOf(currentPlayer.getAge()));
         position.setText(currentPlayer.getPosition());
@@ -75,8 +82,10 @@ public class SearchPlayerController {
         name.setText(currentPlayer.getName());
         try {
             System.out.println(currentPlayer.getImageName());
+            File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
+            Image image = new Image(new FileInputStream(img));
 
-            Image image = new Image(Main.class.getResourceAsStream("img/"+currentPlayer.getImageName()));
+            //Image image = new Image(Main.class.getResourceAsStream("img/"+currentPlayer.getImageName()));
             imageView.setImage(image);
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,8 +115,10 @@ public class SearchPlayerController {
                     country.setText(currentPlayer.getCountry());
                     name.setText(currentPlayer.getName());
                     try {
-                        Image image = new Image(Main.class.getResourceAsStream("img/"+currentPlayer.getImageName()));
                         System.out.println(currentPlayer.getImageName());
+                        File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
+                        Image image = new Image(new FileInputStream(img));
+                        //Image image = new Image(Main.class.getResourceAsStream("img/"+currentPlayer.getImageName()));
                         imageView.setImage(image);
                     } catch (Exception e) {
                         e.printStackTrace();
