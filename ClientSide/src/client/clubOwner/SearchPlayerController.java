@@ -11,16 +11,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import server.ClientReadThread;
+import server.ClientWriteThread;
 import util.NetworkUtil;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class SearchPlayerController {
     private NetworkUtil networkUtil;
@@ -56,7 +60,10 @@ public class SearchPlayerController {
         this.clientReader = clientReader;
         this.myClub = myClub;
         this.playerList = list;
+        load();
+    }
 
+    public void load(){
         currentPlayer = playerList.get(0);
         age.setText(String.valueOf(currentPlayer.getAge()));
         position.setText(currentPlayer.getPosition());
@@ -67,6 +74,7 @@ public class SearchPlayerController {
         country.setText(currentPlayer.getCountry());
         name.setText(currentPlayer.getName());
         try {
+            System.out.println(currentPlayer.getImageName());
 
             Image image = new Image(Main.class.getResourceAsStream("img/"+currentPlayer.getImageName()));
             imageView.setImage(image);
@@ -98,8 +106,8 @@ public class SearchPlayerController {
                     country.setText(currentPlayer.getCountry());
                     name.setText(currentPlayer.getName());
                     try {
-
                         Image image = new Image(Main.class.getResourceAsStream("img/"+currentPlayer.getImageName()));
+                        System.out.println(currentPlayer.getImageName());
                         imageView.setImage(image);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -107,7 +115,17 @@ public class SearchPlayerController {
                 }
         );
     }
+
     public void back(ActionEvent event) {
+        try {
+            networkUtil.write("clubOwner,sendMyClub");
+            networkUtil.write(myClub.getName());
+            Thread.sleep(100);
+            this.myClub = clientReader.getMyClub();
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
+
         Node node = (Node) event.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
@@ -134,19 +152,29 @@ public class SearchPlayerController {
             PlayerEditController controller = (PlayerEditController) loader.getController();
             controller.init(networkUtil,clientReader,myClub,currentPlayer,playerList);
             Scene scene = new Scene(root, 600, 400);
-            thisStage.setTitle("Edit Player");
+            thisStage.setTitle("Edit Player Info");
             thisStage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(ActionEvent event) {
+    public void delete(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete");
+        alert.setHeaderText("Warning!!");
+        alert.setContentText("Deleting this player");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get()==ButtonType.OK){
+
+            networkUtil.write("clubOwner,deletePlayer");
+            networkUtil.write(currentPlayer);
+            playerList.remove(currentPlayer);
+            load();
+        }
     }
 
     public void sell(ActionEvent event) {
-        Node node = (Node) event.getSource();
-        Stage thisStage = (Stage) node.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("clubOwner/sellRequest.fxml"));
         try {
@@ -154,8 +182,10 @@ public class SearchPlayerController {
             SellRequestController controller = (SellRequestController) loader.getController();
             controller.init(networkUtil,clientReader,myClub,currentPlayer,playerList);
             Scene scene = new Scene(root, 330, 250);
-            thisStage.setTitle("Sell Player");
-            thisStage.setScene(scene);
+            Stage stage = new Stage();
+            stage.setTitle("Sell Player");
+            stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -4,10 +4,14 @@ import client.Main;
 import database.Club;
 import database.Player;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import server.ClientReadThread;
 import util.NetworkUtil;
@@ -16,6 +20,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class SellRequestController {
+    @FXML
+    private TextField amount;
+    @FXML
+    private Text name;
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
     private List<Player> playerList;
@@ -28,24 +36,44 @@ public class SellRequestController {
         this.myClub = myClub;
         this.player = player;
         playerList = list;
+        name.setText(player.getName());
     }
-    public void submit(ActionEvent event) {
+
+    public void submit(ActionEvent event) throws InterruptedException, IOException {
+        String pAmount = amount.getText().trim();
+        if(pAmount.equals("") | Double.parseDouble(pAmount)<0){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Request Denied!!");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Invalid Amount given");
+            alert.showAndWait();
+
+        }else {
+            networkUtil.write("clubOwner,sellRequest");
+            networkUtil.write(myClub.getName()+","+player.getName()+","+pAmount);
+            Thread.sleep(100);
+            if(clientReader.getMessage().equals("already requested")){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Request Denied!!");
+                alert.setHeaderText("Warning");
+                alert.setContentText("Already requested for sell");
+                alert.showAndWait();
+            }else if(clientReader.getMessage().equals("request accepted")){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Request Accepted!!");
+                alert.setHeaderText("Confirmation");
+                alert.setContentText("Player requested for sell");
+                alert.showAndWait();
+            }
+        }
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        thisStage.close();
     }
 
     public void cancel(ActionEvent event) {
         Node node = (Node) event.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("clubOwner/searchPlayer.fxml"));
-        try {
-            Parent root = loader.load();
-            SearchPlayerController controller = (SearchPlayerController) loader.getController();
-            controller.init(networkUtil,clientReader,myClub,playerList);
-            Scene scene = new Scene(root, 600, 400);
-            thisStage.setTitle("Player's Details");
-            thisStage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        thisStage.close();
     }
 }

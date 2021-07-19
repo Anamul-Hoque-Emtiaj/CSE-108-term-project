@@ -41,103 +41,103 @@ public class Player implements Serializable {
         buyButton = new Button("Buy");
         deleteButton = new Button("Delete");
     }
-    public void setName(String name) {
+    synchronized public void setName(String name) {
         Name = name;
     }
 
-    public void setCountry(String country) {
+    synchronized public void setCountry(String country) {
         Country = country;
     }
 
-    public void setAge(Double age) {
+    synchronized public void setAge(Double age) {
         Age = age;
     }
 
-    public void setHeight(Double height) {
+    synchronized public void setHeight(Double height) {
         Height = height;
     }
 
-    public void setClub(String club) {
+    synchronized public void setClub(String club) {
         Club = club;
     }
 
-    public void setPosition(String position) {
+    synchronized public void setPosition(String position) {
         Position = position;
     }
 
-    public void setNumber(Integer number) {
+    synchronized public void setNumber(Integer number) {
         Number = number;
     }
 
-    public void setWeeklySalary(Double weeklySalary) {
+    synchronized public void setWeeklySalary(Double weeklySalary) {
         WeeklySalary = weeklySalary;
     }
 
-    public void setImageName(String imageName) {
+    synchronized public void setImageName(String imageName) {
         this.imageName = imageName;
     }
 
-    public void setAmount(double amount) {
+    synchronized public void setAmount(double amount) {
         Amount = amount;
     }
-    public void setInPending(boolean inPending) {
+    synchronized public void setInPending(boolean inPending) {
         this.inPending = inPending;
     }
 
-    public double getAmount() {
+    synchronized public double getAmount() {
         return Amount;
     }
 
-    public boolean isInPending() {
+    synchronized public boolean isInPending() {
         return inPending;
     }
 
-    public String getImageName() {
+    synchronized public String getImageName() {
         return imageName;
     }
 
-    public String getName() {
+    synchronized public String getName() {
         return Name;
     }
 
-    public String getCountry() {
+    synchronized public String getCountry() {
         return Country;
     }
 
-    public Double getAge() {
+    synchronized public Double getAge() {
         return Age;
     }
 
-    public Double getHeight() {
+    synchronized public Double getHeight() {
         return Height;
     }
 
-    public String getClub() {
+    synchronized public String getClub() {
         return Club;
     }
 
-    public String getPosition() {
+    synchronized public String getPosition() {
         return Position;
     }
 
-    public Integer getNumber() {
+    synchronized public Integer getNumber() {
         return Number;
     }
 
-    public Double getWeeklySalary() {
+    synchronized public Double getWeeklySalary() {
         return WeeklySalary;
     }
 
-    public void buy(String newClubName){
+    synchronized public void buy(String newClubName){
         this.Club = newClubName;
         this.inPending = false;
         this.Amount = 0;
     }
-    public void deleteRequest(){
+    synchronized public void deleteRequest(){
         this.inPending = false;
         this.Amount = 0;
     }
-    public void sellRequest(double amount){
+    synchronized public void sellRequest(double amount){
         this.Amount = amount;
         this.inPending = true;
     }

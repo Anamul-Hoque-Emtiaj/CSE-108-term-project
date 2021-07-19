@@ -54,7 +54,7 @@ public class MenuController {
     public void pendingRequest(ActionEvent event) {
     }
 
-    public void logout(ActionEvent event) {
+    public void logout(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
         thisStage.close();

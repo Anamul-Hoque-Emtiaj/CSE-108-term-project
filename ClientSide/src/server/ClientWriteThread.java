@@ -7,13 +7,17 @@ import java.io.IOException;
 public class ClientWriteThread implements Runnable{
     private Thread thr;
     private NetworkUtil networkUtil;
-    private String message;
+    private Object message;
 
-    public ClientWriteThread(NetworkUtil networkUtil, String message) {
+    public ClientWriteThread(NetworkUtil networkUtil, Object message) {
         this.message = message;
         this.networkUtil = networkUtil;
         this.thr = new Thread(this);
         thr.start();
+    }
+
+    public Thread getThr() {
+        return thr;
     }
 
     public void run() {

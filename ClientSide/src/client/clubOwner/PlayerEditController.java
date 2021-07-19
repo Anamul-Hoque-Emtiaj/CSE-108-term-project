@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import server.ClientReadThread;
+import server.ClientWriteThread;
 import util.NetworkUtil;
 
 import java.io.File;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerEditController {
@@ -70,6 +72,7 @@ public class PlayerEditController {
         number.setText(String.valueOf(player.getNumber()));
         fileName.setText(player.getImageName());
     }
+
     public void chooseFile(ActionEvent event) {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().addAll(
@@ -77,18 +80,16 @@ public class PlayerEditController {
         );
         fc.setTitle("Attach an image");
         File selectedFile = fc.showOpenDialog(null);
-        System.out.println(System.getProperty("user.dir"));
-
 
         if (selectedFile != null) {
             try {
                 String imgDir = "\\src\\client\\img\\";
                 Path from = Paths.get(selectedFile.toURI());
                 Path to = Paths.get(System.getProperty("user.dir")+imgDir+selectedFile.getName());
-                System.out.println(System.getProperty("user.dir")+imgDir+selectedFile.getName());
                 Path copied = Files.copy(from, to);;
                 if(copied!=null){
                     fileName.setText(String.valueOf(copied.getFileName()));
+                    System.out.println("copied file Name: "+String.valueOf(copied.getFileName()));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -108,16 +109,22 @@ public class PlayerEditController {
            player.setHeight(pHeight);
            player.setWeeklySalary(pSalary);
            player.setNumber(pNumber);
-           for(Player p: playerList){
-               if(p.getName().equals(player.getName())){
-                   p.setImageName(player.getImageName());
+
+           networkUtil.write("clubOwner,editPlayer");
+           networkUtil.write(player);
+           networkUtil.write("clubOwner,sendMyClub");
+           networkUtil.write(myClub.getName());
+           Thread.sleep(100);
+           this.myClub = clientReader.getMyClub();
+           List<Player> newList = new ArrayList<>();
+           for(Player player1: myClub.getPlayerList()){
+               for(Player player2: playerList){
+                   if(player2.getName().equals(player1.getName())){
+                       newList.add(player1);
+                       break;
+                   }
                }
            }
-           networkUtil.write("clubOwner,editPlayer");
-           Thread.sleep(50);
-           String str = clientReader.getMessage();
-           networkUtil.write(player);
-           Thread.sleep(50);
            Node node = (Node) event.getSource();
            Stage thisStage = (Stage) node.getScene().getWindow();
            FXMLLoader loader = new FXMLLoader();
@@ -125,12 +132,12 @@ public class PlayerEditController {
            try {
                Parent root = loader.load();
                SearchPlayerController controller = (SearchPlayerController) loader.getController();
-               controller.init(networkUtil,clientReader,myClub,playerList);
+               controller.init(networkUtil,clientReader,myClub,newList);
                Scene scene = new Scene(root, 600, 400);
                thisStage.setTitle("Player's Details");
                thisStage.setScene(scene);
-           } catch (IOException e1) {
-               e1.printStackTrace();
+           } catch (IOException e) {
+               e.printStackTrace();
            }
        }catch (Exception e){
            Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -167,8 +174,8 @@ public class PlayerEditController {
             Scene scene = new Scene(root, 600, 400);
             thisStage.setTitle("Player's Details");
             thisStage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
     }
 }

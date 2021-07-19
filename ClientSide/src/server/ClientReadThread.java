@@ -11,10 +11,10 @@ public class ClientReadThread implements Runnable{
     private Thread thr;
     private NetworkUtil networkUtil;
     private Object receivedFile;
-    private static List<Player> updatedBuyList;
+    private List<Player> updatedBuyList;
     private Club myClub;
     private String message;
-    private static boolean updateNeeded;
+    private boolean updateNeeded;
 
     public ClientReadThread(NetworkUtil networkUtil) {
         this.networkUtil = networkUtil;
@@ -49,12 +49,14 @@ public class ClientReadThread implements Runnable{
                 receivedFile = networkUtil.read();
                 if(receivedFile instanceof String){
                     message = (String) receivedFile;
-                    System.out.println(message);
+                    System.out.println("Client receive message: "+message);
                 }else if(receivedFile instanceof Club){
                     myClub = (Club) receivedFile;
+                    System.out.println("Client receive club: "+myClub.getName());
                 }else {
                     updateNeeded = true;
                     updatedBuyList = (List<Player>) receivedFile;
+                    System.out.println("Client receive updatedPlayerList: "+updatedBuyList.size());
                 }
             }
         } catch (Exception e) {

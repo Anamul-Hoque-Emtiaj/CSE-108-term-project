@@ -18,6 +18,7 @@ public class Server {
 
     public static final String PLAYER_FILE_NAME = "players.txt";
     public static final String CLUB_FILE_NAME = "clubs.txt";
+    private static List<NetworkUtil> networkUtilList;
     private static List<Player> playerList;
     private static List<Club> clubList;
     private static List<String> countryList;
@@ -25,11 +26,12 @@ public class Server {
 
     Server() {
         try {
-            serverSocket = new ServerSocket(33333);
+            serverSocket = new ServerSocket(44444);
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client Accepted");
                 NetworkUtil networkUtil = new NetworkUtil(clientSocket);
+                networkUtilList.add(networkUtil);
                 new ServerThread(networkUtil);
             }
         } catch (Exception e) {
@@ -37,11 +39,16 @@ public class Server {
         }
     }
 
+    public static List<NetworkUtil> getNetworkUtilList(){
+        return networkUtilList;
+    }
+
     public static void readFromFile() throws Exception {
         playerList = new ArrayList();
         countryList = new ArrayList();
         clubList = new ArrayList();
         pendingPlayerList = new ArrayList<>();
+        networkUtilList = new ArrayList<>();
 
         BufferedReader br = new BufferedReader(new FileReader(PLAYER_FILE_NAME));
         while (true) {

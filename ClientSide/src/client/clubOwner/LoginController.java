@@ -13,14 +13,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import server.ClientReadThread;
-import server.ClientWriteThread;
 import util.NetworkUtil;
 
 import java.io.IOException;
 
 public class LoginController {
     public final String SERVER_ADDRESS = "127.0.0.1";
-    public final int SERVER_PORT = 33333;
+    public final int SERVER_PORT = 44444;
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
     private Club myClub;
@@ -39,7 +38,6 @@ public class LoginController {
         }
 
     }
-
     public void showAlert(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Login Failed");
@@ -56,25 +54,10 @@ public class LoginController {
         uPassword.trim();
         if(!uName.equals("")&& !uPassword.equals("")){
             networkUtil.write("clubOwner,login");
-            Thread.sleep(100);
+            networkUtil.write(uName+","+uPassword);
+            Thread.sleep(200);
             String r = clientReader.getMessage();
-            if(r.equals("provide your name and password")){
-                networkUtil.write(uName+","+uPassword);
-                Thread.sleep(100);
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Login Failed");
-                alert.setHeaderText("Error");
-                alert.setContentText("Server Error Occurred.");
-                alert.showAndWait();
-                Node node = (Node) event.getSource();
-                Stage thisStage = (Stage) node.getScene().getWindow();
-                thisStage.close();
-            }
-            r = clientReader.getMessage();
             if(r.equals("login successful")){
-                networkUtil.write("send my club");
-                Thread.sleep(100);
                 myClub = clientReader.getMyClub();
                 Node node = (Node) event.getSource();
                 Stage thisStage = (Stage) node.getScene().getWindow();

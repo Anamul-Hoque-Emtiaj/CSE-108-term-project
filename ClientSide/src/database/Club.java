@@ -40,41 +40,52 @@ public class Club implements Serializable {
         pendingList = new ArrayList<>();
     }
 
-    public String getPassword() {
+    synchronized public String getPassword() {
         return password;
     }
 
-    public double getBalance() {
+    synchronized public double getBalance() {
         return balance;
     }
 
-    public void changePassword(String password){
+    synchronized public void changePassword(String password){
         this.password = password;
     }
 
-    public void setBalance(double balance) {
+    synchronized public void setBalance(double balance) {
         this.balance = balance;
     }
 
-    public int pendingPlayerCount(){
+    synchronized public int pendingPlayerCount(){
         return pendingList.size();
     }
 
-    public List<Player> getPendingList(){
+    synchronized public List<Player> getPendingList(){
        return pendingList;
     }
 
-    public void addPlayer(Player player){
+    synchronized public void setPlayerList(List<Player> playerList) {
+        this.playerList = playerList;
+    }
+
+    synchronized public void setPendingList(List<Player> pendingList) {
+        this.pendingList = pendingList;
+    }
+
+    synchronized public void addPlayer(Player player){
         playerList.add(player);
         if(!countryList.contains(player.getCountry())){
             countryList.add(player.getCountry());
         }
     }
 
-    public void deletePlayer(Player player){
-        playerList.remove(player);
-        if(pendingList.contains(player)){
-            pendingList.remove(player);
+    synchronized public void deletePlayer(Player player){
+        for (Player p: playerList){
+            if(player.getName().equals(p.getName())){
+                int in = playerList.indexOf(p);
+                playerList.remove(in);
+                break;
+            }
         }
         boolean found = false;
         for (Player p: playerList){
@@ -86,27 +97,34 @@ public class Club implements Serializable {
         if(!found){
             countryList.remove(player.getCountry());
         }
+        for (Player p: pendingList){
+            if(player.getName().equals(p.getName())){
+                int in = pendingList.indexOf(p);
+                pendingList.remove(in);
+                break;
+            }
+        }
     }
 
-    public void sellRequest(Player player){
+    synchronized public void sellRequest(Player player){
         pendingList.add(player);
     }
 
-    public void soldPlayer(Player player, double amount){
+    synchronized public void soldPlayer(Player player, double amount){
         deletePlayer(player);
         balance+=amount;
     }
 
-    public void buyPlayer(Player player, double amount){
+    synchronized public void buyPlayer(Player player, double amount){
         addPlayer(player);
         balance-=amount;
     }
 
-    public void deleteSellRequest(Player player){
+    synchronized public void deleteSellRequest(Player player){
         pendingList.remove(player);
     }
 
-    public double totalYearlySalary(){
+    synchronized public double totalYearlySalary(){
         double salary=0;
         for(Player player: playerList){
             salary+=player.getWeeklySalary();
@@ -114,7 +132,7 @@ public class Club implements Serializable {
         salary*=52.0;
         return salary;
     }
-    public List<Player> playersWithMaximumHeight(){
+    synchronized public List<Player> playersWithMaximumHeight(){
         double max=-1,temp;
         for(Player player: playerList){
             temp = player.getHeight();
@@ -130,7 +148,7 @@ public class Club implements Serializable {
         return searchPlayers;
     }
 
-    public List<Player> playersWithMaximumAge(){
+    synchronized public List<Player> playersWithMaximumAge(){
         double max=-1,temp;
         for(Player player: playerList){
             temp = player.getAge();
@@ -146,7 +164,7 @@ public class Club implements Serializable {
         return searchPlayers;
     }
 
-    public List<Player> playersWithMaximumWeeklySalary(){
+    synchronized public List<Player> playersWithMaximumWeeklySalary(){
         double max=-1,temp;
         for(Player player: playerList){
             temp = player.getWeeklySalary();
@@ -162,7 +180,7 @@ public class Club implements Serializable {
         return searchPlayers;
     }
 
-    public List<Player> playersWithMinimumHeight(){
+    synchronized public List<Player> playersWithMinimumHeight(){
         double min=100000000,temp;
         for(Player player: playerList){
             temp = player.getHeight();
@@ -178,7 +196,7 @@ public class Club implements Serializable {
         return searchPlayers;
     }
 
-    public List<Player> playersWithMinimumAge(){
+    synchronized public List<Player> playersWithMinimumAge(){
         double min=100000000,temp;
         for(Player player: playerList){
             temp = player.getAge();
@@ -194,7 +212,7 @@ public class Club implements Serializable {
         return searchPlayers;
     }
 
-    public List<Player> playersWithMinimumWeeklySalary(){
+    synchronized public List<Player> playersWithMinimumWeeklySalary(){
         double min=1000000000,temp;
         for(Player player: playerList){
             temp = player.getWeeklySalary();
@@ -210,23 +228,23 @@ public class Club implements Serializable {
         return searchPlayers;
     }
 
-    public int playerCount(){
+    synchronized public int playerCount(){
         return playerList.size();
     }
 
-    public List<Player> getPlayerList() {
+    synchronized public List<Player> getPlayerList() {
         return playerList;
     }
 
-    public String getName() {
+    synchronized public String getName() {
         return name;
     }
 
-    public List<String> getCountryList() {
+    synchronized public List<String> getCountryList() {
         return countryList;
     }
 
-    public HashMap<String,Integer> countryWisePlayerCount(){
+    synchronized public HashMap<String,Integer> countryWisePlayerCount(){
         HashMap<String,Integer> result = new HashMap<String, Integer>();
         for(String country: countryList){
             int count = 0;

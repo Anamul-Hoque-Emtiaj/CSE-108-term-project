@@ -52,18 +52,11 @@ public class PlayerSearchingController {
     @FXML
     private ChoiceBox maximum;
 
-    public void load() {
-
-        try {
-            networkUtil.write("clubOwner,sendMyClub");
-            Thread.sleep(50);
-            String s = clientReader.getMessage();
-            networkUtil.write(myClub.getName());
-            Thread.sleep(50);
-            this.myClub = clientReader.getMyClub();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
+    public void load() throws IOException, InterruptedException {
+        networkUtil.write("clubOwner,sendMyClub");
+        networkUtil.write(myClub.getName());
+        Thread.sleep(100);
+        this.myClub = clientReader.getMyClub();
     }
 
     public void init (NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub) {
@@ -97,7 +90,7 @@ public class PlayerSearchingController {
         maximum.setValue("None");
     }
 
-    public void submit(ActionEvent event) {
+    public void submit(ActionEvent event) throws IOException, InterruptedException {
         load();
         String pName = "Any";
         String countryName = (String) country.getValue();
