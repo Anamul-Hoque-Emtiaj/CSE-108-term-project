@@ -159,26 +159,34 @@ public class BuyPlayerController implements Runnable{
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Buy Player");
         alert.setHeaderText("Confirm");
-        alert.setContentText("Buying this Player");
+        alert.setContentText("Buying "+currentPlayer.getName()+" at "+currentPlayer.getAmount());
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get()==ButtonType.OK){
-            networkUtil.write("buy Player");
-            networkUtil.write(myClub.getName());
-            networkUtil.write(currentPlayer);
-            Thread.sleep(100);
-            if(clientReader.getMessage().equals("Successful")){
-                Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
-                alert1.setTitle("Buy Player");
-                alert1.setHeaderText("Successful");
-                alert1.setContentText("Buying Player successful");
-                alert1.showAndWait();
-                load();
+            if(myClub.getBalance()>=currentPlayer.getAmount()){
+                networkUtil.write("buy Player");
+                networkUtil.write(myClub.getName());
+                networkUtil.write(currentPlayer);
+                Thread.sleep(100);
+                if(clientReader.getMessage().equals("Successful")){
+                    Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert1.setTitle("Buy Player");
+                    alert1.setHeaderText("Successful");
+                    alert1.setContentText("Buying Player successful");
+                    alert1.showAndWait();
+                    load();
 
-            }else if(clientReader.getMessage().equals("failed")){
+                }else if(clientReader.getMessage().equals("failed")){
+                    Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                    alert1.setTitle("Buy Player");
+                    alert1.setHeaderText("Failed");
+                    alert1.setContentText("Cannot buy this player");
+                    alert1.showAndWait();
+                }
+            }else {
                 Alert alert1 = new Alert(Alert.AlertType.ERROR);
                 alert1.setTitle("Buy Player");
                 alert1.setHeaderText("Failed");
-                alert1.setContentText("Cannot buy this player");
+                alert1.setContentText("You don't have enough balance for buying this player");
                 alert1.showAndWait();
             }
         }
@@ -194,6 +202,7 @@ public class BuyPlayerController implements Runnable{
                 }
                 if(clientReader.isUpdateNeeded()){
                     load();
+                    clientReader.setUpdateNeeded(false);
                 }
             }
         }catch (Exception e){

@@ -1,6 +1,7 @@
 package client.starting;
 
 import client.Main;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,16 +17,9 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class StartingController {
-    public final String SERVER_ADDRESS = "127.0.0.1";
-    public final int SERVER_PORT = 44444;
     private NetworkUtil networkUtil;
-    public void connect(){
-        try {
-            this.networkUtil = new NetworkUtil(SERVER_ADDRESS, SERVER_PORT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    public void connect(NetworkUtil networkUtil){
+       this.networkUtil = networkUtil;
     }
 
     public void exit(ActionEvent event) {
@@ -37,11 +31,13 @@ public class StartingController {
         if(result.get()==ButtonType.OK){
             try {
                 networkUtil.write("exit");
+                Thread.sleep(50);
                 networkUtil.closeConnection();
                 Node node = (Node) event.getSource();
                 Stage thisStage = (Stage) node.getScene().getWindow();
                 thisStage.close();
-            } catch (IOException e) {
+                Platform.exit();
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         }

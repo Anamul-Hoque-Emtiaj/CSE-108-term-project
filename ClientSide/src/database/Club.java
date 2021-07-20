@@ -79,6 +79,10 @@ public class Club implements Serializable {
         }
     }
 
+    public void setCountryList(List<String> countryList) {
+        this.countryList = countryList;
+    }
+
     synchronized public void deletePlayer(Player player){
         for (Player p: playerList){
             if(player.getName().equals(p.getName())){

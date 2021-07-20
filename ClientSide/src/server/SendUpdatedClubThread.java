@@ -12,6 +12,7 @@ public class SendUpdatedClubThread implements Runnable{
     private Club myClub;
     private List<Player> clubPlayerList;
     private List<Player> clubPlayerPendingList;
+    private List<String> clubCountryList;
     private NetworkUtil networkUtil;
     private String clubName;
     private List<Player> playerList;
@@ -28,7 +29,7 @@ public class SendUpdatedClubThread implements Runnable{
         this.thr = new Thread(this);
         clubPlayerList = new ArrayList<>();
         clubPlayerPendingList = new ArrayList<>();
-        myClub = new Club(clubName);
+        clubCountryList = new ArrayList<>();
         thr.start();
     }
 
@@ -52,6 +53,14 @@ public class SendUpdatedClubThread implements Runnable{
             }
         }
         myClub.setPendingList(clubPlayerPendingList);
+        for (Player player: playerList){
+            if(player.getClub().equals(myClub.getName())){
+                if(!clubCountryList.contains(player.getCountry())){
+                    clubCountryList.add(player.getCountry());
+                }
+            }
+        }
+        myClub.setCountryList(clubCountryList);
         try {
             networkUtil.write(myClub);
         } catch (IOException e) {

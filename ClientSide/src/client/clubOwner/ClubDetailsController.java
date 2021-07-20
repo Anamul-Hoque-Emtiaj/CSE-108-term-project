@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 
-public class PlayerCountController {
+public class ClubDetailsController {
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
     private Club myClub;

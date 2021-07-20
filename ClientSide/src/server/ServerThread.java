@@ -5,13 +5,14 @@ import database.Player;
 import util.NetworkUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class ServerThread implements Runnable{
     private Thread thr;
     private NetworkUtil networkUtil;
-    private List<NetworkUtil>networkUtilList;
+    private static List<NetworkUtil>networkUtilList;
     private static List<Player> playerList;
     private static List<Club> clubList;
     private static List<String> countryList;
@@ -29,10 +30,10 @@ public class ServerThread implements Runnable{
         clubList = clubLists;
         countryList = countryLists;
         pendingPlayerList = pendingPlayerLists;
+        networkUtilList = new ArrayList<>();
     }
 
-    public void sendUpdatedPlayerList(){
-        networkUtilList = Server.getNetworkUtilList();
+    public void sendUpdatedPlayerListToAll(){
         new PlayerSellThread(networkUtilList,pendingPlayerList);
     }
 
@@ -40,9 +41,12 @@ public class ServerThread implements Runnable{
         new SendUpdatedClubThread(networkUtil,clubName,playerList,clubList,pendingPlayerList);
     }
 
-    public void printPlayerList(){
-        System.out.println(playerList.size());
-        System.out.println(pendingPlayerList.size());
+    public void sendUpdatedClubToAll(String clubName){
+        for (NetworkUtil util: networkUtilList){
+            if(util.getClientName().equals(clubName)){
+                new SendUpdatedClubThread(util,clubName,playerList,clubList,pendingPlayerList);
+            }
+        }
     }
 
     public void run() {
@@ -61,6 +65,8 @@ public class ServerThread implements Runnable{
                             networkUtil.write("login successful");
                             sendUpdatedClub(club.getName());
                             isValidClub = true;
+                            networkUtil.setClientName(club.getName());
+                            networkUtilList.add(networkUtil);
                             break;
                         }
                     }
@@ -100,6 +106,7 @@ public class ServerThread implements Runnable{
                             break;
                         }
                     }
+                    sendUpdatedClubToAll(p.getClub());
                 }else if(str.equals("clubOwner,sellRequest")){
                     String s = (String) networkUtil.read();
                     String[] info = s.split(",");
@@ -130,7 +137,8 @@ public class ServerThread implements Runnable{
                             }
                         }
                         networkUtil.write("request accepted");
-                        sendUpdatedPlayerList();
+                        sendUpdatedPlayerListToAll();
+                        sendUpdatedClubToAll(clubName);
                     }
                 }else if(str.equals("clubOwner,deletePlayer")){
                     Player player = (Player) networkUtil.read();
@@ -163,7 +171,8 @@ public class ServerThread implements Runnable{
                             break;
                         }
                     }
-                    sendUpdatedPlayerList();
+                    sendUpdatedPlayerListToAll();
+                    sendUpdatedClubToAll(player.getClub());
                 }else if(str.equals("Add player")){
                     Player player = (Player) networkUtil.read();
                     boolean canAdded = true;
@@ -184,6 +193,7 @@ public class ServerThread implements Runnable{
                             }
                         }
                         networkUtil.write("Player Added successfully");
+                        sendUpdatedClubToAll(player.getClub());
                     }else {
                         networkUtil.write("Adding failed");
                     }
@@ -197,8 +207,9 @@ public class ServerThread implements Runnable{
                             break;
                         }
                     }
+                    sendUpdatedClubToAll(auth[0]);
                 }else if(str.equals("send updated buy list")){
-                    sendUpdatedPlayerList();
+                    networkUtil.write(pendingPlayerList);
                 }else if(str.equals("delete request")){
                     Player player = (Player) networkUtil.read();
                     for (Player p: pendingPlayerList){
@@ -222,7 +233,8 @@ public class ServerThread implements Runnable{
                             club.deleteSellRequest(player);
                         }
                     }
-                    sendUpdatedPlayerList();
+                    sendUpdatedClubToAll(player.getClub());
+                    sendUpdatedPlayerListToAll();
                 }else if(str.equals("buy Player")){
                     String newClubName = (String) networkUtil.read();
                     Player player = (Player) networkUtil.read();
@@ -258,13 +270,24 @@ public class ServerThread implements Runnable{
                             }
                         }
                         networkUtil.write("Successful");
-                        sendUpdatedPlayerList();
+                        sendUpdatedPlayerListToAll();
+                        sendUpdatedClubToAll(newClubName);
+                        sendUpdatedClubToAll(oldClubName);
                     }else {
                         networkUtil.write("failed");
                     }
+                }else if(str.equals("logout")){
+                    String clubName = (String) networkUtil.read();
+                    for (NetworkUtil util: networkUtilList){
+                        if(util.getClientName().equals(clubName)){
+                            int in = networkUtilList.indexOf(util);
+                            networkUtilList.remove(in);
+                            break;
+                        }
+                    }
                 }
                 else if(str.equals("exit")){
-                    for (NetworkUtil util: Server.getNetworkUtilList() ){
+                    for (NetworkUtil util: networkUtilList ){
                         util.closeConnection();
                     }
                     Server.exit(playerList,clubList);

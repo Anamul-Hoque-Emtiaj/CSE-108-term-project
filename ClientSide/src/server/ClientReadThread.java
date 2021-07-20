@@ -23,8 +23,11 @@ public class ClientReadThread implements Runnable{
     }
 
     public List<Player> getUpdatedBuyList(){
-        updateNeeded = false;
         return updatedBuyList;
+    }
+
+    public void setUpdateNeeded(boolean updateNeeded) {
+        this.updateNeeded = updateNeeded;
     }
 
     public String getMessage(){

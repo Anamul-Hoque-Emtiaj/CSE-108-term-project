@@ -42,7 +42,7 @@
             <Font size="13.0" />
          </font>
       </Button>
-      <Button layoutX="40.0" layoutY="235.0" mnemonicParsing="false" onAction="#playerCount" prefHeight="31.0" prefWidth="138.0" text="Player Count">
+      <Button layoutX="40.0" layoutY="235.0" mnemonicParsing="false" onAction="#clubDetails" prefHeight="31.0" prefWidth="138.0" text="Club Details">
          <font>
             <Font size="15.0" />
          </font>

@@ -141,10 +141,10 @@ public class PendingRequestController implements Runnable{
     public void run() {
         try {
             while (true){
-                boolean needUpdate = clientReader.isUpdateNeeded();
-                if(needUpdate){
+                if(clientReader.isUpdateNeeded()){
                     System.out.println("need update");
                     load();
+                    clientReader.setUpdateNeeded(false);
                 }
                 if(endThread){
                     break;

@@ -126,21 +126,22 @@ public class MenuController {
         alert.setContentText("You have wanted to log out");
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get()==ButtonType.OK){
+            networkUtil.write("logout");
+            networkUtil.write(myClub.getName());
             Node node = (Node) event.getSource();
             Stage thisStage = (Stage) node.getScene().getWindow();
             thisStage.close();
         }
-
     }
 
-    public void playerCount(ActionEvent event) {
+    public void clubDetails(ActionEvent event) {
         Node node = (Node) event.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("clubOwner/playerCount.fxml"));
+        loader.setLocation(Main.class.getResource("clubOwner/clubDetails.fxml"));
         try {
             Parent root = loader.load();
-            PlayerCountController controller = (PlayerCountController) loader.getController();
+            ClubDetailsController controller = (ClubDetailsController) loader.getController();
             controller.init(networkUtil,clientReader,myClub);
             Scene scene = new Scene(root, 600, 400);
             thisStage.setTitle("Add Player");

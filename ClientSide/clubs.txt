@@ -1,7 +1,8 @@
 Manchester United,Manchester United,1000000.0,0
 Manchester City,Manchester City,1000000.0,0
-Chelsea,12345,1080603.0,1
-Pierre-Emerick Aubameyang,645.0
-Liverpool,Liverpool,1465910.0,0
-Arsenal,Arsenal,453999.0,1
-Mohamed Salah,5465.0
+Chelsea,12345,1075783.0,1
+Mohamed Salah,56465.0
+Liverpool,Liverpool,1465265.0,2
+Pierre-Emerick Aubameyang,5464.0
+Virgil van Dijk,56.0
+Arsenal,Arsenal,459464.0,0
