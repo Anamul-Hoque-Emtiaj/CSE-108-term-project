@@ -70,9 +70,6 @@ public class MenuController {
             Parent root = loader.load();
             BuyPlayerController controller = (BuyPlayerController) loader.getController();
             controller.init(networkUtil,clientReader,myClub);
-            Thread thr = new Thread(controller);
-            thr.start();
-
             Scene scene = new Scene(root, 600, 400);
             thisStage.setTitle("Add Player");
             thisStage.setScene(scene);
@@ -108,9 +105,6 @@ public class MenuController {
             Parent root = loader.load();
             PendingRequestController controller = (PendingRequestController) loader.getController();
             controller.init(networkUtil,clientReader,myClub);
-            Thread thr = new Thread(controller);
-            thr.start();
-
             Scene scene = new Scene(root, 600, 400);
             thisStage.setTitle("Add Player");
             thisStage.setScene(scene);

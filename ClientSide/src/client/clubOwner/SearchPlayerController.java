@@ -69,11 +69,13 @@ public class SearchPlayerController {
         this.clientReader = clientReader;
         this.myClub = myClub;
         this.playerList = list;
-        load();
+        currentPlayer = new Player();
+        load(myClub);
+        clientReader.setSearchPlayer(this);
     }
 
-    public void load(){
-        age.setText(null);
+    public void load(Club c){
+        /*age.setText(null);
         position.setText(null);
         height.setText(null);
         number.setText(null);
@@ -85,14 +87,54 @@ public class SearchPlayerController {
         edit.setText(null);
         delete.setText(null);
         imageView.setImage(null);
-        currentPlayer = null;
+        currentPlayer = null;*/
+
+        myClub = c;
 
         ObservableList names = FXCollections.observableArrayList();
         for (Player player: playerList){
-            names.add(player.getName());
+            for (Player p: myClub.getPlayerList()){
+                if(player.getName().equals(p.getName())){
+                    names.add(player.getName());
+                }
+            }
         }
 
         listView.setItems(names);
+
+        int in = 0;
+        if(names.contains(currentPlayer.getName())){
+            in = names.indexOf(currentPlayer.getName());
+        }
+        listView.getSelectionModel().select(in);
+
+        String pName = (String) names.get(in);
+        for(Player player: playerList){
+            if(player.getName().equals(pName)){
+                currentPlayer = player;
+                break;
+            }
+        }
+        age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
+        position.setText("Position: "+currentPlayer.getPosition());
+        height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
+        number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
+        salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
+        club.setText("Club: "+currentPlayer.getClub());
+        country.setText("Country: "+currentPlayer.getCountry());
+        name.setText("Name: "+currentPlayer.getName());
+        sell.setText("Sell");
+        edit.setText("Edit");
+        delete.setText("Delete");
+
+        try {
+            System.out.println(currentPlayer.getImageName());
+            File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
+            Image image = new Image(new FileInputStream(img));
+            imageView.setImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         listView.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldValue, newValue) -> {
@@ -102,42 +144,31 @@ public class SearchPlayerController {
                             break;
                         }
                     }
-                    if(currentPlayer!=null){
-                        age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
-                        position.setText("Position: "+currentPlayer.getPosition());
-                        height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
-                        number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
-                        salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
-                        club.setText("Club: "+currentPlayer.getClub());
-                        country.setText("Country: "+currentPlayer.getCountry());
-                        name.setText("Name: "+currentPlayer.getName());
-                        sell.setText("Sell");
-                        edit.setText("Edit");
-                        delete.setText("Delete");
+                    age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
+                    position.setText("Position: "+currentPlayer.getPosition());
+                    height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
+                    number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
+                    salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
+                    club.setText("Club: "+currentPlayer.getClub());
+                    country.setText("Country: "+currentPlayer.getCountry());
+                    name.setText("Name: "+currentPlayer.getName());
+                    sell.setText("Sell");
+                    edit.setText("Edit");
+                    delete.setText("Delete");
 
-                        try {
-                            System.out.println(currentPlayer.getImageName());
-                            File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
-                            Image image = new Image(new FileInputStream(img));
-                            imageView.setImage(image);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    try {
+                        System.out.println(currentPlayer.getImageName());
+                        File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
+                        Image image = new Image(new FileInputStream(img));
+                        imageView.setImage(image);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
         );
     }
 
     public void back(ActionEvent event) {
-        try {
-            networkUtil.write("clubOwner,sendMyClub");
-            networkUtil.write(myClub.getName());
-            Thread.sleep(100);
-            this.myClub = clientReader.getMyClub();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
-
         Node node = (Node) event.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
@@ -155,23 +186,23 @@ public class SearchPlayerController {
     }
 
     public void edit(ActionEvent event) {
-        Node node = (Node) event.getSource();
-        Stage thisStage = (Stage) node.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main.class.getResource("clubOwner/playerEdit.fxml"));
         try {
             Parent root = loader.load();
             PlayerEditController controller = (PlayerEditController) loader.getController();
-            controller.init(networkUtil,clientReader,myClub,currentPlayer,playerList);
+            controller.init(networkUtil,clientReader,myClub,currentPlayer);
             Scene scene = new Scene(root, 600, 400);
-            thisStage.setTitle("Edit Player Info");
-            thisStage.setScene(scene);
+            Stage stage = new Stage();
+            stage.setTitle("Edit Player Info");
+            stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(ActionEvent event) throws IOException {
+    public void delete(ActionEvent event) throws IOException, InterruptedException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete");
         alert.setHeaderText("Warning!!");
@@ -181,8 +212,7 @@ public class SearchPlayerController {
 
             networkUtil.write("clubOwner,deletePlayer");
             networkUtil.write(currentPlayer);
-            playerList.remove(currentPlayer);
-            load();
+            //playerList.remove(currentPlayer);
         }
     }
 

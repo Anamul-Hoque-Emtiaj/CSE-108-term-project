@@ -36,9 +36,13 @@ public class ClubDetailsController {
             networkUtil.write(myClub.getName());
             Thread.sleep(100);
             this.myClub = clientReader.getMyClub();
+            load(myClub);
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
+    }
+    public void load(Club c){
+        myClub = c;
         HashMap<String, Integer> playerCount = myClub.countryWisePlayerCount();
         for (String country: playerCount.keySet()){
             int count = playerCount.get(country);

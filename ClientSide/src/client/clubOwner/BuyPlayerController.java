@@ -29,14 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class BuyPlayerController implements Runnable{
+public class BuyPlayerController{
 
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
     private Club myClub;
     private List<Player> playerList;
     private Player currentPlayer;
-    private boolean endThread;
 
     @FXML
     private ListView listView;
@@ -67,19 +66,21 @@ public class BuyPlayerController implements Runnable{
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
         this.myClub = myClub;
-        endThread = false;
+        currentPlayer = new Player();
         playerList = new ArrayList<>();
         try {
             networkUtil.write("send updated buy list");
             Thread.sleep(100);
-            load();
+            playerList = clientReader.getUpdatedBuyList();
+            load(playerList);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        clientReader.setBuyPlayer(this);
     }
 
-    public void load(){
-        System.out.println("loaded");
+    public void load(List<Player>pList){
+       /* System.out.println("loaded");
         age.setText(null);
         position.setText(null);
         height.setText(null);
@@ -91,9 +92,9 @@ public class BuyPlayerController implements Runnable{
         buy.setText(null);
         amount.setText(null);
         imageView.setImage(null);
-        currentPlayer = null;
+        currentPlayer = null;*/
 
-        playerList = clientReader.getUpdatedBuyList();
+        playerList = pList;
 
         ObservableList names = FXCollections.observableArrayList();
         for (Player player: playerList){
@@ -101,8 +102,40 @@ public class BuyPlayerController implements Runnable{
                 names.add(player.getName());
             }
         }
-
         listView.setItems(names);
+
+        int in = 0;
+        if(names.contains(currentPlayer.getName())){
+            in = names.indexOf(currentPlayer.getName());
+        }
+        String pName = (String) names.get(in);
+        for(Player player: playerList){
+            if(player.getName().equals(pName)){
+                currentPlayer = player;
+                break;
+            }
+        }
+        age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
+        position.setText("Position: "+currentPlayer.getPosition());
+        height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
+        number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
+        salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
+        club.setText("Club: "+currentPlayer.getClub());
+        country.setText("Country: "+currentPlayer.getCountry());
+        name.setText("Name: "+currentPlayer.getName());
+        buy.setText("Buy Player");
+        amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
+
+        try {
+            System.out.println(currentPlayer.getImageName());
+            File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
+            Image image = new Image(new FileInputStream(img));
+            imageView.setImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        listView.getSelectionModel().select(in);
 
         listView.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldValue, newValue) -> {
@@ -112,33 +145,30 @@ public class BuyPlayerController implements Runnable{
                             break;
                         }
                     }
-                    if(currentPlayer!=null){
-                        age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
-                        position.setText("Position: "+currentPlayer.getPosition());
-                        height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
-                        number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
-                        salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
-                        club.setText("Club: "+currentPlayer.getClub());
-                        country.setText("Country: "+currentPlayer.getCountry());
-                        name.setText("Name: "+currentPlayer.getName());
-                        buy.setText("Buy Player");
-                        amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
+                    age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
+                    position.setText("Position: "+currentPlayer.getPosition());
+                    height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
+                    number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
+                    salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
+                    club.setText("Club: "+currentPlayer.getClub());
+                    country.setText("Country: "+currentPlayer.getCountry());
+                    name.setText("Name: "+currentPlayer.getName());
+                    buy.setText("Buy Player");
+                    amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
 
-                        try {
-                            System.out.println(currentPlayer.getImageName());
-                            File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
-                            Image image = new Image(new FileInputStream(img));
-                            imageView.setImage(image);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    try {
+                        System.out.println(currentPlayer.getImageName());
+                        File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
+                        Image image = new Image(new FileInputStream(img));
+                        imageView.setImage(image);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
         );
     }
 
     public void back(ActionEvent event) {
-        endThread = true;
         Node node = (Node) event.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
@@ -173,7 +203,6 @@ public class BuyPlayerController implements Runnable{
                     alert1.setHeaderText("Successful");
                     alert1.setContentText("Buying Player successful");
                     alert1.showAndWait();
-                    load();
 
                 }else if(clientReader.getMessage().equals("failed")){
                     Alert alert1 = new Alert(Alert.AlertType.ERROR);
@@ -189,24 +218,6 @@ public class BuyPlayerController implements Runnable{
                 alert1.setContentText("You don't have enough balance for buying this player");
                 alert1.showAndWait();
             }
-        }
-
-    }
-
-    @Override
-    public void run() {
-        try {
-            while (true){
-                if(endThread){
-                    break;
-                }
-                if(clientReader.isUpdateNeeded()){
-                    load();
-                    clientReader.setUpdateNeeded(false);
-                }
-            }
-        }catch (Exception e){
-            System.out.println(e);
         }
     }
 }

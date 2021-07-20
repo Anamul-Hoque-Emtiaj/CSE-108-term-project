@@ -27,6 +27,7 @@ public class SendUpdatedClubThread implements Runnable{
         this.pendingPlayerList = pendingPlayerList;
         this.networkUtil = networkUtil;
         this.thr = new Thread(this);
+        myClub = new Club(clubName);
         clubPlayerList = new ArrayList<>();
         clubPlayerPendingList = new ArrayList<>();
         clubCountryList = new ArrayList<>();
@@ -35,33 +36,32 @@ public class SendUpdatedClubThread implements Runnable{
 
     @Override
     public void run() {
-
-        for (Club club: clubList){
-            if(club.getName().equals(clubName)){
-                myClub = club;
-            }
-        }
-        for (Player player: playerList){
-            if(player.getClub().equals(myClub.getName())){
-                clubPlayerList.add(player);
-            }
-        }
-        myClub.setPlayerList(clubPlayerList);
-        for (Player player: pendingPlayerList){
-            if(player.getClub().equals(myClub.getName())){
-                clubPlayerPendingList.add(player);
-            }
-        }
-        myClub.setPendingList(clubPlayerPendingList);
-        for (Player player: playerList){
-            if(player.getClub().equals(myClub.getName())){
-                if(!clubCountryList.contains(player.getCountry())){
-                    clubCountryList.add(player.getCountry());
+        try {
+            for (Club club: clubList){
+                if(club.getName().equals(clubName)){
+                    myClub = club;
                 }
             }
-        }
-        myClub.setCountryList(clubCountryList);
-        try {
+            for (Player player: playerList){
+                if(player.getClub().equals(myClub.getName())){
+                    clubPlayerList.add(player);
+                }
+            }
+            myClub.setPlayerList(clubPlayerList);
+            for (Player player: pendingPlayerList){
+                if(player.getClub().equals(myClub.getName())){
+                    clubPlayerPendingList.add(player);
+                }
+            }
+            myClub.setPendingList(clubPlayerPendingList);
+            for (Player player: playerList){
+                if(player.getClub().equals(myClub.getName())){
+                    if(!clubCountryList.contains(player.getCountry())){
+                        clubCountryList.add(player.getCountry());
+                    }
+                }
+            }
+            myClub.setCountryList(clubCountryList);
             networkUtil.write(myClub);
         } catch (IOException e) {
             e.printStackTrace();

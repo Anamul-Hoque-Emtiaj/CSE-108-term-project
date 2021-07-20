@@ -1,7 +1,12 @@
 package server;
 
+import client.clubOwner.BuyPlayerController;
+import client.clubOwner.ClubDetailsController;
+import client.clubOwner.PendingRequestController;
+import client.clubOwner.SearchPlayerController;
 import database.Club;
 import database.Player;
+import javafx.application.Platform;
 import util.NetworkUtil;
 
 import java.io.IOException;
@@ -14,20 +19,59 @@ public class ClientReadThread implements Runnable{
     private List<Player> updatedBuyList;
     private Club myClub;
     private String message;
-    private boolean updateNeeded;
+    private SearchPlayerController searchPlayer;
+    private ClubDetailsController clubDetails;
+    private PendingRequestController myPendingPlayers;
+    private BuyPlayerController buyPlayer;
+    private Boolean activeSearchPlayer;
+    private Boolean activeClubDetails;
+    private Boolean activeMyPendingPlayers;
+    private Boolean activeBuyPlayer;
 
     public ClientReadThread(NetworkUtil networkUtil) {
         this.networkUtil = networkUtil;
         this.thr = new Thread(this);
         thr.start();
+        activeSearchPlayer = false;
+        activeClubDetails = false;
+        activeBuyPlayer = false;
+        activeMyPendingPlayers = false;
+    }
+
+    public void setSearchPlayer(SearchPlayerController searchPlayer) {
+        this.searchPlayer = searchPlayer;
+        activeSearchPlayer = true;
+        activeClubDetails = false;
+        activeBuyPlayer = false;
+        activeMyPendingPlayers = false;
+    }
+
+    public void setClubDetails(ClubDetailsController clubDetails) {
+        this.clubDetails = clubDetails;
+        activeSearchPlayer = false;
+        activeClubDetails = true;
+        activeBuyPlayer = false;
+        activeMyPendingPlayers = false;
+    }
+
+    public void setMyPendingPlayers(PendingRequestController myPendingPlayers) {
+        this.myPendingPlayers = myPendingPlayers;
+        activeSearchPlayer = false;
+        activeClubDetails = false;
+        activeBuyPlayer = false;
+        activeMyPendingPlayers = true;
+    }
+
+    public void setBuyPlayer(BuyPlayerController buyPlayer) {
+        this.buyPlayer = buyPlayer;
+        activeSearchPlayer = false;
+        activeClubDetails = false;
+        activeBuyPlayer = true;
+        activeMyPendingPlayers = false;
     }
 
     public List<Player> getUpdatedBuyList(){
         return updatedBuyList;
-    }
-
-    public void setUpdateNeeded(boolean updateNeeded) {
-        this.updateNeeded = updateNeeded;
     }
 
     public String getMessage(){
@@ -36,10 +80,6 @@ public class ClientReadThread implements Runnable{
 
     public Club getMyClub() {
         return myClub;
-    }
-
-    public boolean isUpdateNeeded() {
-        return updateNeeded;
     }
 
     public Thread getThr() {
@@ -56,11 +96,33 @@ public class ClientReadThread implements Runnable{
                 }else if(receivedFile instanceof Club){
                     myClub = (Club) receivedFile;
                     System.out.println("Client receive club: "+myClub.getName());
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(activeSearchPlayer){
+                                searchPlayer.load(myClub);
+                            }
+                            if(activeClubDetails){
+                                clubDetails.load(myClub);
+                            }
+                        }
+                    });
+
                 }else {
                     updatedBuyList = (List<Player>) receivedFile;
-                    updateNeeded = true;
-                    System.out.println(isUpdateNeeded());
                     System.out.println("Client receive updatedPlayerList: "+updatedBuyList.size());
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(activeBuyPlayer){
+                                buyPlayer.load(updatedBuyList);
+                            }
+                            if(activeMyPendingPlayers){
+                                myPendingPlayers.load(updatedBuyList);
+                            }
+                        }
+                    });
+
                 }
             }
         } catch (Exception e) {

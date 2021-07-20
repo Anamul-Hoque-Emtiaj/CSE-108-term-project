@@ -33,7 +33,6 @@ import java.util.List;
 public class PlayerEditController {
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
-    private List<Player> playerList;
     private Club myClub;
     private Player player;
 
@@ -56,12 +55,11 @@ public class PlayerEditController {
     @FXML
     private Text fileName;
 
-    public void init(NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub,Player player,List<Player>list){
+    public void init(NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub,Player player){
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
         this.myClub = myClub;
         this.player = player;
-        playerList = list;
         name.setText(player.getName());
         club.setText(player.getClub());
         country.setText(player.getCountry());
@@ -71,23 +69,6 @@ public class PlayerEditController {
         salary.setText(String.valueOf(player.getWeeklySalary()));
         number.setText(String.valueOf(player.getNumber()));
         fileName.setText(player.getImageName());
-    }
-
-    public void goToPreviousScene(ActionEvent event){
-        Node node = (Node) event.getSource();
-        Stage thisStage = (Stage) node.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("clubOwner/searchPlayer.fxml"));
-        try {
-            Parent root = loader.load();
-            SearchPlayerController controller = (SearchPlayerController) loader.getController();
-            controller.init(networkUtil,clientReader,myClub,playerList);
-            Scene scene = new Scene(root, 600, 400);
-            thisStage.setTitle("Player's Details");
-            thisStage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void chooseFile(ActionEvent event) {
@@ -129,20 +110,7 @@ public class PlayerEditController {
 
            networkUtil.write("clubOwner,editPlayer");
            networkUtil.write(player);
-           networkUtil.write("clubOwner,sendMyClub");
-           networkUtil.write(myClub.getName());
-           Thread.sleep(100);
-           this.myClub = clientReader.getMyClub();
-           List<Player> newList = new ArrayList<>();
-           for(Player player1: myClub.getPlayerList()){
-               for(Player player2: playerList){
-                   if(player2.getName().equals(player1.getName())){
-                       newList.add(player1);
-                       break;
-                   }
-               }
-           }
-           this.playerList = newList;
+
        }catch (Exception e){
            Alert alert = new Alert(Alert.AlertType.ERROR);
            alert.setTitle("Error");
@@ -150,11 +118,15 @@ public class PlayerEditController {
            alert.setContentText("Invalid Input Given");
            alert.showAndWait();
        }finally {
-           goToPreviousScene(event);
+           Node node = (Node) event.getSource();
+           Stage thisStage = (Stage) node.getScene().getWindow();
+           thisStage.close();
        }
     }
 
     public void cancel(ActionEvent event) {
-        goToPreviousScene(event);
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        thisStage.close();
     }
 }

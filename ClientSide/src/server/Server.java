@@ -121,11 +121,11 @@ public class Server {
     public static void exit(List<Player> playerList,List<Club> clubList){
         Server.playerList = playerList;
         Server.clubList = clubList;
-        try {
+        /*try {
             writeToFile();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         System.exit(1);
     }
 
