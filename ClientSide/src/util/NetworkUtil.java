@@ -9,7 +9,6 @@ public class NetworkUtil {
     private Socket socket;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
-    private String clientName;
 
     public NetworkUtil(String s, int port) throws IOException {
         this.socket = new Socket(s, port);
@@ -21,14 +20,6 @@ public class NetworkUtil {
         this.socket = s;
         oos = new ObjectOutputStream(socket.getOutputStream());
         ois = new ObjectInputStream(socket.getInputStream());
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-    public String getClientName() {
-        return clientName;
     }
 
     public Object read() throws IOException, ClassNotFoundException {

@@ -6,17 +6,18 @@ import util.NetworkUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class ServerThread implements Runnable{
     private Thread thr;
     private NetworkUtil networkUtil;
-    private static List<NetworkUtil>networkUtilList;
     private static List<Player> playerList;
     private static List<Club> clubList;
     private static List<String> countryList;
     private static List<Player> pendingPlayerList;
+    private static HashMap<NetworkUtil,String> networkUtilStringHashMap;
 
 
     public ServerThread(NetworkUtil networkUtil) {
@@ -30,11 +31,11 @@ public class ServerThread implements Runnable{
         clubList = clubLists;
         countryList = countryLists;
         pendingPlayerList = pendingPlayerLists;
-        networkUtilList = new ArrayList<>();
+        networkUtilStringHashMap = new HashMap<>();
     }
 
     public void sendUpdatedPlayerListToAll(){
-        new PlayerSellThread(networkUtilList,pendingPlayerList);
+        new PlayerSellThread(networkUtilStringHashMap,pendingPlayerList);
     }
 
     public void sendUpdatedClub(String clubName){
@@ -42,11 +43,7 @@ public class ServerThread implements Runnable{
     }
 
     public void sendUpdatedClubToAll(String clubName){
-        for (NetworkUtil util: networkUtilList){
-            if(util.getClientName().equals(clubName)){
-                new SendUpdatedClubThread(util,clubName,playerList,clubList,pendingPlayerList);
-            }
-        }
+        new SendUpdatedClubToAllThread(networkUtilStringHashMap,clubName,playerList,clubList,pendingPlayerList);
     }
 
     public void run() {
@@ -64,9 +61,8 @@ public class ServerThread implements Runnable{
                         if(club.getName().equals(auth[0].trim())&& club.getPassword().equals(auth[1].trim())){
                             networkUtil.write("login successful");
                             sendUpdatedClub(club.getName());
+                            networkUtilStringHashMap.put(networkUtil,club.getName());
                             isValidClub = true;
-                            networkUtil.setClientName(club.getName());
-                            networkUtilList.add(networkUtil);
                             break;
                         }
                     }
@@ -278,16 +274,10 @@ public class ServerThread implements Runnable{
                     }
                 }else if(str.equals("logout")){
                     String clubName = (String) networkUtil.read();
-                    for (NetworkUtil util: networkUtilList){
-                        if(util.getClientName().equals(clubName)){
-                            int in = networkUtilList.indexOf(util);
-                            networkUtilList.remove(in);
-                            break;
-                        }
-                    }
+                    networkUtilStringHashMap.remove(networkUtil);
                 }
                 else if(str.equals("exit")){
-                    for (NetworkUtil util: networkUtilList ){
+                    for (NetworkUtil util: networkUtilStringHashMap.keySet() ){
                         util.closeConnection();
                     }
                     Server.exit(playerList,clubList);

@@ -69,33 +69,15 @@ public class BuyPlayerController{
         currentPlayer = new Player();
         playerList = new ArrayList<>();
         try {
+            clientReader.setBuyPlayer(this);
             networkUtil.write("send updated buy list");
-            Thread.sleep(100);
-            playerList = clientReader.getUpdatedBuyList();
-            load(playerList);
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        clientReader.setBuyPlayer(this);
     }
 
     public void load(List<Player>pList){
-       /* System.out.println("loaded");
-        age.setText(null);
-        position.setText(null);
-        height.setText(null);
-        number.setText(null);
-        salary.setText(null);
-        club.setText(null);
-        country.setText(null);
-        name.setText(null);
-        buy.setText(null);
-        amount.setText(null);
-        imageView.setImage(null);
-        currentPlayer = null;*/
-
         playerList = pList;
-
         ObservableList names = FXCollections.observableArrayList();
         for (Player player: playerList){
             if(!player.getClub().equals(myClub.getName())){
@@ -104,38 +86,41 @@ public class BuyPlayerController{
         }
         listView.setItems(names);
 
-        int in = 0;
-        if(names.contains(currentPlayer.getName())){
-            in = names.indexOf(currentPlayer.getName());
-        }
-        String pName = (String) names.get(in);
-        for(Player player: playerList){
-            if(player.getName().equals(pName)){
-                currentPlayer = player;
-                break;
+        if(names.size()>0){
+            int in = 0;
+            if(names.contains(currentPlayer.getName())){
+                in = names.indexOf(currentPlayer.getName());
+            }
+            listView.getSelectionModel().select(in);
+            String pName = (String) names.get(in);
+            for(Player player: playerList){
+                if(player.getName().equals(pName)){
+                    currentPlayer = player;
+                    break;
+                }
+            }
+
+            age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
+            position.setText("Position: "+currentPlayer.getPosition());
+            height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
+            number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
+            salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
+            club.setText("Club: "+currentPlayer.getClub());
+            country.setText("Country: "+currentPlayer.getCountry());
+            name.setText("Name: "+currentPlayer.getName());
+            buy.setText("Buy Player");
+            amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
+
+            try {
+                System.out.println(currentPlayer.getImageName());
+                File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
+                Image image = new Image(new FileInputStream(img));
+                imageView.setImage(image);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
-        position.setText("Position: "+currentPlayer.getPosition());
-        height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
-        number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
-        salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
-        club.setText("Club: "+currentPlayer.getClub());
-        country.setText("Country: "+currentPlayer.getCountry());
-        name.setText("Name: "+currentPlayer.getName());
-        buy.setText("Buy Player");
-        amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
 
-        try {
-            System.out.println(currentPlayer.getImageName());
-            File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
-            Image image = new Image(new FileInputStream(img));
-            imageView.setImage(image);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        listView.getSelectionModel().select(in);
 
         listView.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldValue, newValue) -> {

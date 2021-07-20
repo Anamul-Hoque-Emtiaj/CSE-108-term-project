@@ -6,26 +6,27 @@ import util.NetworkUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class SendUpdatedClubThread implements Runnable{
+public class SendUpdatedClubToAllThread implements Runnable{
     private Club myClub;
     private List<Player> clubPlayerList;
     private List<Player> clubPlayerPendingList;
     private List<String> clubCountryList;
-    private NetworkUtil networkUtil;
+    private HashMap<NetworkUtil, String> map;
     private String clubName;
     private List<Player> playerList;
     private List<Club> clubList;
     private List<Player> pendingPlayerList;
     private Thread thr;
 
-    public SendUpdatedClubThread(NetworkUtil networkUtil, String clubName, List<Player> playerList, List<Club> clubList, List<Player> pendingPlayerList) {
+    public SendUpdatedClubToAllThread(HashMap<NetworkUtil, String> map, String clubName, List<Player> playerList, List<Club> clubList, List<Player> pendingPlayerList) {
         this.clubName = clubName;
         this.playerList = playerList;
         this.clubList = clubList;
         this.pendingPlayerList = pendingPlayerList;
-        this.networkUtil = networkUtil;
+        this.map = map;
         this.thr = new Thread(this);
         clubPlayerList = new ArrayList<>();
         clubPlayerPendingList = new ArrayList<>();
@@ -59,10 +60,15 @@ public class SendUpdatedClubThread implements Runnable{
                         }
                     }
                     myClub.setCountryList(clubCountryList);
-                    networkUtil.write(myClub);
+                    for (NetworkUtil util: map.keySet()){
+                        if(map.get(util).equals(clubName)){
+                            util.write(myClub);
+                        }
+                    }
                     break;
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

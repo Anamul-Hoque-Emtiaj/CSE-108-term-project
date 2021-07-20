@@ -68,71 +68,57 @@ public class PendingRequestController{
         playerList = new ArrayList<>();
         currentPlayer = new Player();
         try {
+            clientReader.setMyPendingPlayers(this);
             networkUtil.write("send updated buy list");
-            Thread.sleep(100);
-            load(clientReader.getUpdatedBuyList());
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        clientReader.setMyPendingPlayers(this);
+
     }
 
     public void load(List<Player>pList){
-        /*System.out.println("loaded");
-        age.setText(null);
-        position.setText(null);
-        height.setText(null);
-        number.setText(null);
-        salary.setText(null);
-        club.setText(null);
-        country.setText(null);
-        name.setText(null);
-        delete.setText(null);
-        amount.setText(null);
-        imageView.setImage(null);
-        currentPlayer = null;*/
-
         playerList = pList;
-
         ObservableList names = FXCollections.observableArrayList();
         for (Player player: playerList){
             if(player.getClub().equals(myClub.getName())){
                 names.add(player.getName());
             }
         }
-
         listView.setItems(names);
 
-        int in = 0;
-        if(names.contains(currentPlayer.getName())){
-            in = names.indexOf(currentPlayer.getName());
-        }
-        listView.getSelectionModel().select(in);
-        String pName = (String) names.get(in);
-        for(Player player: playerList){
-            if(player.getName().equals(pName)){
-                currentPlayer = player;
-                break;
-            }
-        }
-        age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
-        position.setText("Position: "+currentPlayer.getPosition());
-        height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
-        number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
-        salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
-        club.setText("Club: "+currentPlayer.getClub());
-        country.setText("Country: "+currentPlayer.getCountry());
-        name.setText("Name: "+currentPlayer.getName());
-        delete.setText("Delete Request");
-        amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
 
-        try {
-            System.out.println(currentPlayer.getImageName());
-            File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
-            Image image = new Image(new FileInputStream(img));
-            imageView.setImage(image);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(names.size()>0){
+            int in = 0;
+            if(names.contains(currentPlayer.getName())){
+                in = names.indexOf(currentPlayer.getName());
+            }
+            listView.getSelectionModel().select(in);
+            String pName = (String) names.get(in);
+            for(Player player: playerList){
+                if(player.getName().equals(pName)){
+                    currentPlayer = player;
+                    break;
+                }
+            }
+            age.setText(String.valueOf("Age: "+currentPlayer.getAge()));
+            position.setText("Position: "+currentPlayer.getPosition());
+            height.setText("Height: "+String.valueOf(currentPlayer.getHeight()));
+            number.setText("Number: "+String.valueOf(currentPlayer.getNumber()));
+            salary.setText("Weekly Salary: "+String.valueOf(currentPlayer.getWeeklySalary()));
+            club.setText("Club: "+currentPlayer.getClub());
+            country.setText("Country: "+currentPlayer.getCountry());
+            name.setText("Name: "+currentPlayer.getName());
+            delete.setText("Delete Request");
+            amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
+
+            try {
+                System.out.println(currentPlayer.getImageName());
+                File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
+                Image image = new Image(new FileInputStream(img));
+                imageView.setImage(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 

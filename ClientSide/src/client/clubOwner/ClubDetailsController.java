@@ -32,12 +32,10 @@ public class ClubDetailsController {
         this.clientReader = clientReader;
         this.myClub = myClub;
         try {
+            clientReader.setClubDetails(this);
             networkUtil.write("clubOwner,sendMyClub");
             networkUtil.write(myClub.getName());
-            Thread.sleep(100);
-            this.myClub = clientReader.getMyClub();
-            load(myClub);
-        } catch (InterruptedException | IOException e) {
+        } catch (  IOException e) {
             e.printStackTrace();
         }
     }
