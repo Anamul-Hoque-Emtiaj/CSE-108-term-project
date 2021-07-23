@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import server.ClientReadThread;
+import client.ClientReadThread;
 import util.NetworkUtil;
 
 import java.io.IOException;
@@ -25,6 +25,14 @@ public class MenuController {
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
         this.myClub = myClub;
+        try {
+            networkUtil.write("clubOwner,sendMyClub");
+            networkUtil.write(myClub.getName());
+            Thread.sleep(100);
+            this.myClub = clientReader.getMyClub();
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 
     public void searchPlayer(ActionEvent event) {
@@ -39,7 +47,7 @@ public class MenuController {
             Scene scene = new Scene(root, 650, 550);
             thisStage.setTitle("Search");
             thisStage.setScene(scene);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }

@@ -13,8 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import server.ClientReadThread;
-import server.ClientWriteThread;
+import client.ClientReadThread;
 import util.NetworkUtil;
 
 import java.io.IOException;
@@ -59,10 +58,11 @@ public class PlayerSearchingController {
         this.myClub = clientReader.getMyClub();
     }
 
-    public void init (NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub) {
+    public void init (NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub) throws IOException, InterruptedException {
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
         this.myClub = myClub;
+        load();
 
         position.getItems().add("Any");
         position.getItems().add("Goalkeeper");

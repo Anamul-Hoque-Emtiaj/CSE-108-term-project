@@ -1,34 +1,22 @@
 package client.clubOwner;
 
-import client.Main;
 import database.Club;
 import database.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import server.ClientReadThread;
-import server.ClientWriteThread;
+import client.ClientReadThread;
 import util.NetworkUtil;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PlayerEditController {
     private NetworkUtil networkUtil;
@@ -87,7 +75,6 @@ public class PlayerEditController {
                 Path copied = Files.copy(from, to);;
                 if(copied!=null){
                     fileName.setText(String.valueOf(copied.getFileName()));
-                    System.out.println("copied file Name: "+String.valueOf(copied.getFileName()));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

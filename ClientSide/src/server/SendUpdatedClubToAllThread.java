@@ -34,6 +34,10 @@ public class SendUpdatedClubToAllThread implements Runnable{
         thr.start();
     }
 
+    public Thread getThr() {
+        return thr;
+    }
+
     @Override
     public void run() {
         try {
@@ -61,9 +65,7 @@ public class SendUpdatedClubToAllThread implements Runnable{
                     }
                     myClub.setCountryList(clubCountryList);
                     for (NetworkUtil util: map.keySet()){
-                        if(map.get(util).equals(clubName)){
-                            util.write(myClub);
-                        }
+                        util.write(myClub);
                     }
                     break;
                 }

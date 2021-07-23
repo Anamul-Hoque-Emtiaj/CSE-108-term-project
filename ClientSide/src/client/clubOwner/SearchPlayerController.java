@@ -19,13 +19,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import server.ClientReadThread;
-import server.ClientWriteThread;
+import client.ClientReadThread;
 import util.NetworkUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,14 +77,17 @@ public class SearchPlayerController {
 
     public void load(Club c){
         myClub = c;
+        List<Player> t = new ArrayList<>();
         ObservableList names = FXCollections.observableArrayList();
         for (Player player: playerList){
             for (Player p: myClub.getPlayerList()){
                 if(player.getName().equals(p.getName())){
                     names.add(player.getName());
+                    t.add(p);
                 }
             }
         }
+        playerList = t;
         listView.setItems(names);
 
         if(names.size()>0){
@@ -113,13 +116,25 @@ public class SearchPlayerController {
             delete.setText("Delete");
 
             try {
-                System.out.println(currentPlayer.getImageName());
                 File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
                 Image image = new Image(new FileInputStream(img));
                 imageView.setImage(image);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }else {
+            age.setText(null);
+            position.setText(null);
+            height.setText(null);
+            number.setText(null);
+            salary.setText(null);
+            club.setText(null);
+            country.setText(null);
+            name.setText(null);
+            sell.setText(null);
+            edit.setText(null);
+            delete.setText(null);
+            imageView.setImage(null);
         }
 
         listView.getSelectionModel().selectedItemProperty().addListener(
@@ -143,7 +158,6 @@ public class SearchPlayerController {
                     delete.setText("Delete");
 
                     try {
-                        System.out.println(currentPlayer.getImageName());
                         File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
                         Image image = new Image(new FileInputStream(img));
                         imageView.setImage(image);
@@ -198,7 +212,7 @@ public class SearchPlayerController {
 
             networkUtil.write("clubOwner,deletePlayer");
             networkUtil.write(currentPlayer);
-            //playerList.remove(currentPlayer);
+            playerList.remove(currentPlayer);
         }
     }
 
@@ -208,7 +222,7 @@ public class SearchPlayerController {
         try {
             Parent root = loader.load();
             SellRequestController controller = (SellRequestController) loader.getController();
-            controller.init(networkUtil,clientReader,myClub,currentPlayer,playerList);
+            controller.init(networkUtil,clientReader,myClub,currentPlayer);
             Scene scene = new Scene(root, 330, 250);
             Stage stage = new Stage();
             stage.setTitle("Sell Player");

@@ -8,7 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import server.ClientReadThread;
+import client.ClientReadThread;
 import util.NetworkUtil;
 
 import java.io.IOException;

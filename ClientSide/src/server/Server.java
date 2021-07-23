@@ -1,7 +1,6 @@
 package server;
 
 import database.Club;
-import database.Country;
 import database.Player;
 import util.NetworkUtil;
 
@@ -9,7 +8,6 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Server {

@@ -3,6 +3,7 @@ package server;
 import database.Player;
 import util.NetworkUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,11 +19,19 @@ public class PlayerSellThread implements Runnable{
         thr.start();
     }
 
+    public Thread getThr() {
+        return thr;
+    }
+
     @Override
     public void run() {
         try {
+            List<Player> t = new ArrayList<>();
+            for (Player player: playerList){
+                t.add(player);
+            }
            for (NetworkUtil networkUtil: networkUtilList.keySet()){
-               networkUtil.write(playerList);
+               networkUtil.write(t);
            }
         }catch (Exception e){
             System.out.println(e);

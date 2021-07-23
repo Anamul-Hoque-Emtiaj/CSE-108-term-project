@@ -19,13 +19,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import server.ClientReadThread;
+import client.ClientReadThread;
 import util.NetworkUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +33,6 @@ public class BuyPlayerController{
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
     private Club myClub;
-    private List<Player> playerList;
     private Player currentPlayer;
 
     @FXML
@@ -67,7 +65,6 @@ public class BuyPlayerController{
         this.clientReader = clientReader;
         this.myClub = myClub;
         currentPlayer = new Player();
-        playerList = new ArrayList<>();
         try {
             clientReader.setBuyPlayer(this);
             networkUtil.write("send updated buy list");
@@ -76,8 +73,7 @@ public class BuyPlayerController{
         }
     }
 
-    public void load(List<Player>pList){
-        playerList = pList;
+    public void load(List<Player> playerList){
         ObservableList names = FXCollections.observableArrayList();
         for (Player player: playerList){
             if(!player.getClub().equals(myClub.getName())){
@@ -112,13 +108,24 @@ public class BuyPlayerController{
             amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
 
             try {
-                System.out.println(currentPlayer.getImageName());
                 File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
                 Image image = new Image(new FileInputStream(img));
                 imageView.setImage(image);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }else {
+            age.setText(null);
+            position.setText(null);
+            height.setText(null);
+            number.setText(null);
+            salary.setText(null);
+            club.setText(null);
+            country.setText(null);
+            name.setText(null);
+            buy.setText(null);
+            amount.setText(null);
+            imageView.setImage(null);
         }
 
 
@@ -142,7 +149,6 @@ public class BuyPlayerController{
                     amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
 
                     try {
-                        System.out.println(currentPlayer.getImageName());
                         File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
                         Image image = new Image(new FileInputStream(img));
                         imageView.setImage(image);
@@ -183,6 +189,7 @@ public class BuyPlayerController{
                 networkUtil.write(currentPlayer);
                 Thread.sleep(100);
                 if(clientReader.getMessage().equals("Successful")){
+                    currentPlayer.setClub(myClub.getName());
                     Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
                     alert1.setTitle("Buy Player");
                     alert1.setHeaderText("Successful");

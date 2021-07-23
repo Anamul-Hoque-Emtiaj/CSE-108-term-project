@@ -13,17 +13,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import server.ClientReadThread;
+import client.ClientReadThread;
 import util.NetworkUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Set;
 
 public class ClubDetailsController {
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
     private Club myClub;
+    private int c;
     @FXML
     private VBox vbox;
 
@@ -39,9 +39,11 @@ public class ClubDetailsController {
             e.printStackTrace();
         }
     }
-    public void load(Club c){
-        myClub = c;
+    public void load(Club club){
+        vbox.getChildren().remove(0,c);
+        myClub = club;
         HashMap<String, Integer> playerCount = myClub.countryWisePlayerCount();
+        c = playerCount.size();
         for (String country: playerCount.keySet()){
             int count = playerCount.get(country);
             Label label = new Label(count+" players from "+country);

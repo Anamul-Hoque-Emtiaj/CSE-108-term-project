@@ -1,23 +1,18 @@
 package client.clubOwner;
 
-import client.Main;
 import database.Club;
 import database.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import server.ClientReadThread;
+import client.ClientReadThread;
 import util.NetworkUtil;
 
 import java.io.IOException;
-import java.util.List;
 
 public class SellRequestController {
     @FXML
@@ -26,16 +21,14 @@ public class SellRequestController {
     private Text name;
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
-    private List<Player> playerList;
     private Club myClub;
     private Player player;
 
-    public void init(NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub,Player player,List<Player>list){
+    public void init(NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub,Player player){
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
         this.myClub = myClub;
         this.player = player;
-        playerList = list;
         name.setText(player.getName());
     }
 

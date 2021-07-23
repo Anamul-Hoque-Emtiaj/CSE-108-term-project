@@ -73,6 +73,9 @@ public class Club implements Serializable {
     }
 
     synchronized public void addPlayer(Player player){
+        player.setClub(name);
+        player.setAmount(0);
+        player.setInPending(false);
         playerList.add(player);
         if(!countryList.contains(player.getCountry())){
             countryList.add(player.getCountry());
@@ -91,11 +94,19 @@ public class Club implements Serializable {
                 break;
             }
         }
+        int count = 0;
         for (Player p: playerList){
             if(p.getCountry().equals(player.getCountry())){
-                int in = countryList.indexOf(p.getCountry());
-                countryList.remove(in);
-                break;
+                count++;
+            }
+        }
+        if(count==1){
+            for (String country: countryList){
+                if(country.equals(player.getCountry())){
+                    int in = countryList.indexOf(country);
+                    countryList.remove(in);
+                    break;
+                }
             }
         }
         for (Player p: pendingList){
@@ -113,9 +124,16 @@ public class Club implements Serializable {
                 p.setAmount(amount);
                 p.setInPending(true);
                 pendingList.add(p);
+                break;
             }
         }
-
+        for (Player p: pendingList){
+            if(p.getName().equals(playerName)){
+                p.setAmount(amount);
+                p.setInPending(true);
+                break;
+            }
+        }
     }
 
     synchronized public void editPlayer(Player p){

@@ -10,13 +10,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import server.ClientReadThread;
+import client.ClientReadThread;
 import util.NetworkUtil;
 
 import java.io.File;
@@ -24,7 +23,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 public class AddPlayerController {
     private NetworkUtil networkUtil;
@@ -97,7 +95,6 @@ public class AddPlayerController {
                 Path copied = Files.copy(from, to);;
                 if(copied!=null){
                     fileName.setText(String.valueOf(copied.getFileName()));
-                    System.out.println("copied file Name: "+String.valueOf(copied.getFileName()));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

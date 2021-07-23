@@ -33,6 +33,10 @@ public class SendUpdatedClubThread implements Runnable{
         thr.start();
     }
 
+    public Thread getThr() {
+        return thr;
+    }
+
     @Override
     public void run() {
         try {
