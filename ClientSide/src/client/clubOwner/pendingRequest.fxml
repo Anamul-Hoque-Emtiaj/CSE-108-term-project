@@ -8,72 +8,133 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.clubOwner.PendingRequestController">
-   <top>
-      <AnchorPane prefHeight="59.0" prefWidth="596.0" BorderPane.alignment="CENTER">
-         <children>
-            <Text layoutX="270.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Sell Requested Players">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Text>
-            <Button layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="31.0" prefWidth="64.0" text="Back">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-         </children></AnchorPane>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.clubOwner.PendingRequestController">
    <left>
-      <ListView fx:id="listView" prefHeight="341.0" prefWidth="182.0" BorderPane.alignment="CENTER" />
+      <BorderPane prefHeight="600.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+         <top>
+            <AnchorPane id="l1" prefHeight="90.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text id="clubTitle" fx:id="clubTitle" layoutX="15.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club Name">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <AnchorPane id="l2" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ListView id="menuListView" fx:id="menuListView" layoutY="22.0" prefHeight="377.0" prefWidth="220.0" />
+               </children>
+            </AnchorPane>
+         </center>
+         <bottom>
+            <AnchorPane id="l3" prefHeight="90.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button id="logOut" fx:id="logOut" layoutX="40.0" layoutY="15.0" mnemonicParsing="false" onAction="#logOut" text="Log out" textFill="#1e1c1c" textOverrun="CENTER_WORD_ELLIPSIS">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </bottom>
+      </BorderPane>
    </left>
+   <right>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <top>
+            <AnchorPane id="l7" prefHeight="120.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </top>
+         <center>
+            <AnchorPane id="l8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ListView id="listView" fx:id="listView" layoutY="25.0" prefHeight="345.0" prefWidth="200.0" />
+               </children>
+            </AnchorPane>
+         </center>
+         <bottom>
+            <AnchorPane id="l9" prefHeight="90.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+   </right>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fx:id="imageView" fitHeight="140.0" fitWidth="160.0" layoutX="118.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
-            <Text fx:id="country" layoutX="30.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0">
-               <font>
-                  <Font size="15.0" />
-               </font></Text>
-            <Text fx:id="name" layoutX="30.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0">
-               <font>
-                  <Font size="15.0" />
-               </font></Text>
-            <Text fx:id="number" layoutX="250.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0">
-               <font>
-                  <Font size="15.0" />
-               </font></Text>
-            <Text fx:id="position" layoutX="30.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0">
-               <font>
-                  <Font size="15.0" />
-               </font></Text>
-            <Text fx:id="club" layoutX="30.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0">
-               <font>
-                  <Font size="15.0" />
-               </font></Text>
-            <Text fx:id="salary" layoutX="250.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0">
-               <font>
-                  <Font size="15.0" />
-               </font></Text>
-            <Text fx:id="age" layoutX="250.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0">
-               <font>
-                  <Font size="15.0" />
-               </font></Text>
-            <Text fx:id="height" layoutX="250.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0">
-               <font>
-                  <Font size="15.0" />
-               </font></Text>
-            <Button fx:id="delete" layoutX="263.0" layoutY="282.0" mnemonicParsing="false" onAction="#deleteRequest" prefHeight="38.0" prefWidth="122.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
-            <Text fx:id="amount" layoutX="30.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Text>
-         </children>
-      </AnchorPane>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <top>
+            <AnchorPane id="l4" prefHeight="130.0" prefWidth="430.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text id="title" fx:id="title" layoutX="130.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sell Requested Players">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <AnchorPane id="l5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView id="imageView" fx:id="imageView" fitHeight="165.0" fitWidth="200.0" layoutX="115.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text id="name" fx:id="name" layoutX="15.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text id="number" fx:id="number" layoutX="275.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text id="country" fx:id="country" layoutX="15.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text id="age" fx:id="age" layoutX="275.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text id="club" fx:id="club" layoutX="15.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text id="height" fx:id="height" layoutX="275.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text id="salary" fx:id="salary" layoutX="15.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weekly Salary">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text id="position" fx:id="position" layoutX="275.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Position">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </center>
+         <bottom>
+            <AnchorPane id="l6" prefHeight="112.0" prefWidth="430.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button id="delete" fx:id="delete" layoutX="275.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteRequest" prefHeight="37.0" prefWidth="130.0" text="Delete Request">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <Text id="amount" fx:id="amount" layoutX="15.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </bottom>
+      </BorderPane>
    </center>
 </BorderPane>

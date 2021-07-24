@@ -65,18 +65,7 @@ public class AddPlayerController {
     public void goPreviousScene(ActionEvent event){
         Node node = (Node) event.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("clubOwner/menu.fxml"));
-        try {
-            Parent root = loader.load();
-            MenuController controller = (MenuController) loader.getController();
-            controller.init(networkUtil,clientReader,myClub);
-            Scene scene = new Scene(root, 600, 400);
-            thisStage.setTitle("Club Menu");
-            thisStage.setScene(scene);
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+        thisStage.close();
     }
 
     public void chooseFile(ActionEvent event) {

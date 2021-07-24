@@ -24,6 +24,7 @@ public class PlayerSearchingController {
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
     private Club myClub;
+    private Stage myStage;
     private List<Player> playerList;
 
     @FXML
@@ -58,10 +59,11 @@ public class PlayerSearchingController {
         this.myClub = clientReader.getMyClub();
     }
 
-    public void init (NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub) throws IOException, InterruptedException {
+    public void init (NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub,Stage myStage) throws IOException, InterruptedException {
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
         this.myClub = myClub;
+        this.myStage = myStage;
         load();
 
         position.getItems().add("Any");
@@ -93,18 +95,7 @@ public class PlayerSearchingController {
     public void goToPreviousScene(ActionEvent event){
         Node node = (Node) event.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("clubOwner/menu.fxml"));
-        try {
-            Parent root = loader.load();
-            MenuController controller = (MenuController) loader.getController();
-            controller.init(networkUtil,clientReader,myClub);
-            Scene scene = new Scene(root, 600, 400);
-            thisStage.setTitle("Club Menu");
-            thisStage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        thisStage.close();
     }
 
     public void submit(ActionEvent event) throws IOException, InterruptedException {
@@ -241,18 +232,18 @@ public class PlayerSearchingController {
             alert.showAndWait();
             goToPreviousScene(event);
         }else{
-            Node node = (Node) event.getSource();
-            Stage thisStage = (Stage) node.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("clubOwner/searchPlayer.fxml"));
             try {
                 Parent root = loader.load();
                 SearchPlayerController controller = (SearchPlayerController) loader.getController();
-                controller.init(networkUtil,clientReader,myClub,playerList);
-                Scene scene = new Scene(root, 600, 400);
-                thisStage.setTitle("Player's Details");
-                thisStage.setScene(scene);
+                controller.init(networkUtil,clientReader,myClub,playerList,myStage);
+                Scene scene = new Scene(root, 850, 600);
+                myStage.setTitle("Player's Details");
+                myStage.setScene(scene);
+                goToPreviousScene(event);
             } catch (IOException e) {
+                goToPreviousScene(event);
                 e.printStackTrace();
             }
         }

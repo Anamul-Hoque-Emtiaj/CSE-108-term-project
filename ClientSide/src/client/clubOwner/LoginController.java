@@ -61,16 +61,17 @@ public class LoginController {
             if(r.equals("login successful")){
                 myClub = clientReader.getMyClub();
                 Node node = (Node) event.getSource();
-                Stage thisStage = (Stage) node.getScene().getWindow();
+                Stage myStage = (Stage) node.getScene().getWindow();
+
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(Main.class.getResource("clubOwner/menu.fxml"));
+                loader.setLocation(Main.class.getResource("clubOwner/clubDetails.fxml"));
                 try {
                     Parent root = loader.load();
-                    MenuController controller = (MenuController) loader.getController();
-                    controller.init(networkUtil,clientReader,myClub);
-                    Scene scene = new Scene(root, 600, 400);
-                    thisStage.setTitle("Club Menu");
-                    thisStage.setScene(scene);
+                    ClubDetailsController controller = (ClubDetailsController) loader.getController();
+                    controller.init(networkUtil,clientReader,myClub,myStage);
+                    Scene scene = new Scene(root, 850, 600);
+                    myStage.setTitle("Club's Details");
+                    myStage.setScene(scene);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

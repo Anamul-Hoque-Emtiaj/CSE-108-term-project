@@ -9,40 +9,40 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.clubOwner.ClubDetailsController">
-   <left>
-      <BorderPane prefHeight="600.0" prefWidth="220.0" BorderPane.alignment="CENTER">
-         <top>
-            <AnchorPane id="l1" prefHeight="90.0" prefWidth="220.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Text id="clubTitle" fx:id="clubTitle" layoutX="15.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club Name">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Text>
-               </children>
-            </AnchorPane>
-         </top>
-         <center>
-            <AnchorPane id="l2" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ListView id="menuListView" fx:id="menuListView" layoutY="22.0" prefHeight="377.0" prefWidth="220.0" />
-               </children>
-            </AnchorPane>
-         </center>
-         <bottom>
-            <AnchorPane id="l3" prefHeight="90.0" prefWidth="220.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button id="logOut" fx:id="logOut" layoutX="40.0" layoutY="15.0" mnemonicParsing="false" onAction="#logOut" text="Log out" textFill="#1e1c1c" textOverrun="CENTER_WORD_ELLIPSIS">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Button>
-               </children>
-            </AnchorPane>
-         </bottom>
-      </BorderPane>
-   </left>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <left>
+        <BorderPane prefHeight="600.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+            <top>
+                <AnchorPane id="l1" prefHeight="90.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Text id="clubTitle" fx:id="clubTitle" layoutX="15.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club Name">
+                            <font>
+                                <Font size="22.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </AnchorPane>
+            </top>
+            <center>
+                <AnchorPane id="l2" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <ListView id="menuListView" fx:id="menuListView" layoutY="22.0" prefHeight="377.0" prefWidth="220.0" />
+                    </children>
+                </AnchorPane>
+            </center>
+            <bottom>
+                <AnchorPane id="l3" prefHeight="90.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button id="logOut" fx:id="logOut" layoutX="40.0" layoutY="15.0" mnemonicParsing="false" onAction="#logOut" text="Log out" textFill="#1e1c1c" textOverrun="CENTER_WORD_ELLIPSIS">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </AnchorPane>
+            </bottom>
+        </BorderPane>
+    </left>
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <top>
@@ -85,12 +85,12 @@
          <bottom>
             <AnchorPane prefHeight="358.0" prefWidth="630.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text layoutX="190.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country Wise Players Count">
+                  <Text layoutX="204.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country Wise Players Count">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <ScrollPane layoutX="63.0" layoutY="63.0" prefHeight="232.0" prefWidth="470.0">
+                  <ScrollPane layoutX="84.0" layoutY="70.0" prefHeight="232.0" prefWidth="470.0">
                      <content>
                         <VBox id="vbox" fx:id="vbox" prefHeight="234.0" prefWidth="468.0" />
                      </content>
