@@ -90,6 +90,7 @@ public class PendingRequestController{
         menu.add("Buy Players");
         menu.add("Change Password");
         menuListView.setItems(menu);
+        menuListView.setStyle("-fx-font-size: 20px; -fx-font-family: 'SketchFlow Print';");
         menuListView.getSelectionModel().select("Sell Requested Players");
 
         menuListView.getSelectionModel().selectedItemProperty().addListener(
@@ -132,7 +133,7 @@ public class PendingRequestController{
                             Parent root = loader.load();
                             BuyPlayerController controller = (BuyPlayerController) loader.getController();
                             controller.init(networkUtil,clientReader,myClub,myStage);
-                            Scene scene = new Scene(root, 850, 600);
+                            Scene scene = new Scene(root, 850, 560);
                             myStage.setTitle("Buy Players");
                             myStage.setScene(scene);
                         } catch (IOException e) {
@@ -160,7 +161,7 @@ public class PendingRequestController{
                             Parent root = loader.load();
                             ClubDetailsController controller = (ClubDetailsController) loader.getController();
                             controller.init(networkUtil,clientReader,myClub,myStage);
-                            Scene scene = new Scene(root, 850, 600);
+                            Scene scene = new Scene(root, 850, 560);
                             myStage.setTitle("Club's Details");
                             myStage.setScene(scene);
                         } catch (IOException e) {
@@ -178,7 +179,7 @@ public class PendingRequestController{
             }
         }
         listView.setItems(names);
-
+        listView.setStyle("-fx-font-size: 16px; -fx-font-family: 'SketchFlow Print';");
 
         if(names.size()>0){
             int in = 0;

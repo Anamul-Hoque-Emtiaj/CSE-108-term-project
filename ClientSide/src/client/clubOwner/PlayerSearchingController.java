@@ -238,7 +238,7 @@ public class PlayerSearchingController {
                 Parent root = loader.load();
                 SearchPlayerController controller = (SearchPlayerController) loader.getController();
                 controller.init(networkUtil,clientReader,myClub,playerList,myStage);
-                Scene scene = new Scene(root, 850, 600);
+                Scene scene = new Scene(root, 850, 560);
                 myStage.setTitle("Player's Details");
                 myStage.setScene(scene);
                 goToPreviousScene(event);

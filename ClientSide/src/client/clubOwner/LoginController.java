@@ -69,7 +69,7 @@ public class LoginController {
                     Parent root = loader.load();
                     ClubDetailsController controller = (ClubDetailsController) loader.getController();
                     controller.init(networkUtil,clientReader,myClub,myStage);
-                    Scene scene = new Scene(root, 850, 600);
+                    Scene scene = new Scene(root, 850, 560);
                     myStage.setTitle("Club's Details");
                     myStage.setScene(scene);
                 } catch (IOException e) {

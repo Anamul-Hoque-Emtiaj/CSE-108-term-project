@@ -1,0 +1,7 @@
+.root{
+    -fx-background-color: rgb(1,1,1);
+    -fx-background-image: url("../img/starting.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: contain;
+    -fx-background-position: center center;
+}

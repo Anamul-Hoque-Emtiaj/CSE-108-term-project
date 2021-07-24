@@ -90,6 +90,7 @@ public class BuyPlayerController{
         menu.add("Buy Players");
         menu.add("Change Password");
         menuListView.setItems(menu);
+        menuListView.setStyle("-fx-font-size: 20px; -fx-font-family: 'SketchFlow Print';");
         menuListView.getSelectionModel().select("Buy Players");
 
         menuListView.getSelectionModel().selectedItemProperty().addListener(
@@ -132,7 +133,7 @@ public class BuyPlayerController{
                             Parent root = loader.load();
                             PendingRequestController controller = (PendingRequestController) loader.getController();
                             controller.init(networkUtil,clientReader,myClub,myStage);
-                            Scene scene = new Scene(root, 850, 600);
+                            Scene scene = new Scene(root, 850, 560);
                             myStage.setTitle("Sell Requested Players");
                             myStage.setScene(scene);
                         } catch (IOException e) {
@@ -161,7 +162,7 @@ public class BuyPlayerController{
                             Parent root = loader.load();
                             ClubDetailsController controller = (ClubDetailsController) loader.getController();
                             controller.init(networkUtil,clientReader,myClub,myStage);
-                            Scene scene = new Scene(root, 850, 600);
+                            Scene scene = new Scene(root, 850, 560);
                             myStage.setTitle("Club's Details");
                             myStage.setScene(scene);
                         } catch (IOException e) {
@@ -179,6 +180,7 @@ public class BuyPlayerController{
             }
         }
         listView.setItems(names);
+        listView.setStyle("-fx-font-size: 16px; -fx-font-family: 'SketchFlow Print';");
 
         if(names.size()>0){
             int in = 0;
@@ -202,7 +204,7 @@ public class BuyPlayerController{
             club.setText("Club: "+currentPlayer.getClub());
             country.setText("Country: "+currentPlayer.getCountry());
             name.setText("Name: "+currentPlayer.getName());
-            buy.setText("Buy Player");
+            buy.setText("Buy");
             amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
 
             try {
@@ -243,7 +245,7 @@ public class BuyPlayerController{
                     club.setText("Club: "+currentPlayer.getClub());
                     country.setText("Country: "+currentPlayer.getCountry());
                     name.setText("Name: "+currentPlayer.getName());
-                    buy.setText("Buy Player");
+                    buy.setText("Buy");
                     amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
 
                     try {

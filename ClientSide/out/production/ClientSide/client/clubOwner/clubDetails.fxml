@@ -9,13 +9,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.clubOwner.ClubDetailsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="850.0" stylesheets="@../style/menu.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.clubOwner.ClubDetailsController">
    <left>
-      <BorderPane prefHeight="600.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+      <BorderPane id="l123" prefHeight="600.0" prefWidth="220.0" BorderPane.alignment="CENTER">
          <top>
-            <AnchorPane id="l1" prefHeight="90.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+            <AnchorPane id="l1" prefHeight="103.0" prefWidth="220.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text id="clubTitle" fx:id="clubTitle" layoutX="15.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club Name">
+                  <Text id="clubTitle" fx:id="clubTitle" fill="#fcfafa" layoutX="25.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club Name">
                      <font>
                         <Font size="22.0" />
                      </font>
@@ -26,14 +26,14 @@
          <center>
             <AnchorPane id="l2" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <ListView id="menuListView" fx:id="menuListView" layoutY="22.0" prefHeight="377.0" prefWidth="220.0" />
+                  <ListView id="menuListView" fx:id="menuListView" layoutY="43.0" prefHeight="302.0" prefWidth="220.0" />
                </children>
             </AnchorPane>
          </center>
          <bottom>
-            <AnchorPane id="l3" prefHeight="90.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+            <AnchorPane id="l3" prefHeight="114.0" prefWidth="220.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button id="logOut" fx:id="logOut" layoutX="40.0" layoutY="15.0" mnemonicParsing="false" onAction="#logOut" text="Log out" textFill="#1e1c1c" textOverrun="CENTER_WORD_ELLIPSIS">
+                  <Button id="logOut" fx:id="logOut" layoutX="40.0" layoutY="40.0" mnemonicParsing="false" onAction="#logOut" text="Log out" textFill="#1e1c1c" textOverrun="CENTER_WORD_ELLIPSIS">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -44,13 +44,13 @@
       </BorderPane>
    </left>
    <center>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <BorderPane id="l456" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <top>
             <AnchorPane prefHeight="113.0" prefWidth="630.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text id="title" fx:id="title" layoutX="250.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club's Details">
+                  <Text id="title" fx:id="title" layoutX="226.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club's Details">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="30.0" />
                      </font>
                   </Text>
                </children>
@@ -83,7 +83,7 @@
             </AnchorPane>
          </center>
          <bottom>
-            <AnchorPane prefHeight="358.0" prefWidth="630.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="349.0" prefWidth="630.0" BorderPane.alignment="CENTER">
                <children>
                   <Text layoutX="190.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country Wise Players Count">
                      <font>
