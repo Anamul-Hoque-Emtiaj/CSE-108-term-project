@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="850.0" stylesheets="@../style/menu.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.admin.InfoController">
+   <left>
+      <BorderPane id="l123" prefHeight="600.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+         <top>
+            <AnchorPane id="l1" prefHeight="103.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text id="clubTitle" fx:id="clubTitle" fill="#fcfafa" layoutX="12.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <AnchorPane id="l2" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ListView id="menuListView" fx:id="menuListView" layoutY="43.0" prefHeight="302.0" prefWidth="220.0" />
+               </children>
+            </AnchorPane>
+         </center>
+         <bottom>
+            <AnchorPane id="l3" prefHeight="114.0" prefWidth="220.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button id="logOut" fx:id="logOut" layoutX="35.0" layoutY="35.0" mnemonicParsing="false" onAction="#logOut" text="Log out" textFill="#1e1c1c" textOverrun="CENTER_WORD_ELLIPSIS">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </bottom>
+      </BorderPane>
+   </left>
+   <center>
+      <BorderPane id="l456" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <top>
+            <AnchorPane prefHeight="91.0" prefWidth="630.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text id="title" fx:id="title" fontSmoothingType="LCD" layoutX="200.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Players Details">
+                     <font>
+                        <Font name="Verdana Bold" size="30.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <AnchorPane prefHeight="178.0" prefWidth="630.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text id="name" fx:id="playerCount" layoutX="40.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerCount">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text id="playerCount" fx:id="clubCount" layoutX="40.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="clubCount">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text id="totalSalary" fx:id="countryCount" layoutX="40.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="countryCount">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </center>
+         <bottom>
+            <AnchorPane prefHeight="374.0" prefWidth="630.0" BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane layoutY="6.0" prefHeight="367.0" prefWidth="630.0">
+                     <top>
+                        <AnchorPane prefHeight="71.0" prefWidth="630.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Text layoutX="225.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player Count">
+                                 <font>
+                                    <Font name="Verdana Bold" size="25.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                     </top>
+                     <left>
+                        <AnchorPane prefHeight="296.0" prefWidth="314.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <ScrollPane layoutY="62.0" prefHeight="234.0" prefWidth="306.0">
+                                 <content>
+                                    <VBox fx:id="clubVbox" prefHeight="234.0" prefWidth="299.0" />
+                                 </content>
+                              </ScrollPane>
+                              <Text layoutX="91.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club Wise">
+                                 <font>
+                                    <Font name="System Bold" size="22.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                     </left>
+                     <right>
+                        <AnchorPane prefHeight="297.0" prefWidth="298.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <ScrollPane layoutY="61.0" prefHeight="234.0" prefWidth="314.0">
+                                 <content>
+                                    <VBox fx:id="countryVbox" prefHeight="235.0" prefWidth="310.0" />
+                                 </content>
+                              </ScrollPane>
+                              <Text layoutX="88.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country Wise">
+                                 <font>
+                                    <Font name="System Bold" size="22.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                     </right>
+                  </BorderPane>
+               </children>
+            </AnchorPane>
+         </bottom>
+      </BorderPane>
+   </center>
+</BorderPane>

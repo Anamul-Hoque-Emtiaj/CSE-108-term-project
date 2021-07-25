@@ -54,6 +54,11 @@ public class InfoController {
         this.myStage = myStage;
         clientReader.setInfo(this);
         setMenu();
+        try {
+            networkUtil.write("send all players list");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setMenu(){
@@ -95,7 +100,7 @@ public class InfoController {
                             Parent root = loader.load();
                             AddClubController controller = (AddClubController) loader.getController();
                             controller.init(networkUtil,clientReader);
-                            Scene scene = new Scene(root, 600, 400);
+                            Scene scene = new Scene(root, 275, 235);
                             Stage stage = new Stage();
                             stage.setTitle("Add Club");
                             stage.setScene(scene);
@@ -125,7 +130,7 @@ public class InfoController {
                             Parent root = loader.load();
                             SearchClubController controller = (SearchClubController) loader.getController();
                             controller.init(networkUtil,clientReader,myStage);
-                            Scene scene = new Scene(root, 600, 400);
+                            Scene scene = new Scene(root, 275, 235);
                             Stage stage = new Stage();
                             stage.setTitle("Search Club");
                             stage.setScene(scene);

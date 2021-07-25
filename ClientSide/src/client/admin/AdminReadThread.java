@@ -53,7 +53,7 @@ public class AdminReadThread implements Runnable{
         activeMyPendingPlayers = true;
     }
 
-    public List<Player> getUpdatedBuyList(){
+    public List<Player> getUpdatedPlayersList(){
         return updatedPlayerList;
     }
 

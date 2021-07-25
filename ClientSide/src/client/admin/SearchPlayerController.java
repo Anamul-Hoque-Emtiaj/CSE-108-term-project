@@ -61,15 +61,9 @@ public class SearchPlayerController {
     @FXML
     private Text height;
     @FXML
-    private Button sell;
-    @FXML
-    private Button delete;
-    @FXML
     private ListView menuListView;
-    @FXML
-    private Text clubTitle;
-    @FXML
-    private Button edit;
+
+
 
 
     public void init(NetworkUtil networkUtil, AdminReadThread clientReader, List<Player>list,Stage myStage) throws IOException {
@@ -121,7 +115,7 @@ public class SearchPlayerController {
                             Parent root = loader.load();
                             AddClubController controller = (AddClubController) loader.getController();
                             controller.init(networkUtil,clientReader);
-                            Scene scene = new Scene(root, 600, 400);
+                            Scene scene = new Scene(root, 275, 235);
                             Stage stage = new Stage();
                             stage.setTitle("Add Club");
                             stage.setScene(scene);
@@ -151,7 +145,7 @@ public class SearchPlayerController {
                             Parent root = loader.load();
                             SearchClubController controller = (SearchClubController) loader.getController();
                             controller.init(networkUtil,clientReader,myStage);
-                            Scene scene = new Scene(root, 600, 400);
+                            Scene scene = new Scene(root, 275, 235);
                             Stage stage = new Stage();
                             stage.setTitle("Search Club");
                             stage.setScene(scene);
@@ -192,11 +186,10 @@ public class SearchPlayerController {
     }
 
     public void load(List<Player> allPlayerList){
-        myClub = c;
         List<Player> t = new ArrayList<>();
         ObservableList names = FXCollections.observableArrayList();
         for (Player player: playerList){
-            for (Player p: myClub.getPlayerList()){
+            for (Player p: allPlayerList){
                 if(player.getName().equals(p.getName())){
                     names.add(player.getName());
                     t.add(p);
@@ -228,9 +221,6 @@ public class SearchPlayerController {
             club.setText("Club: "+currentPlayer.getClub());
             country.setText("Country: "+currentPlayer.getCountry());
             name.setText("Name: "+currentPlayer.getName());
-            sell.setText("Sell");
-            edit.setText("Edit");
-            delete.setText("Delete");
 
             try {
                 File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
@@ -248,9 +238,6 @@ public class SearchPlayerController {
             club.setText(null);
             country.setText(null);
             name.setText(null);
-            sell.setText(null);
-            edit.setText(null);
-            delete.setText(null);
             imageView.setImage(null);
         }
 
@@ -270,9 +257,6 @@ public class SearchPlayerController {
                     club.setText("Club: "+currentPlayer.getClub());
                     country.setText("Country: "+currentPlayer.getCountry());
                     name.setText("Name: "+currentPlayer.getName());
-                    sell.setText("Sell");
-                    edit.setText("Edit");
-                    delete.setText("Delete");
 
                     try {
                         File img = new File(System.getProperty("user.dir")+"\\src\\client\\img\\"+currentPlayer.getImageName());
@@ -285,54 +269,6 @@ public class SearchPlayerController {
         );
     }
 
-    public void edit(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("clubOwner/playerEdit.fxml"));
-        try {
-            Parent root = loader.load();
-            PlayerEditController controller = (PlayerEditController) loader.getController();
-            controller.init(networkUtil,clientReader,myClub,currentPlayer);
-            Scene scene = new Scene(root, 600, 400);
-            Stage stage = new Stage();
-            stage.setTitle("Edit Player Info");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void delete(ActionEvent event) throws IOException, InterruptedException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete");
-        alert.setHeaderText("Warning!!");
-        alert.setContentText("Deleting this player");
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.get()==ButtonType.OK){
-
-            networkUtil.write("clubOwner,deletePlayer");
-            networkUtil.write(currentPlayer);
-            playerList.remove(currentPlayer);
-        }
-    }
-
-    public void sell(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Main.class.getResource("clubOwner/sellRequest.fxml"));
-        try {
-            Parent root = loader.load();
-            SellRequestController controller = (SellRequestController) loader.getController();
-            controller.init(networkUtil,clientReader,myClub,currentPlayer);
-            Scene scene = new Scene(root, 320, 235);
-            Stage stage = new Stage();
-            stage.setTitle("Sell Player");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void logOut(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Log out");
@@ -340,8 +276,6 @@ public class SearchPlayerController {
         alert.setContentText("You have wanted to log out");
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get()==ButtonType.OK){
-            networkUtil.write("logout");
-            networkUtil.write(myClub.getName());
             Node node = (Node) event.getSource();
             Stage thisStage = (Stage) node.getScene().getWindow();
             thisStage.close();

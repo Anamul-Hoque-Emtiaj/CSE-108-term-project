@@ -50,12 +50,29 @@ public class PlayerSearchingController {
     private ChoiceBox minimum;
     @FXML
     private ChoiceBox maximum;
+    @FXML
+    private ChoiceBox club;
 
 
     public void init (NetworkUtil networkUtil, AdminReadThread clientReader, Stage myStage) throws IOException, InterruptedException {
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
         this.myStage = myStage;
+        List<Player> allPlayers;
+        List<String> clubList = new ArrayList<>();
+        List<String> countryList = new ArrayList<>();
+        networkUtil.write("send all players list");
+        Thread.sleep(50);
+        allPlayers = clientReader.getUpdatedPlayersList();
+
+        for (Player player: allPlayers){
+            if(!clubList.contains(player.getClub())){
+                clubList.add(player.getClub());
+            }
+            if(!countryList.contains(player.getCountry())){
+                countryList.add(player.getCountry());
+            }
+        }
 
         position.getItems().add("Any");
         position.getItems().add("Goalkeeper");
@@ -65,10 +82,16 @@ public class PlayerSearchingController {
         position.setValue("Any");
 
         country.getItems().add("Any");
-        for (String c: myClub.getCountryList()){
+        for (String c: countryList){
             country.getItems().add(c);
         }
         country.setValue("Any");
+
+        club.getItems().add("Any");
+        for (String c: clubList){
+            club.getItems().add(c);
+        }
+        club.setValue("Any");
 
         minimum.getItems().add("None");
         minimum.getItems().add("WeeklySalary");
@@ -90,12 +113,16 @@ public class PlayerSearchingController {
     }
 
     public void submit(ActionEvent event) throws IOException, InterruptedException {
-        load();
+        List<Player> allPlayers;
+        networkUtil.write("send all players list");
+        Thread.sleep(50);
+        allPlayers = clientReader.getUpdatedPlayersList();
         String pName = "Any";
         String countryName = (String) country.getValue();
         String positionName = (String) position.getValue();
         String maxElement = (String) maximum.getValue();
         String minElement = (String) minimum.getValue();
+        String clubName = (String) club.getValue();
         double min = -1000.000;
         double max = 100000000.00;
         double minSalary = min;
@@ -138,60 +165,124 @@ public class PlayerSearchingController {
             alert.showAndWait();
             goToPreviousScene(event);
         }
-        List<Player> temp1,temp2,temp3,temp4,temp5,temp6,temp7;
+        List<Player> temp1,temp2,temp3,temp4,temp5,temp6,temp7,temp8;
+        temp1 = new ArrayList<>();
         if(minElement.equals("WeeklySalary")){
-            temp1 = myClub.playersWithMinimumWeeklySalary();
+            double mini=1000000000,temp;
+            for(Player player: allPlayers){
+                temp = player.getWeeklySalary();
+                if(temp<mini)
+                    mini=temp;
+            }
+            for(Player player: allPlayers){
+                if(player.getWeeklySalary()==mini){
+                    temp1.add(player);
+                }
+            }
         }else if(minElement.equals("Age")){
-            temp1 = myClub.playersWithMinimumAge();
+            double mini=100000000,temp;
+            for(Player player: allPlayers){
+                temp = player.getAge();
+                if(temp<mini)
+                    mini=temp;
+            }
+            for(Player player: allPlayers){
+                if(player.getAge()==mini){
+                    temp1.add(player);
+                }
+            }
         }else if(minElement.equals("Height")){
-            temp1 = myClub.playersWithMinimumHeight();
-        }else{
-            temp1 = new ArrayList<>();
+            double mini=100000000,temp;
+            for(Player player: allPlayers){
+                temp = player.getHeight();
+                if(temp<mini)
+                    mini=temp;
+            }
+            for(Player player: allPlayers){
+                if(player.getHeight()==mini){
+                    temp1.add(player);
+                }
+            }
         }
+        temp2 = new ArrayList<>();
         if(maxElement.equals("WeeklySalary")){
-            temp2 = myClub.playersWithMaximumWeeklySalary();
+            double maxi=-1,temp;
+            for(Player player: allPlayers){
+                temp = player.getWeeklySalary();
+                if(temp>maxi)
+                    maxi=temp;
+            }
+            for(Player player: allPlayers){
+                if(player.getWeeklySalary()==maxi){
+                    temp2.add(player);
+                }
+            }
         }else if(maxElement.equals("Age")){
-            temp2 = myClub.playersWithMaximumAge();
+            double maxi=-1,temp;
+            for(Player player: allPlayers){
+                temp = player.getAge();
+                if(temp>maxi)
+                    maxi=temp;
+            }
+            for(Player player: allPlayers){
+                if(player.getAge()==maxi){
+                    temp2.add(player);
+                }
+            }
         }else if(maxElement.equals("Height")){
-            temp2 = myClub.playersWithMaximumHeight();
-        }else{
-            temp2 = new ArrayList<>();
+            double maxi=-1,temp;
+            for(Player player: allPlayers){
+                temp = player.getHeight();
+                if(temp>maxi)
+                    maxi=temp;
+            }
+            for(Player player: allPlayers){
+                if(player.getHeight()==maxi){
+                    temp2.add(player);
+                }
+            }
         }
         temp3 = new ArrayList<>();
-        for(Player player: myClub.getPlayerList()) {
+        for(Player player: allPlayers) {
             if (player.getAge() >= minAge && player.getAge() <= maxAge && player.getHeight() >= minHeight && player.getHeight() <= maxHeight
                     && player.getWeeklySalary() >= minSalary && player.getWeeklySalary() <= maxSalary) {
                 temp3.add(player);
             }
         }
         temp4 = new ArrayList<>();
-        for(Player player: myClub.getPlayerList()){
+        for(Player player: allPlayers){
             if(pName.equals(player.getName())){
                 temp4.add(player);
             }
         }
         temp5 = new ArrayList<>();
-        for(Player player: myClub.getPlayerList()){
+        for(Player player: allPlayers){
             if(pNumber!=-1){
                 temp5.add(player);
             }
         }
         temp6 = new ArrayList<>();
-        for(Player player: myClub.getPlayerList()){
+        for(Player player: allPlayers){
             if(countryName.equals(player.getCountry())){
                 temp6.add(player);
             }
         }
         temp7 = new ArrayList<>();
-        for(Player player: myClub.getPlayerList()){
+        for(Player player: allPlayers){
             if(positionName.equals(player.getPosition())){
                 temp7.add(player);
             }
         }
+        temp8 = new ArrayList<>();
+        for(Player player: allPlayers){
+            if(clubName.equals(player.getClub())){
+                temp8.add(player);
+            }
+        }
 
         playerList = new ArrayList<>();
-        for(Player player: myClub.getPlayerList()){
-            boolean t1=true,t2=true,t3,t4=true,t5=true,t6=true,t7=true;
+        for(Player player: allPlayers){
+            boolean t1=true,t2=true,t3,t4=true,t5=true,t6=true,t7=true,t8=true;
             t3 = temp3.contains(player);
             if(!minElement.equals("None")){
                 t1 = temp1.contains(player);
@@ -211,7 +302,10 @@ public class PlayerSearchingController {
             if(!positionName.equals("Any")){
                 t7 = temp7.contains(player);
             }
-            if(t1 && t2 && t3 && t4 && t5 && t6 && t7){
+            if(!clubName.equals("Any")){
+                t8 = temp8.contains(player);
+            }
+            if(t1 && t2 && t3 && t4 && t5 && t6 && t7 && t8){
                 playerList.add(player);
             }
         }
@@ -224,11 +318,11 @@ public class PlayerSearchingController {
             goToPreviousScene(event);
         }else{
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("clubOwner/searchPlayer.fxml"));
+            loader.setLocation(Main.class.getResource("admin/searchPlayer.fxml"));
             try {
                 Parent root = loader.load();
                 SearchPlayerController controller = (SearchPlayerController) loader.getController();
-                controller.init(networkUtil,clientReader,myClub,playerList,myStage);
+                controller.init(networkUtil,clientReader,playerList,myStage);
                 Scene scene = new Scene(root, 850, 560);
                 myStage.setTitle("Player's Details");
                 myStage.setScene(scene);

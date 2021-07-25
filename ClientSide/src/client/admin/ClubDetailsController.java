@@ -29,7 +29,7 @@ import java.util.Optional;
 
 public class ClubDetailsController {
     private NetworkUtil networkUtil;
-    private ClientReadThread clientReader;
+    private AdminReadThread clientReader;
     private Club myClub;
     private Stage myStage;
     private int c;
@@ -48,19 +48,13 @@ public class ClubDetailsController {
     @FXML
     private Text totalSalary;
 
-    public void init(NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub,Stage myStage) {
+    public void init(NetworkUtil networkUtil, AdminReadThread clientReader, Club myClub,Stage myStage) {
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
         this.myClub = myClub;
         this.myStage = myStage;
-        try {
-            clientReader.setClubDetails(this);
-            networkUtil.write("clubOwner,sendMyClub");
-            networkUtil.write(myClub.getName());
-        } catch (  IOException e) {
-            e.printStackTrace();
-        }
         setMenu();
+        load();
     }
 
     public void setMenu(){
@@ -102,7 +96,7 @@ public class ClubDetailsController {
                             Parent root = loader.load();
                             AddClubController controller = (AddClubController) loader.getController();
                             controller.init(networkUtil,clientReader);
-                            Scene scene = new Scene(root, 600, 400);
+                            Scene scene = new Scene(root, 275, 235);
                             Stage stage = new Stage();
                             stage.setTitle("Add Club");
                             stage.setScene(scene);
@@ -132,7 +126,7 @@ public class ClubDetailsController {
                             Parent root = loader.load();
                             SearchClubController controller = (SearchClubController) loader.getController();
                             controller.init(networkUtil,clientReader,myStage);
-                            Scene scene = new Scene(root, 600, 400);
+                            Scene scene = new Scene(root, 275, 235);
                             Stage stage = new Stage();
                             stage.setTitle("Search Club");
                             stage.setScene(scene);
@@ -172,15 +166,13 @@ public class ClubDetailsController {
                 });
     }
 
-    public void load(Club club){
-        clubTitle.setText(club.getName());
-        name.setText("Name: "+club.getName());
-        balance.setText("Balance: "+ club.getBalance());
-        playerCount.setText("Number of Players: "+club.playerCount());
-        totalSalary.setText("Players total yearly Salary: "+String.format("%.2f",club.totalYearlySalary()));
+    public void load(){
+        name.setText("Name: "+myClub.getName());
+        balance.setText("Balance: "+ myClub.getBalance());
+        playerCount.setText("Number of Players: "+myClub.playerCount());
+        totalSalary.setText("Players total yearly Salary: "+String.format("%.2f",myClub.totalYearlySalary()));
 
         vbox.getChildren().remove(0,c);
-        myClub = club;
         HashMap<String, Integer> playerCount = myClub.countryWisePlayerCount();
         c = playerCount.size();
         for (String country: playerCount.keySet()){

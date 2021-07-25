@@ -58,26 +58,16 @@ public class PendingRequestController{
     @FXML
     private ListView listView;
     @FXML
-    private Button delete;
-    @FXML
     private Text amount;
     @FXML
     private ListView menuListView;
-    @FXML
-    private Text clubTitle;
 
     public void init(NetworkUtil networkUtil, AdminReadThread clientReader, Stage myStage) {
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
         this.myStage = myStage;
         currentPlayer = new Player();
-        try {
-            clientReader.setMyPendingPlayers(this);
-            networkUtil.write("send updated buy list");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        clubTitle.setText(myClub.getName());
+        clientReader.setMyPendingPlayers(this);
         setMenu();
     }
 
@@ -120,7 +110,7 @@ public class PendingRequestController{
                             Parent root = loader.load();
                             AddClubController controller = (AddClubController) loader.getController();
                             controller.init(networkUtil,clientReader);
-                            Scene scene = new Scene(root, 600, 400);
+                            Scene scene = new Scene(root, 275, 235);
                             Stage stage = new Stage();
                             stage.setTitle("Add Club");
                             stage.setScene(scene);
@@ -136,7 +126,7 @@ public class PendingRequestController{
                             Parent root = loader.load();
                             SearchClubController controller = (SearchClubController) loader.getController();
                             controller.init(networkUtil,clientReader,myStage);
-                            Scene scene = new Scene(root, 600, 400);
+                            Scene scene = new Scene(root, 275, 235);
                             Stage stage = new Stage();
                             stage.setTitle("Search Club");
                             stage.setScene(scene);
@@ -179,7 +169,7 @@ public class PendingRequestController{
     public void load(List<Player> playerList){
         ObservableList names = FXCollections.observableArrayList();
         for (Player player: playerList){
-            if(player.getClub().equals(myClub.getName())){
+            if(player.isInPending()){
                 names.add(player.getName());
             }
         }
@@ -207,7 +197,6 @@ public class PendingRequestController{
             club.setText("Club: "+currentPlayer.getClub());
             country.setText("Country: "+currentPlayer.getCountry());
             name.setText("Name: "+currentPlayer.getName());
-            delete.setText("Delete Request");
             amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
 
             try {
@@ -226,7 +215,6 @@ public class PendingRequestController{
             club.setText(null);
             country.setText(null);
             name.setText(null);
-            delete.setText(null);
             amount.setText(null);
             imageView.setImage(null);
         }
@@ -248,7 +236,6 @@ public class PendingRequestController{
                     club.setText("Club: "+currentPlayer.getClub());
                     country.setText("Country: "+currentPlayer.getCountry());
                     name.setText("Name: "+currentPlayer.getName());
-                    delete.setText("Delete Request");
                     amount.setText("Price: "+String.valueOf(currentPlayer.getAmount()));
 
                     try {
@@ -262,20 +249,6 @@ public class PendingRequestController{
         );
     }
 
-    public void deleteRequest(ActionEvent event) throws IOException, InterruptedException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete");
-        alert.setHeaderText("Warning!!");
-        alert.setContentText("Deleting this player's sell request");
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.get()==ButtonType.OK){
-
-            networkUtil.write("delete request");
-            networkUtil.write(currentPlayer);
-        }
-
-    }
-
     public void logOut(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Log out");
@@ -283,8 +256,6 @@ public class PendingRequestController{
         alert.setContentText("You have wanted to log out");
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get()==ButtonType.OK){
-            networkUtil.write("logout");
-            networkUtil.write(myClub.getName());
             Node node = (Node) event.getSource();
             Stage thisStage = (Stage) node.getScene().getWindow();
             thisStage.close();

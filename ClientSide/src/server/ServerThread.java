@@ -65,6 +65,22 @@ public class ServerThread implements Runnable{
         }
     }
 
+    public void sendUpdatedPlayersListToAdmin(){
+        List<Player> t = new ArrayList<>();
+        for (Player player: playerList){
+            t.add(player);
+        }
+        for (NetworkUtil util: networkUtilStringHashMap.keySet()){
+            if(networkUtilStringHashMap.get(util).equals(adminName)){
+                try {
+                    util.write(t);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public void run() {
         try {
             while (true) {
@@ -123,6 +139,7 @@ public class ServerThread implements Runnable{
                     }
                     sendUpdatedClubToAll(p.getClub());
                     sendUpdatedPlayerListToAll();
+                    sendUpdatedPlayersListToAdmin();
                 }else if(str.equals("clubOwner,sellRequest")){
                     String s = (String) networkUtil.read();
                     String[] info = s.split(",");
@@ -163,6 +180,7 @@ public class ServerThread implements Runnable{
                         networkUtil.write("request accepted");
                         sendUpdatedPlayerListToAll();
                         sendUpdatedClubToAll(clubName);
+                        sendUpdatedPlayersListToAdmin();
                     }
                 }else if(str.equals("clubOwner,deletePlayer")){
                     Player player = (Player) networkUtil.read();
@@ -204,6 +222,7 @@ public class ServerThread implements Runnable{
                     }
                     sendUpdatedPlayerListToAll();
                     sendUpdatedClubToAll(player.getClub());
+                    sendUpdatedPlayersListToAdmin();
                 }else if(str.equals("Add player")){
                     Player player = (Player) networkUtil.read();
                     boolean canAdded = true;
@@ -225,6 +244,7 @@ public class ServerThread implements Runnable{
                         }
                         networkUtil.write("Player Added successfully");
                         sendUpdatedClubToAll(player.getClub());
+                        sendUpdatedPlayersListToAdmin();
                     }else {
                         networkUtil.write("Adding failed");
                     }
@@ -270,6 +290,7 @@ public class ServerThread implements Runnable{
                     }
                     sendUpdatedClubToAll(player.getClub());
                     sendUpdatedPlayerListToAll();
+                    sendUpdatedPlayersListToAdmin();
                 }else if(str.equals("buy Player")){
                     String newClubName = (String) networkUtil.read();
                     Player player = (Player) networkUtil.read();
@@ -308,6 +329,7 @@ public class ServerThread implements Runnable{
                         sendUpdatedPlayerListToAll();
                         sendUpdatedClubToAll(newClubName);
                         sendUpdatedClubToAll(oldClubName);
+                        sendUpdatedPlayersListToAdmin();
                     }else {
                         networkUtil.write("failed");
                     }
@@ -326,9 +348,44 @@ public class ServerThread implements Runnable{
                     read.trim();
                     String[] auth = read.split(",");
                     if(auth[0].equals(adminName)&&auth[1].equals(adminPassword)){
+                        networkUtilStringHashMap.put(networkUtil,adminName);
                         networkUtil.write("login successful");
                     }else {
                         networkUtil.write("login failed");
+                    }
+                }else if(str.equals("send all players list")){
+                    List<Player> t = new ArrayList<>();
+                    for (Player player: playerList){
+                        t.add(player);
+                    }
+                    networkUtil.write(t);
+                }else if(str.equals("search Club")){
+                    String clubName = (String) networkUtil.read();
+                    boolean found = false;
+                    for (Club club: clubList){
+                        if(club.getName().equals(clubName)){
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(found){
+                        networkUtil.write("valid club");
+                        sendUpdatedClub(clubName);
+                    }else {
+                        networkUtil.write("invalid club");
+                    }
+                }else if(str.equals("add club")){
+                    String clubName = (String) networkUtil.read();
+                    Club newClub = new Club(clubName);
+                    clubList.add(newClub);
+                }else if(str.equals("change admin info")){
+                    networkUtil.write(adminName+","+adminPassword);
+                    String s1 = (String) networkUtil.read();
+                    if(s1.equals("change password")){
+                        String s = (String) networkUtil.read();
+                        String[] auth = s.split(",");
+                        adminName = auth[0];
+                        adminPassword = auth[1];
                     }
                 }
             }
