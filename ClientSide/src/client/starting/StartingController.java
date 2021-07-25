@@ -43,6 +43,18 @@ public class StartingController {
     }
 
     public void adminLogin(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("admin/login.fxml"));
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 300, 214);
+            Stage stage = new Stage();
+            stage.setTitle("Login");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void clubOwnerLogin(ActionEvent event) {

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="214.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.admin.LoginController">
+   <children>
+      <Text layoutX="69.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login Here">
+         <font>
+            <Font name="Verdana Bold" size="28.0" />
+         </font>
+      </Text>
+      <Label layoutX="15.0" layoutY="75.0" text="Admin Name:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="15.0" layoutY="120.0" text="Password:">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="name" layoutX="113.0" layoutY="75.0" prefHeight="26.0" prefWidth="170.0" />
+      <Button layoutX="110.0" layoutY="165.0" mnemonicParsing="false" onAction="#login" prefHeight="31.0" prefWidth="67.0" text="Login">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button layoutX="210.0" layoutY="165.0" mnemonicParsing="false" onAction="#cancel" text="Cancel">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <PasswordField fx:id="password" layoutX="111.0" layoutY="118.0" prefHeight="26.0" prefWidth="170.0" />
+   </children>
+</AnchorPane>

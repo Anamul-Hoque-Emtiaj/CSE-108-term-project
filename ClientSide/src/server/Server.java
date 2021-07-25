@@ -20,6 +20,8 @@ public class Server {
     private static List<Club> clubList;
     private static List<String> countryList;
     private static List<Player> pendingPlayerList;
+    private static String adminName;
+    private static String adminPassword;
 
     Server() {
         try {
@@ -65,8 +67,12 @@ public class Server {
         br.close();
 
         br = new BufferedReader(new FileReader(CLUB_FILE_NAME));
+        String line = br.readLine();
+        String[] auth = line.split(",");
+        adminName = auth[0];
+        adminPassword = auth[1];
         while (true){
-            String line = br.readLine();
+            line = br.readLine();
             if (line == null) break;
             String[] tokens = line.split(",");
             String clubName = tokens[0];
@@ -107,6 +113,7 @@ public class Server {
         }
         bw.close();
         bw = new BufferedWriter(new FileWriter(CLUB_FILE_NAME));
+        bw.write(adminName+","+adminPassword+"\n");
         for(Club club: clubList){
             bw.write(club.getName()+","+club.getPassword()+","+club.getBalance()+","+club.pendingPlayerCount()+"\n");
             for(Player player: club.getPendingList()){
@@ -133,7 +140,7 @@ public class Server {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ServerThread.load(playerList,clubList,countryList,pendingPlayerList);
+        ServerThread.load(playerList,clubList,countryList,pendingPlayerList,adminName,adminPassword);
         Server server = new Server();
     }
 }

@@ -18,6 +18,8 @@ public class ServerThread implements Runnable{
     private static List<String> countryList;
     private static List<Player> pendingPlayerList;
     private static HashMap<NetworkUtil,String> networkUtilStringHashMap;
+    private static String adminName;
+    private static String adminPassword;
 
 
     public ServerThread(NetworkUtil networkUtil) {
@@ -26,10 +28,12 @@ public class ServerThread implements Runnable{
         thr.start();
     }
 
-    public static void load(List<Player> playerLists, List<Club> clubLists, List<String> countryLists, List<Player> pendingPlayerLists){
+    public static void load(List<Player> playerLists, List<Club> clubLists, List<String> countryLists, List<Player> pendingPlayerLists, String aName,String aPassword){
         playerList = playerLists;
         clubList = clubLists;
         countryList = countryLists;
+        adminName = aName;
+        adminPassword = aPassword;
         pendingPlayerList = pendingPlayerLists;
         networkUtilStringHashMap = new HashMap<>();
     }
@@ -317,6 +321,15 @@ public class ServerThread implements Runnable{
                     }
                     networkUtilStringHashMap.clear();
                     //Server.exit(playerList,clubList);
+                }else if(str.equals("admin,login")){
+                    String read = (String) networkUtil.read();
+                    read.trim();
+                    String[] auth = read.split(",");
+                    if(auth[0].equals(adminName)&&auth[1].equals(adminPassword)){
+                        networkUtil.write("login successful");
+                    }else {
+                        networkUtil.write("login failed");
+                    }
                 }
             }
         } catch (Exception e) {
