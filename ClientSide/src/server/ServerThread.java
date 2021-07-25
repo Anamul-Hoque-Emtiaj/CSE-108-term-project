@@ -315,7 +315,8 @@ public class ServerThread implements Runnable{
                     for (NetworkUtil util: networkUtilStringHashMap.keySet() ){
                         util.closeConnection();
                     }
-                    Server.exit(playerList,clubList);
+                    networkUtilStringHashMap.clear();
+                    //Server.exit(playerList,clubList);
                 }
             }
         } catch (Exception e) {

@@ -319,7 +319,7 @@ public class SearchPlayerController {
             Parent root = loader.load();
             SellRequestController controller = (SellRequestController) loader.getController();
             controller.init(networkUtil,clientReader,myClub,currentPlayer);
-            Scene scene = new Scene(root, 330, 250);
+            Scene scene = new Scene(root, 320, 235);
             Stage stage = new Stage();
             stage.setTitle("Sell Player");
             stage.setScene(scene);

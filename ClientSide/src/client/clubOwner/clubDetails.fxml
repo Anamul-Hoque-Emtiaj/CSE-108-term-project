@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
@@ -15,7 +16,7 @@
          <top>
             <AnchorPane id="l1" prefHeight="103.0" prefWidth="220.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text id="clubTitle" fx:id="clubTitle" fill="#fcfafa" layoutX="25.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club Name">
+                  <Text id="clubTitle" fx:id="clubTitle" fill="#fcfafa" layoutX="12.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club Name">
                      <font>
                         <Font size="22.0" />
                      </font>
@@ -33,10 +34,13 @@
          <bottom>
             <AnchorPane id="l3" prefHeight="114.0" prefWidth="220.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button id="logOut" fx:id="logOut" layoutX="40.0" layoutY="40.0" mnemonicParsing="false" onAction="#logOut" text="Log out" textFill="#1e1c1c" textOverrun="CENTER_WORD_ELLIPSIS">
+                  <Button id="logOut" fx:id="logOut" layoutX="35.0" layoutY="35.0" mnemonicParsing="false" onAction="#logOut" text="Log out" textFill="#1e1c1c" textOverrun="CENTER_WORD_ELLIPSIS">
                      <font>
                         <Font size="16.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </children>
             </AnchorPane>
@@ -48,9 +52,9 @@
          <top>
             <AnchorPane prefHeight="113.0" prefWidth="630.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text id="title" fx:id="title" layoutX="226.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club's Details">
+                  <Text id="title" fx:id="title" fontSmoothingType="LCD" layoutX="200.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club's Details">
                      <font>
-                        <Font size="30.0" />
+                        <Font name="Verdana Bold" size="30.0" />
                      </font>
                   </Text>
                </children>
@@ -85,9 +89,9 @@
          <bottom>
             <AnchorPane prefHeight="349.0" prefWidth="630.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text layoutX="190.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country Wise Players Count">
+                  <Text fontSmoothingType="LCD" layoutX="167.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country Wise Players Count">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
                   <ScrollPane layoutX="63.0" layoutY="63.0" prefHeight="232.0" prefWidth="470.0">

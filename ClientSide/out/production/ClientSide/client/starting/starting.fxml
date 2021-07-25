@@ -4,19 +4,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane stylesheets="@../style/starting.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.starting.StartingController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../style/starting.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.starting.StartingController">
    <children>
-      <Button layoutX="381.0" layoutY="113.0" mnemonicParsing="false" onAction="#clubOwnerLogin" text="Club Owner">
+      <Button layoutX="380.0" layoutY="100.0" mnemonicParsing="false" onAction="#clubOwnerLogin" prefHeight="55.0" prefWidth="140.0" text="Club Owner">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="381.0" layoutY="186.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="43.0" prefWidth="132.0" text="Admin">
+      <Button layoutX="380.0" layoutY="180.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="55.0" prefWidth="140.0" text="Admin" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="381.0" layoutY="263.0" mnemonicParsing="false" onAction="#exit" prefHeight="43.0" prefWidth="132.0" text="Exit">
+      <Button layoutX="380.0" layoutY="260.0" mnemonicParsing="false" onAction="#exit" prefHeight="55.0" prefWidth="140.0" text="Exit" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
