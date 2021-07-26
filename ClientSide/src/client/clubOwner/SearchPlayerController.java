@@ -118,7 +118,7 @@ public class SearchPlayerController {
                         try {
                             Parent root = loader.load();
                             AddPlayerController controller = (AddPlayerController) loader.getController();
-                            controller.init(networkUtil,clientReader,myClub);
+                            controller.init(networkUtil,clientReader,myClub,myStage);
                             Scene scene = new Scene(root, 600, 400);
                             Stage stage = new Stage();
                             stage.setTitle("Add Player");
@@ -161,7 +161,7 @@ public class SearchPlayerController {
                         try {
                             Parent root = loader.load();
                             ChangePasswordController controller = (ChangePasswordController) loader.getController();
-                            controller.init(networkUtil,clientReader,myClub);
+                            controller.init(networkUtil,clientReader,myClub,myStage);
                             Scene scene = new Scene(root, 400, 300);
                             Stage stage = new Stage();
                             stage.setTitle("Change Password");

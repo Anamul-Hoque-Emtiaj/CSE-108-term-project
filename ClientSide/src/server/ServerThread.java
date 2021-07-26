@@ -378,6 +378,7 @@ public class ServerThread implements Runnable{
                     String clubName = (String) networkUtil.read();
                     Club newClub = new Club(clubName);
                     clubList.add(newClub);
+                    networkUtil.write(newClub);
                 }else if(str.equals("change admin info")){
                     networkUtil.write(adminName+","+adminPassword);
                     String s1 = (String) networkUtil.read();

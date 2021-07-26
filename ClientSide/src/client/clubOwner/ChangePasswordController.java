@@ -1,9 +1,13 @@
 package client.clubOwner;
 
+import client.Main;
 import database.Club;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.text.Text;
@@ -17,6 +21,7 @@ public class ChangePasswordController {
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
     private Club myClub;
+    private Stage myStage;
 
     @FXML
     private PasswordField oldPassword;
@@ -27,11 +32,29 @@ public class ChangePasswordController {
     @FXML
     private Text name;
 
-    public void init(NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub) {
+    public void init(NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub,Stage myStage) {
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
         this.myClub = myClub;
+        this.myStage = myStage;
         name.setText(myClub.getName());
+    }
+    public void back(ActionEvent event){
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("clubOwner/clubDetails.fxml"));
+        try {
+            Parent root = loader.load();
+            ClubDetailsController controller = (ClubDetailsController) loader.getController();
+            controller.init(networkUtil,clientReader,myClub,myStage);
+            Scene scene = new Scene(root, 850, 560);
+            myStage.setTitle("Club's Details");
+            myStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        thisStage.close();
     }
     public void submit(ActionEvent event) throws InterruptedException, IOException {
         networkUtil.write("clubOwner,sendMyClub");
@@ -47,18 +70,14 @@ public class ChangePasswordController {
             alert.setHeaderText("Failed to Change Password");
             alert.setContentText("Invalid Input Given");
             alert.showAndWait();
-            Node node = (Node) event.getSource();
-            Stage thisStage = (Stage) node.getScene().getWindow();
-            thisStage.close();
+            back(event);
         }else if(!newPass.equals(confirmPass)){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Change Password");
             alert.setHeaderText("Failed to Change Password");
             alert.setContentText("New Password and confirm Password did not match");
             alert.showAndWait();
-            Node node = (Node) event.getSource();
-            Stage thisStage = (Stage) node.getScene().getWindow();
-            thisStage.close();
+            back(event);
 
         }else if(!oldPass.equals(myClub.getPassword())){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -66,9 +85,7 @@ public class ChangePasswordController {
             alert.setHeaderText("Failed to Change Password");
             alert.setContentText("Incorrect Password Given");
             alert.showAndWait();
-            Node node = (Node) event.getSource();
-            Stage thisStage = (Stage) node.getScene().getWindow();
-            thisStage.close();
+            back(event);
 
         }else if(oldPass.equals(myClub.getPassword())){
             networkUtil.write("change password");
@@ -78,15 +95,11 @@ public class ChangePasswordController {
             alert.setHeaderText("Successful");
             alert.setContentText("Password Changed Successfully");
             alert.showAndWait();
-            Node node = (Node) event.getSource();
-            Stage thisStage = (Stage) node.getScene().getWindow();
-            thisStage.close();
+            back(event);
         }
     }
 
     public void cancel(ActionEvent event) {
-        Node node = (Node) event.getSource();
-        Stage thisStage = (Stage) node.getScene().getWindow();
-        thisStage.close();
+        back(event);
     }
 }

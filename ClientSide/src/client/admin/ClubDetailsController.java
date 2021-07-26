@@ -95,7 +95,7 @@ public class ClubDetailsController {
                         try {
                             Parent root = loader.load();
                             AddClubController controller = (AddClubController) loader.getController();
-                            controller.init(networkUtil,clientReader);
+                            controller.init(networkUtil,clientReader,myStage);
                             Scene scene = new Scene(root, 275, 235);
                             Stage stage = new Stage();
                             stage.setTitle("Add Club");
@@ -140,7 +140,7 @@ public class ClubDetailsController {
                         try {
                             Parent root = loader.load();
                             client.admin.ChangePasswordController controller = (ChangePasswordController) loader.getController();
-                            controller.init(networkUtil, clientReader);
+                            controller.init(networkUtil, clientReader,myStage);
                             Scene scene = new Scene(root, 400, 300);
                             Stage stage = new Stage();
                             stage.setTitle("Change Auth Info");
@@ -168,7 +168,7 @@ public class ClubDetailsController {
 
     public void load(){
         name.setText("Name: "+myClub.getName());
-        balance.setText("Balance: "+ myClub.getBalance());
+        balance.setText("Balance: "+ String.format("%.2f",myClub.getBalance()));
         playerCount.setText("Number of Players: "+myClub.playerCount());
         totalSalary.setText("Players total yearly Salary: "+String.format("%.2f",myClub.totalYearlySalary()));
 

@@ -23,11 +23,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddPlayerController {
     private NetworkUtil networkUtil;
     private ClientReadThread clientReader;
     private Club myClub;
+    private Stage myStage;
 
     @FXML
     private ChoiceBox position;
@@ -49,10 +52,11 @@ public class AddPlayerController {
     private Text club;
 
 
-    public void init(NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub) {
+    public void init(NetworkUtil networkUtil, ClientReadThread clientReader, Club myClub,Stage myStage) {
         this.networkUtil = networkUtil;
         this.clientReader = clientReader;
         this.myClub = myClub;
+        this.myStage = myStage;
         club.setText(myClub.getName());
         position.getItems().add("Not Selected");
         position.getItems().add("Goalkeeper");
@@ -63,6 +67,18 @@ public class AddPlayerController {
     }
 
     public void goPreviousScene(ActionEvent event){
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("clubOwner/clubDetails.fxml"));
+        try {
+            Parent root = loader.load();
+            ClubDetailsController controller = (ClubDetailsController) loader.getController();
+            controller.init(networkUtil,clientReader,myClub,myStage);
+            Scene scene = new Scene(root, 850, 560);
+            myStage.setTitle("Club's Details");
+            myStage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Node node = (Node) event.getSource();
         Stage thisStage = (Stage) node.getScene().getWindow();
         thisStage.close();
@@ -114,12 +130,34 @@ public class AddPlayerController {
                     alert.setContentText("Player Added successfully");
                     alert.showAndWait();
 
+                    List<Player> playerList = new ArrayList<>();
+                    playerList.add(player);
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(Main.class.getResource("clubOwner/searchPlayer.fxml"));
+                    try {
+                        Parent root = loader.load();
+                        SearchPlayerController controller = (SearchPlayerController) loader.getController();
+                        controller.init(networkUtil,clientReader,myClub,playerList,myStage);
+                        Scene scene = new Scene(root, 850, 560);
+                        myStage.setTitle("Player's Details");
+                        myStage.setScene(scene);
+                        Node node = (Node) event.getSource();
+                        Stage thisStage = (Stage) node.getScene().getWindow();
+                        thisStage.close();
+                    } catch (IOException e) {
+                        Node node = (Node) event.getSource();
+                        Stage thisStage = (Stage) node.getScene().getWindow();
+                        thisStage.close();
+                        e.printStackTrace();
+                    }
+
                 }else if(clientReader.getMessage().equals("Adding failed")){
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("failed");
                     alert.setHeaderText("Warning!!");
                     alert.setContentText("Player with this name already exist");
                     alert.showAndWait();
+                    goPreviousScene(event);
                 }
             }else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -127,6 +165,7 @@ public class AddPlayerController {
                 alert.setHeaderText("Warning!!");
                 alert.setContentText("Invalid Input Given");
                 alert.showAndWait();
+                goPreviousScene(event);
             }
         }catch (Exception e){
             System.out.println(e);
@@ -135,7 +174,6 @@ public class AddPlayerController {
             alert.setHeaderText("Invalid Input Given");
             alert.setContentText("Plz provide valid Input");
             alert.showAndWait();
-        }finally {
             goPreviousScene(event);
         }
     }

@@ -1,6 +1,6 @@
 A H Emtiaz,admin
-Manchester United,Manchester United,1000000.0,0
-Manchester City,Manchester City,1000000.0,0
-Chelsea,Chelsea,1000000.0,0
-Liverpool,Liverpool,1000000.0,0
-Arsenal,Arsenal,1000000.0,0
+Manchester United,Manchester United,50000000.0,0
+Manchester City,Manchester City,50000000.0,0
+Chelsea,Chelsea,50000000.0,0
+Liverpool,Liverpool,50000000.0,0
+Arsenal,Arsenal,50000000.0,0

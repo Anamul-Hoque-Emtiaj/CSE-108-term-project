@@ -99,7 +99,7 @@ public class InfoController {
                         try {
                             Parent root = loader.load();
                             AddClubController controller = (AddClubController) loader.getController();
-                            controller.init(networkUtil,clientReader);
+                            controller.init(networkUtil,clientReader,myStage);
                             Scene scene = new Scene(root, 275, 235);
                             Stage stage = new Stage();
                             stage.setTitle("Add Club");
@@ -144,7 +144,7 @@ public class InfoController {
                         try {
                             Parent root = loader.load();
                             ChangePasswordController controller = (ChangePasswordController) loader.getController();
-                            controller.init(networkUtil, clientReader);
+                            controller.init(networkUtil, clientReader,myStage);
                             Scene scene = new Scene(root, 400, 300);
                             Stage stage = new Stage();
                             stage.setTitle("Change Auth Info");
